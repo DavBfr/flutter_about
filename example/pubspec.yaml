@@ -1,0 +1,30 @@
+name: example
+description: Displays an About dialog, which describes the application, can show licenses, changelog, and other infomation.
+version: 1.0.0
+author: David PHAM-VAN
+homepage: https://github.com/DavBfr/flutter_about
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  about:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+dependency_overrides:
+  about:
+    path: ..
+
+flutter:
+  uses-material-design: true
+  assets:
+    - CHANGELOG.md
+    - CODE_OF_CONDUCT.md
+    - CONTRIBUTING.md
+    - LICENSE.md
+    - README.md
