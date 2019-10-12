@@ -35,7 +35,7 @@ format-swift: $(SWFT_SRC)
 node_modules:
 	npm install lcov-summary
 
-test: .coverage
+test: .coverage node_modules
 	flutter packages get
 	flutter test --coverage --coverage-path lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary

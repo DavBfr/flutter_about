@@ -75,3 +75,8 @@ example
 pubspec.lock
 .pana
 .dartfix
+
+node_modules
+package-lock.json
+lcov.info
+.coverage
