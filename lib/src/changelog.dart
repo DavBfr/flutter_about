@@ -26,23 +26,36 @@ void showMarkdownPage({
   Map<String, String> mustacheValues,
 }) {
   assert(context != null);
-  Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-          builder: (BuildContext context) => MarkdownPage(
-                title: title,
-                applicationName: applicationName,
-                filename: filename,
-                useMustache: useMustache,
-                mustacheValues: mustacheValues,
-              )));
+  if (_isCupertino(context)) {
+    Navigator.push(
+        context,
+        CupertinoPageRoute<void>(
+            builder: (BuildContext context) => MarkdownPage(
+                  title: title,
+                  applicationName: applicationName,
+                  filename: filename,
+                  useMustache: useMustache,
+                  mustacheValues: mustacheValues,
+                )));
+  } else {
+    Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) => MarkdownPage(
+                  title: title,
+                  applicationName: applicationName,
+                  filename: filename,
+                  useMustache: useMustache,
+                  mustacheValues: mustacheValues,
+                )));
+  }
 }
 
 /// A page that shows changelogs for software used by the application.
 ///
 /// To show a [MarkdownPage], use [showMarkdownPage].
 ///
-/// The [AboutPage] shown by [showAboutPage] and [AboutPageListTile] includes
+/// The [AboutContent] shown by [showAboutPage] and [AboutPageListTile] includes
 /// a button that calls [showMarkdownPage].
 ///
 /// The changelogs shown on the [MarkdownPage] are those returned by the
@@ -157,30 +170,39 @@ class _MarkdownPageState extends State<MarkdownPage> {
 
   @override
   Widget build(BuildContext context) {
-    assert(debugCheckHasMaterialLocalizations(context));
     final String name =
         widget.applicationName ?? _defaultApplicationName(context);
+
+    final Widget body = Scrollbar(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          child: _md != null
+              ? SafeArea(child: MarkdownBody(data: _md, onTapLink: _launchURL))
+              : const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+        ),
+      ),
+    );
+
+    if (_isCupertino(context)) {
+      return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(name),
+        ),
+        child: body,
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: widget.title ?? Text(name),
       ),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-            child: _md != null
-                ? SafeArea(
-                    child: MarkdownBody(data: _md, onTapLink: _launchURL))
-                : const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-          ),
-        ),
-      ),
+      body: body,
     );
   }
 }

@@ -26,8 +26,6 @@ class LicenseDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    assert(debugCheckHasMaterialLocalizations(context));
-
     final List<Widget> _licenses = <Widget>[];
 
     for (LicenseParagraph paragraph in paragraphs) {
@@ -50,27 +48,37 @@ class LicenseDetail extends StatelessWidget {
       }
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(package),
-      ),
-      body: Localizations.override(
-        locale: const Locale('en', 'US'),
-        context: context,
-        child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.caption,
-          child: SafeArea(
-            bottom: false,
-            child: Scrollbar(
-              child: ListView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                children: _licenses,
-              ),
+    final Widget body = Localizations.override(
+      locale: const Locale('en', 'US'),
+      context: context,
+      child: DefaultTextStyle(
+        style: Theme.of(context).textTheme.caption,
+        child: SafeArea(
+          bottom: false,
+          child: Scrollbar(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              children: _licenses,
             ),
           ),
         ),
       ),
+    );
+
+    if (_isCupertino(context)) {
+      return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(package),
+        ),
+        child: body,
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(package),
+      ),
+      body: body,
     );
   }
 }

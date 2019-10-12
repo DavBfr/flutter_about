@@ -61,7 +61,7 @@ class MarkdownPageListTile extends StatelessWidget {
   /// The name of the application.
   ///
   /// This string is used in the default label for this drawer item (see
-  /// [title]) and as the caption of the [AboutPage] that is shown.
+  /// [title]) and as the caption of the [AboutContent] that is shown.
   ///
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
@@ -76,7 +76,7 @@ class MarkdownPageListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
-    assert(debugCheckHasMaterialLocalizations(context));
+
     return ListTile(
       leading: icon,
       title: title,

@@ -56,7 +56,7 @@ class LicensesPageListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
-    assert(debugCheckHasMaterialLocalizations(context));
+
     final Widget _title =
         title ?? Text(MaterialLocalizations.of(context).licensesPageTitle);
     return ListTile(

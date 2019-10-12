@@ -30,7 +30,7 @@ part of about;
 ///
 /// The licenses shown on the [MarkdownPage] are those returned by the
 /// [LicenseRegistry] API, which can be used to add more licenses to the list.
-class AboutPage extends StatefulWidget {
+class AboutPage extends StatelessWidget {
   /// Creates an about box.
   ///
   /// The arguments are all optional. The application name, if omitted, will be
@@ -96,100 +96,40 @@ class AboutPage extends StatefulWidget {
   final List<Widget> children;
 
   @override
-  _AboutPageState createState() => _AboutPageState();
-}
-
-class _AboutPageState extends State<AboutPage> {
-  Map<String, String> _values;
-
-  @override
-  void initState() {
-    super.initState();
-    Template.populateValues().then((Map<String, String> map) {
-      setState(() {
-        _values = map;
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    assert(debugCheckHasMaterialLocalizations(context));
+    final String name = applicationName ?? _defaultApplicationName(context);
+    final Widget _title = title ?? Text(name);
 
-    final String name =
-        widget.applicationName ?? _defaultApplicationName(context);
-    final Widget _title = widget.title ?? Text(name);
-
-    final Widget icon =
-        widget.applicationIcon ?? _defaultApplicationIcon(context);
-
-    final List<Widget> body = <Widget>[];
-
-    if (icon != null) {
-      body.add(IconTheme(data: const IconThemeData(size: 48), child: icon));
-    }
-
-    if (_values != null) {
-      final String version = Template(
-              widget.applicationVersion ?? _defaultApplicationVersion(context))
-          .render(_values);
-
-      body.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-          child: ListBody(
-            children: <Widget>[
-              Text(
-                name,
-                style: Theme.of(context).textTheme.headline,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                version,
-                style: Theme.of(context).textTheme.body1,
-                textAlign: TextAlign.center,
-              ),
-              if (widget.applicationLegalese != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 18),
-                  child: Text(
-                    Template(widget.applicationLegalese).render(_values),
-                    style: Theme.of(context).textTheme.caption,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              if (widget.applicationDescription != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 18),
-                  child: Container(
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      decoration: const BoxDecoration(
-                          border: Border(
-                        top: BorderSide(width: 0),
-                        bottom: BorderSide(width: 0),
-                      )),
-                      child: widget.applicationDescription),
-                ),
-            ],
-          ),
+    if (_isCupertino(context)) {
+      return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: _title,
+        ),
+        child: SafeArea(
+          child: Material(
+              child: AboutContent(
+            applicationName: applicationName,
+            applicationVersion: applicationVersion,
+            applicationIcon: applicationIcon,
+            applicationLegalese: applicationLegalese,
+            applicationDescription: applicationDescription,
+            children: children,
+          )),
         ),
       );
-
-      if (widget.children != null) {
-        body.addAll(widget.children);
-      }
     }
 
     return Scaffold(
-      appBar: _title == null
-          ? null
-          : AppBar(
-              title: _title,
-            ),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          child: ListBody(children: body),
-        ),
+      appBar: AppBar(
+        title: _title,
+      ),
+      body: AboutContent(
+        applicationName: applicationName,
+        applicationVersion: applicationVersion,
+        applicationIcon: applicationIcon,
+        applicationLegalese: applicationLegalese,
+        applicationDescription: applicationDescription,
+        children: children,
       ),
     );
   }
@@ -252,4 +192,13 @@ String _defaultApplicationVersion(BuildContext context) {
 
 Widget _defaultApplicationIcon(BuildContext context) {
   return null;
+}
+
+bool _isCupertino(BuildContext context) {
+  final CupertinoThemeData ct = CupertinoTheme.of(context);
+  if (ct == null) {
+    return false;
+  }
+
+  return !(ct is MaterialBasedCupertinoThemeData);
 }

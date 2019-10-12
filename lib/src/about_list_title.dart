@@ -61,7 +61,7 @@ class AboutPageListTile extends StatelessWidget {
   /// The name of the application.
   ///
   /// This string is used in the default label for this drawer item (see
-  /// [child]) and as the caption of the [AboutPage] that is shown.
+  /// [child]) and as the caption of the [AboutContent] that is shown.
   ///
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
@@ -69,12 +69,12 @@ class AboutPageListTile extends StatelessWidget {
 
   /// The version of this build of the application.
   ///
-  /// This string is shown under the application name in the [AboutPage].
+  /// This string is shown under the application name in the [AboutContent].
   ///
   /// Defaults to the empty string.
   final String applicationVersion;
 
-  /// The icon to show next to the application name in the [AboutPage].
+  /// The icon to show next to the application name in the [AboutContent].
   ///
   /// By default no icon is shown.
   ///
@@ -85,14 +85,14 @@ class AboutPageListTile extends StatelessWidget {
   /// itself, which is controlled by the [icon] property.
   final Widget applicationIcon;
 
-  /// A string to show in small print in the [AboutPage].
+  /// A string to show in small print in the [AboutContent].
   ///
   /// Typically this is a copyright notice.
   ///
   /// Defaults to the empty string.
   final String applicationLegalese;
 
-  /// Widgets to add to the [AboutPage] after the name, version, and legalese.
+  /// Widgets to add to the [AboutContent] after the name, version, and legalese.
   ///
   /// This could include a link to a Web site, some descriptive text, credits,
   /// or other information to show in the about box.
@@ -103,7 +103,7 @@ class AboutPageListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
-    assert(debugCheckHasMaterialLocalizations(context));
+
     return ListTile(
       leading: icon,
       title: child ??

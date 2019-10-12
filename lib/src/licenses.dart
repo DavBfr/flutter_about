@@ -24,7 +24,7 @@ part of about;
 /// If the application has a [Drawer], consider using [AboutPageListTile] instead
 /// of calling this directly.
 ///
-/// The [AboutPage] shown by [showAboutPage] includes a button that calls
+/// The [AboutContent] shown by [showAboutPage] includes a button that calls
 /// [showLicensePage].
 ///
 /// The licenses shown on the [LicenseListPage] are those returned by the
@@ -34,19 +34,29 @@ void showLicensePage({
   Widget title,
 }) {
   assert(context != null);
-  Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-          builder: (BuildContext context) => LicenseListPage(
-                title: title,
-              )));
+
+  if (_isCupertino(context)) {
+    Navigator.push(
+        context,
+        CupertinoPageRoute<void>(
+            builder: (BuildContext context) => LicenseListPage(
+                  title: title,
+                )));
+  } else {
+    Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) => LicenseListPage(
+                  title: title,
+                )));
+  }
 }
 
 /// A page that shows licenses for software used by the application.
 ///
 /// To show a [LicenseListPage], use [showLicensePage].
 ///
-/// The [AboutPage] shown by [showAboutPage] and [AboutPageListTile] includes
+/// The [AboutContent] shown by [showAboutPage] and [AboutPageListTile] includes
 /// a button that calls [showLicensePage].
 ///
 /// The licenses shown on the [LicenseListPage] are those returned by the
@@ -115,23 +125,35 @@ class _LicenseListPageState extends State<LicenseListPage> {
       licenseWidgets.add(ListTile(
         title: Text(packageName),
         subtitle: Text(exerpt),
-        onTap: () => Navigator.push(
+        onTap: () {
+          final LicenseDetail Function(BuildContext context) builder =
+              (BuildContext context) {
+            final List<LicenseParagraph> paragraphs = <LicenseParagraph>[];
+
+            for (LicenseEntry license in lisenses) {
+              if (license.packages.contains(package)) {
+                paragraphs.addAll(license.paragraphs);
+              }
+            }
+
+            return LicenseDetail(
+              package: packageName,
+              paragraphs: paragraphs,
+            );
+          };
+
+          if (_isCupertino(context)) {
+            return Navigator.push(
               context,
-              MaterialPageRoute<void>(builder: (BuildContext context) {
-                final List<LicenseParagraph> paragraphs = <LicenseParagraph>[];
-
-                for (LicenseEntry license in lisenses) {
-                  if (license.packages.contains(package)) {
-                    paragraphs.addAll(license.paragraphs);
-                  }
-                }
-
-                return LicenseDetail(
-                  package: packageName,
-                  paragraphs: paragraphs,
-                );
-              }),
-            ),
+              CupertinoPageRoute<void>(builder: builder),
+            );
+          } else {
+            return Navigator.push(
+              context,
+              MaterialPageRoute<void>(builder: builder),
+            );
+          }
+        },
       ));
     }
 
@@ -142,9 +164,6 @@ class _LicenseListPageState extends State<LicenseListPage> {
 
   @override
   Widget build(BuildContext context) {
-    assert(debugCheckHasMaterialLocalizations(context));
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
     final List<Widget> contents = <Widget>[];
 
     if (_licenses == null) {
@@ -157,29 +176,40 @@ class _LicenseListPageState extends State<LicenseListPage> {
     } else {
       contents.addAll(_licenses);
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.title ?? Text(localizations.licensesPageTitle),
-      ),
-      // All of the licenses page text is English. We don't want localized text
-      // or text direction.
-      body: Localizations.override(
-        locale: const Locale('en', 'US'),
-        context: context,
-        child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.caption,
-          child: SafeArea(
-            bottom: false,
-            child: Scrollbar(
-              child: ListView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                children: contents,
-              ),
+
+    final Widget body = Localizations.override(
+      locale: const Locale('en', 'US'),
+      context: context,
+      child: DefaultTextStyle(
+        style: Theme.of(context).textTheme.caption,
+        child: SafeArea(
+          bottom: false,
+          child: Scrollbar(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              children: contents,
             ),
           ),
         ),
       ),
+    );
+
+    if (_isCupertino(context)) {
+      return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: widget.title ?? const Text('Licenses'),
+        ),
+        child: Material(child: body),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: widget.title ?? const Text('Licenses'),
+      ),
+      // All of the licenses page text is English. We don't want localized text
+      // or text direction.
+      body: body,
     );
   }
 }
