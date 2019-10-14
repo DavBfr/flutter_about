@@ -28,50 +28,49 @@ void showMarkdownPage({
   assert(context != null);
   if (_isCupertino(context)) {
     Navigator.push(
-        context,
-        CupertinoPageRoute<void>(
-            builder: (BuildContext context) => MarkdownPage(
-                  title: title,
-                  applicationName: applicationName,
-                  filename: filename,
-                  useMustache: useMustache,
-                  mustacheValues: mustacheValues,
-                )));
+      context,
+      CupertinoPageRoute<void>(
+        builder: (BuildContext context) => MarkdownPage(
+          title: title,
+          applicationName: applicationName,
+          filename: filename,
+          useMustache: useMustache,
+          mustacheValues: mustacheValues,
+        ),
+      ),
+    );
   } else {
     Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) => MarkdownPage(
-                  title: title,
-                  applicationName: applicationName,
-                  filename: filename,
-                  useMustache: useMustache,
-                  mustacheValues: mustacheValues,
-                )));
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => MarkdownPage(
+          title: title,
+          applicationName: applicationName,
+          filename: filename,
+          useMustache: useMustache,
+          mustacheValues: mustacheValues,
+        ),
+      ),
+    );
   }
 }
 
-/// A page that shows changelogs for software used by the application.
+/// A page that shows a markdown document.
 ///
 /// To show a [MarkdownPage], use [showMarkdownPage].
 ///
 /// The [AboutContent] shown by [showAboutPage] and [AboutPageListTile] includes
 /// a button that calls [showMarkdownPage].
 ///
-/// The changelogs shown on the [MarkdownPage] are those returned by the
-/// [ChangelogRegistry] API, which can be used to add more changelogs to the list.
-class MarkdownPage extends StatefulWidget {
-  /// Creates a page that shows changelogs for software used by the application.
+/// The document shown on the [MarkdownPage]
+class MarkdownTemplate extends StatefulWidget {
+  /// Creates a page that shows a markdown document.
   ///
   /// The arguments are all optional. The application name, if omitted, will be
   /// derived from the nearest [Title] widget. The version and legalese values
   /// default to the empty string.
-  ///
-  /// The changelogs shown on the [MarkdownPage] are those returned by the
-  /// [ChangelogRegistry] API, which can be used to add more changelogs to the list.
-  const MarkdownPage({
+  const MarkdownTemplate({
     Key key,
-    this.title,
     this.applicationName,
     bool useMustache,
     this.mustacheValues,
@@ -88,26 +87,24 @@ class MarkdownPage extends StatefulWidget {
 
   final String filename;
 
-  final Widget title;
-
   final bool useMustache;
 
   final Map<String, String> mustacheValues;
 
   @override
-  _MarkdownPageState createState() => _MarkdownPageState();
+  MarkdownTemplateState createState() => MarkdownTemplateState();
 }
 
-class _MarkdownPageState extends State<MarkdownPage> {
+class MarkdownTemplateState extends State<MarkdownTemplate> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _initChangelog(context);
+    _initMarkdown(context);
   }
 
   String _md;
 
-  Future<void> _initChangelog(BuildContext context) async {
+  Future<void> _initMarkdown(BuildContext context) async {
     if (_md != null) {
       return;
     }
@@ -117,8 +114,10 @@ class _MarkdownPageState extends State<MarkdownPage> {
 
     String md = '';
 
-    final String base = path.join(path.dirname(widget.filename),
-        path.basenameWithoutExtension(widget.filename));
+    final String base = path.join(
+      path.dirname(widget.filename),
+      path.basenameWithoutExtension(widget.filename),
+    );
     final String ext = path.extension(widget.filename);
 
     for (String filename in <String>[
@@ -170,6 +169,70 @@ class _MarkdownPageState extends State<MarkdownPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_md == null) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 24),
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    return MarkdownBody(data: _md, onTapLink: _launchURL);
+  }
+}
+
+/// A page that shows a markdown document.
+///
+/// To show a [MarkdownPage], use [showMarkdownPage].
+///
+/// The [AboutContent] shown by [showAboutPage] and [AboutPageListTile] includes
+/// a button that calls [showMarkdownPage].
+///
+/// The document shown on the [MarkdownPage]
+class MarkdownPage extends StatefulWidget {
+  /// Creates a page that shows a markdown document.
+  ///
+  /// The arguments are all optional. The application name, if omitted, will be
+  /// derived from the nearest [Title] widget. The version and legalese values
+  /// default to the empty string.
+  const MarkdownPage({
+    Key key,
+    this.title,
+    this.applicationName,
+    bool useMustache,
+    this.mustacheValues,
+    @required this.filename,
+  })  : assert(filename != null),
+        useMustache = useMustache ?? mustacheValues != null,
+        super(key: key);
+
+  /// The name of the application.
+  ///
+  /// Defaults to the value of [Title.title], if a [Title] widget can be found.
+  /// Otherwise, defaults to [Platform.resolvedExecutable].
+  final String applicationName;
+
+  final String filename;
+
+  final Widget title;
+
+  final bool useMustache;
+
+  final Map<String, String> mustacheValues;
+
+  @override
+  _MarkdownPageState createState() => _MarkdownPageState();
+}
+
+class _MarkdownPageState extends State<MarkdownPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final String name =
         widget.applicationName ?? _defaultApplicationName(context);
 
@@ -177,14 +240,14 @@ class _MarkdownPageState extends State<MarkdownPage> {
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-          child: _md != null
-              ? SafeArea(child: MarkdownBody(data: _md, onTapLink: _launchURL))
-              : const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
+          child: SafeArea(
+            child: MarkdownTemplate(
+              filename: widget.filename,
+              applicationName: name,
+              mustacheValues: widget.mustacheValues,
+              useMustache: widget.useMustache,
+            ),
+          ),
         ),
       ),
     );

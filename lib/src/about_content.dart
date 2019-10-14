@@ -115,13 +115,15 @@ class _AboutContentState extends State<AboutContent> {
     final List<Widget> body = <Widget>[];
 
     if (icon != null) {
-      body.add(IconTheme(data: const IconThemeData(size: 48), child: icon));
+      body.add(
+        IconTheme(data: const IconThemeData(size: 48), child: icon),
+      );
     }
 
     if (_values != null) {
       final String version = Template(
-              widget.applicationVersion ?? _defaultApplicationVersion(context))
-          .render(_values);
+        widget.applicationVersion ?? _defaultApplicationVersion(context),
+      ).render(_values);
 
       body.add(
         Padding(
@@ -153,10 +155,11 @@ class _AboutContentState extends State<AboutContent> {
                   child: Container(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       decoration: const BoxDecoration(
-                          border: Border(
-                        top: BorderSide(width: 0),
-                        bottom: BorderSide(width: 0),
-                      )),
+                        border: Border(
+                          top: BorderSide(width: 0),
+                          bottom: BorderSide(width: 0),
+                        ),
+                      ),
                       child: widget.applicationDescription),
                 ),
             ],

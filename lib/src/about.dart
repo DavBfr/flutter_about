@@ -107,14 +107,15 @@ class AboutPage extends StatelessWidget {
         ),
         child: SafeArea(
           child: Material(
-              child: AboutContent(
-            applicationName: applicationName,
-            applicationVersion: applicationVersion,
-            applicationIcon: applicationIcon,
-            applicationLegalese: applicationLegalese,
-            applicationDescription: applicationDescription,
-            children: children,
-          )),
+            child: AboutContent(
+              applicationName: applicationName,
+              applicationVersion: applicationVersion,
+              applicationIcon: applicationIcon,
+              applicationLegalese: applicationLegalese,
+              applicationDescription: applicationDescription,
+              children: children,
+            ),
+          ),
         ),
       );
     }

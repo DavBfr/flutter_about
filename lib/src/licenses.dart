@@ -108,7 +108,12 @@ class _LicenseListPageState extends State<LicenseListPage> {
 
     final List<Widget> licenseWidgets = <Widget>[];
 
-    for (String package in packages) {
+    final List<String> sortedPackages = packages.toList()
+      ..sort(
+        (String a, String b) => a.toLowerCase().compareTo(b.toLowerCase()),
+      );
+
+    for (String package in sortedPackages) {
       String exerpt;
       for (LicenseEntry license in lisenses) {
         if (license.packages.contains(package)) {
@@ -122,39 +127,41 @@ class _LicenseListPageState extends State<LicenseListPage> {
         packageName += word[0].toUpperCase() + word.substring(1) + ' ';
       }
 
-      licenseWidgets.add(ListTile(
-        title: Text(packageName),
-        subtitle: Text(exerpt),
-        onTap: () {
-          final LicenseDetail Function(BuildContext context) builder =
-              (BuildContext context) {
-            final List<LicenseParagraph> paragraphs = <LicenseParagraph>[];
+      licenseWidgets.add(
+        ListTile(
+          title: Text(packageName),
+          subtitle: Text(exerpt),
+          onTap: () {
+            final LicenseDetail Function(BuildContext context) builder =
+                (BuildContext context) {
+              final List<LicenseParagraph> paragraphs = <LicenseParagraph>[];
 
-            for (LicenseEntry license in lisenses) {
-              if (license.packages.contains(package)) {
-                paragraphs.addAll(license.paragraphs);
+              for (LicenseEntry license in lisenses) {
+                if (license.packages.contains(package)) {
+                  paragraphs.addAll(license.paragraphs);
+                }
               }
+
+              return LicenseDetail(
+                package: packageName,
+                paragraphs: paragraphs,
+              );
+            };
+
+            if (_isCupertino(context)) {
+              return Navigator.push(
+                context,
+                CupertinoPageRoute<void>(builder: builder),
+              );
+            } else {
+              return Navigator.push(
+                context,
+                MaterialPageRoute<void>(builder: builder),
+              );
             }
-
-            return LicenseDetail(
-              package: packageName,
-              paragraphs: paragraphs,
-            );
-          };
-
-          if (_isCupertino(context)) {
-            return Navigator.push(
-              context,
-              CupertinoPageRoute<void>(builder: builder),
-            );
-          } else {
-            return Navigator.push(
-              context,
-              MaterialPageRoute<void>(builder: builder),
-            );
-          }
-        },
-      ));
+          },
+        ),
+      );
     }
 
     setState(() {
@@ -167,12 +174,14 @@ class _LicenseListPageState extends State<LicenseListPage> {
     final List<Widget> contents = <Widget>[];
 
     if (_licenses == null) {
-      contents.add(const Padding(
-        padding: EdgeInsets.symmetric(vertical: 24),
-        child: Center(
-          child: CircularProgressIndicator(),
+      contents.add(
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 24),
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
-      ));
+      );
     } else {
       contents.addAll(_licenses);
     }

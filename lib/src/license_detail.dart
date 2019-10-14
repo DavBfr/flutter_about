@@ -17,8 +17,11 @@
 part of about;
 
 class LicenseDetail extends StatelessWidget {
-  const LicenseDetail({Key key, this.package, this.paragraphs})
-      : super(key: key);
+  const LicenseDetail({
+    Key key,
+    this.package,
+    this.paragraphs,
+  }) : super(key: key);
 
   final String package;
 
@@ -30,21 +33,25 @@ class LicenseDetail extends StatelessWidget {
 
     for (LicenseParagraph paragraph in paragraphs) {
       if (paragraph.indent == LicenseParagraph.centeredIndent) {
-        _licenses.add(Padding(
-          padding: const EdgeInsets.only(top: 16),
-          child: Text(
-            paragraph.text,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+        _licenses.add(
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Text(
+              paragraph.text,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
           ),
-        ));
+        );
       } else {
         assert(paragraph.indent >= 0);
-        _licenses.add(Padding(
-          padding: EdgeInsetsDirectional.only(
-              top: 8, start: 16.0 * paragraph.indent),
-          child: Text(paragraph.text),
-        ));
+        _licenses.add(
+          Padding(
+            padding: EdgeInsetsDirectional.only(
+                top: 8, start: 16.0 * paragraph.indent),
+            child: Text(paragraph.text),
+          ),
+        );
       }
     }
 
