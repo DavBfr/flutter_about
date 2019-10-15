@@ -3,6 +3,7 @@
 ## 1.0.2
 
 - Add missing properties on AboutPageListTile and showAboutPage
+- Add unit tests
 
 ## 1.0.1
 

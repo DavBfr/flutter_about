@@ -11,4 +11,4 @@ install:
   - flutter --version
 script:
   - make analyze
-  #- make test
+  - make test
