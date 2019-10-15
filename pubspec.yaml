@@ -3,7 +3,7 @@ description: Displays an About dialog, which describes the application, can show
 authors:
   - David PHAM-VAN <dev.nfet.net@gmail.com>
 homepage: https://github.com/DavBfr/flutter_about
-version: 1.0.1
+version: 1.0.2
 
 environment:
   sdk: ">=2.2.2 <3.0.0"

@@ -1,7 +1,13 @@
-# 1.0.1
+# Changelog
 
-* Add Cupertino style
+## 1.0.2
 
-# 1.0.0
+- Add missing properties on AboutPageListTile and showAboutPage
 
-* First version
+## 1.0.1
+
+- Add Cupertino style
+
+## 1.0.0
+
+- First version

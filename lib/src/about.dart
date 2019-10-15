@@ -158,6 +158,7 @@ void showAboutPage({
   String applicationVersion,
   Widget applicationIcon,
   String applicationLegalese,
+  Widget applicationDescription,
   List<Widget> children,
 }) {
   assert(context != null);
@@ -169,6 +170,7 @@ void showAboutPage({
         applicationVersion: applicationVersion,
         applicationIcon: applicationIcon,
         applicationLegalese: applicationLegalese,
+        applicationDescription: applicationDescription,
         children: children,
       );
     },

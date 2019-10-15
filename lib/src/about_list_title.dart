@@ -41,6 +41,7 @@ class AboutPageListTile extends StatelessWidget {
     this.applicationVersion,
     this.applicationIcon,
     this.applicationLegalese,
+    this.applicationDescription,
     this.aboutBoxChildren,
   }) : super(key: key);
 
@@ -66,6 +67,9 @@ class AboutPageListTile extends StatelessWidget {
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
   final String applicationName;
+
+  /// Small description of the application
+  final Widget applicationDescription;
 
   /// The version of this build of the application.
   ///
@@ -119,6 +123,7 @@ class AboutPageListTile extends StatelessWidget {
           applicationVersion: applicationVersion,
           applicationIcon: applicationIcon,
           applicationLegalese: applicationLegalese,
+          applicationDescription: applicationDescription,
           children: aboutBoxChildren,
         );
       },
