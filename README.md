@@ -2,6 +2,10 @@
 
 Displays an About dialog, which describes the application.
 
+<img alt="Example" src="https://raw.githubusercontent.com/DavBfr/flutter_about/master/example.jpg">
+
+[![Buy Me A Coffee](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png "Buy Me A Coffee")](https://www.buymeacoffee.com/JORBmbw9h "Buy Me A Coffee")
+
 ## Usage
 
 To use this plugin, add `about` as a [dependency in your pubspec.yaml file](#-installing-tab-).
@@ -9,23 +13,27 @@ To use this plugin, add `about` as a [dependency in your pubspec.yaml file](#-in
 ## Example
 
 ```dart
-showAboutPage(
-  applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
-  applicationDescription:
-      Text('Displays an About dialog, which describes the application.'),
-  children: <Widget>[
-    MarkdownPageListTile(
-      icon: Icon(Icons.list),
-      title: Text('Changelog'),
-      filename: 'CHANGELOG.md',
-    ),
-    LicensesPageListTile(
-      icon: Icon(Icons.favorite),
-    ),
-  ],
-  applicationIcon: SizedBox(
+  showAboutPage(
+    context: context,
+    applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
+    applicationDescription: const Text(
+        'Displays an About dialog, which describes the application.'),
+    children: <Widget>[
+      MarkdownPageListTile(
+        icon: Icon(Icons.list),
+        title: const Text('Changelog'),
+        filename: 'CHANGELOG.md',
+      ),
+      LicensesPageListTile(
+        icon: Icon(Icons.favorite),
+      ),
+    ],
+    applicationIcon: const SizedBox(
       width: 100,
       height: 100,
-      child: Image(image: const AssetImage('assets/icon.webp'))),
-)
+      child: Image(
+        image: AssetImage('assets/icon.webp'),
+      ),
+    ),
+  );
 ```
