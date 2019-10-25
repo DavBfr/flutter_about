@@ -150,7 +150,6 @@ class MarkdownTemplateState extends State<MarkdownTemplate> {
       if (widget.mustacheValues != null) {
         map.addAll(widget.mustacheValues);
       }
-      print(map);
       md = Template(md).render(map);
     }
 
