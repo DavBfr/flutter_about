@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+- Fix template issues with Flutter-web
+
 ## 1.0.2
 
 - Add missing properties on AboutPageListTile and showAboutPage

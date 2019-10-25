@@ -41,17 +41,20 @@ class Template {
 
     map = <String, String>{};
 
-    map['operatingSystem'] = Platform.operatingSystem;
     map['year'] = DateTime.now().year.toString();
 
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
+      map['operatingSystem'] = Platform.operatingSystem;
+
       final package_info.PackageInfo info =
           await package_info.PackageInfo.fromPlatform();
       map['version'] = info.version;
       map['buildNumber'] = info.buildNumber;
       map['packageName'] = info.packageName;
       map['appName'] = info.appName;
+    } on UnsupportedError {
+      print('Error getting operatingSystem');
     } on PlatformException {
       print('Error getting Package Info');
     }
