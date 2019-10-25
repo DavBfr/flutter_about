@@ -3,6 +3,7 @@
 ## 1.0.3
 
 - Fix template issues with Flutter-web
+- Add some space above of the icon
 
 ## 1.0.2
 

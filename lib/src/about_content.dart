@@ -115,6 +115,7 @@ class _AboutContentState extends State<AboutContent> {
     final List<Widget> body = <Widget>[];
 
     if (icon != null) {
+      body.add(const SizedBox(height: 10));
       body.add(
         IconTheme(data: const IconThemeData(size: 48), child: icon),
       );
