@@ -4,6 +4,7 @@
 
 - Fix template issues with Flutter-web
 - Add some space above of the icon
+- Add an option to create a dialog
 
 ## 1.0.2
 

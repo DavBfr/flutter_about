@@ -44,6 +44,7 @@ class AboutPage extends StatelessWidget {
     this.applicationIcon,
     this.applicationLegalese,
     this.applicationDescription,
+    this.dialog = false,
     this.children,
   }) : super(key: key);
 
@@ -87,6 +88,9 @@ class AboutPage extends StatelessWidget {
   /// Defaults null.
   final Widget applicationDescription;
 
+  /// Show a dialog instead of a fullscreen page
+  final bool dialog;
+
   /// Widgets to add to the dialog box after the name, version, and legalese.
   ///
   /// This could include a link to a Web site, some descriptive text, credits,
@@ -98,7 +102,42 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String name = applicationName ?? _defaultApplicationName(context);
-    final Widget _title = title ?? Text(name);
+    final Widget _title = title ??
+        Text(MaterialLocalizations.of(context).aboutListTileTitle(name));
+
+    Widget body = AboutContent(
+      applicationName: applicationName,
+      applicationVersion: applicationVersion,
+      applicationIcon: applicationIcon,
+      applicationLegalese: applicationLegalese,
+      applicationDescription: applicationDescription,
+      children: children,
+    );
+
+    if (_isCupertino(context)) {
+      body = SafeArea(
+        child: Material(
+          child: body,
+        ),
+      );
+    }
+
+    if (dialog) {
+      return SimpleDialog(
+        title: _title,
+        children: <Widget>[
+          body,
+          ButtonBar(
+            children: <Widget>[
+              FlatButton(
+                child: Text(MaterialLocalizations.of(context).closeButtonLabel),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        ],
+      );
+    }
 
     if (_isCupertino(context)) {
       return CupertinoPageScaffold(
@@ -107,14 +146,7 @@ class AboutPage extends StatelessWidget {
         ),
         child: SafeArea(
           child: Material(
-            child: AboutContent(
-              applicationName: applicationName,
-              applicationVersion: applicationVersion,
-              applicationIcon: applicationIcon,
-              applicationLegalese: applicationLegalese,
-              applicationDescription: applicationDescription,
-              children: children,
-            ),
+            child: body,
           ),
         ),
       );
@@ -124,14 +156,7 @@ class AboutPage extends StatelessWidget {
       appBar: AppBar(
         title: _title,
       ),
-      body: AboutContent(
-        applicationName: applicationName,
-        applicationVersion: applicationVersion,
-        applicationIcon: applicationIcon,
-        applicationLegalese: applicationLegalese,
-        applicationDescription: applicationDescription,
-        children: children,
-      ),
+      body: body,
     );
   }
 }
@@ -159,9 +184,11 @@ void showAboutPage({
   Widget applicationIcon,
   String applicationLegalese,
   Widget applicationDescription,
+  bool dialog = false,
   List<Widget> children,
 }) {
   assert(context != null);
+
   showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -171,6 +198,7 @@ void showAboutPage({
         applicationIcon: applicationIcon,
         applicationLegalese: applicationLegalese,
         applicationDescription: applicationDescription,
+        dialog: dialog,
         children: children,
       );
     },

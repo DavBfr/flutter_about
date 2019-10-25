@@ -42,6 +42,7 @@ class AboutPageListTile extends StatelessWidget {
     this.applicationIcon,
     this.applicationLegalese,
     this.applicationDescription,
+    this.dialog = false,
     this.aboutBoxChildren,
   }) : super(key: key);
 
@@ -96,6 +97,9 @@ class AboutPageListTile extends StatelessWidget {
   /// Defaults to the empty string.
   final String applicationLegalese;
 
+  /// Show a dialog instead of a fullscreen page
+  final bool dialog;
+
   /// Widgets to add to the [AboutContent] after the name, version, and legalese.
   ///
   /// This could include a link to a Web site, some descriptive text, credits,
@@ -124,6 +128,7 @@ class AboutPageListTile extends StatelessWidget {
           applicationIcon: applicationIcon,
           applicationLegalese: applicationLegalese,
           applicationDescription: applicationDescription,
+          dialog: dialog,
           children: aboutBoxChildren,
         );
       },
