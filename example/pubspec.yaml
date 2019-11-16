@@ -1,7 +1,9 @@
 name: example
-description: Displays an About dialog, which describes the application, can show licenses, changelog, and other infomation.
-version: 1.0.0
-author: David PHAM-VAN
+description: >
+  Displays an About dialog, which describes the application,
+  can show licenses, changelog, and other infomation.
+version: 1.0.0+3
+author: David PHAM-VAN <dev.nfet.net@gmail.com>
 homepage: https://github.com/DavBfr/flutter_about
 
 environment:
@@ -29,3 +31,6 @@ flutter:
     - CONTRIBUTING.md
     - LICENSE.md
     - README.md
+
+builders:
+  about:
