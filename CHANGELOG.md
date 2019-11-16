@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+- Fix dependencies
+
 ## 1.0.3
 
 - Fix template issues with Flutter-web

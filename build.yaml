@@ -2,7 +2,7 @@
 
 builders:
   about:
-    import: "lib/builders.dart"
+    import: "tools/builders.dart"
     builder_factories:
       - pubspecBuilder
     build_extensions: { "$lib$": ["pubspec.dart"] }
