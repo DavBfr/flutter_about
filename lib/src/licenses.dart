@@ -32,6 +32,7 @@ part of about;
 void showLicensePage({
   @required BuildContext context,
   Widget title,
+  Map<String, String> values,
 }) {
   assert(context != null);
 
@@ -41,6 +42,7 @@ void showLicensePage({
         CupertinoPageRoute<void>(
             builder: (BuildContext context) => LicenseListPage(
                   title: title,
+                  values: values,
                 )));
   } else {
     Navigator.push(
@@ -48,6 +50,7 @@ void showLicensePage({
         MaterialPageRoute<void>(
             builder: (BuildContext context) => LicenseListPage(
                   title: title,
+                  values: values,
                 )));
   }
 }
@@ -73,9 +76,13 @@ class LicenseListPage extends StatefulWidget {
   const LicenseListPage({
     Key key,
     this.title,
+    this.values,
   }) : super(key: key);
 
   final Widget title;
+
+  /// Template remplacement values
+  final Map<String, String> values;
 
   @override
   _LicenseListPageState createState() => _LicenseListPageState();
@@ -84,13 +91,22 @@ class LicenseListPage extends StatefulWidget {
 class _LicenseListPageState extends State<LicenseListPage> {
   @override
   void initState() {
-    super.initState();
     _initLicenses();
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     Template.populateValues().then((Map<String, String> map) {
+      if (widget.values != null) {
+        map.addAll(widget.values);
+      }
       setState(() {
         _values = map;
       });
     });
+
+    super.didChangeDependencies();
   }
 
   List<Widget> _licenses;

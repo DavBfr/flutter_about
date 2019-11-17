@@ -3,6 +3,7 @@
 ## 1.0.5
 
 - Remove builder, moved to pubspec_export
+- Add more parameters
 
 ## 1.0.4
 

@@ -37,6 +37,7 @@ class LicensesPageListTile extends StatelessWidget {
     Key key,
     this.icon,
     this.title,
+    this.values,
   }) : super(key: key);
 
   /// The icon to show for this drawer item.
@@ -53,6 +54,9 @@ class LicensesPageListTile extends StatelessWidget {
   /// application name specified by [applicationName].
   final Widget title;
 
+  /// Template remplacement values
+  final Map<String, String> values;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
@@ -66,6 +70,7 @@ class LicensesPageListTile extends StatelessWidget {
         showLicensePage(
           context: context,
           title: _title,
+          values: values,
         );
       },
     );

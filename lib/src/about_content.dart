@@ -44,6 +44,7 @@ class AboutContent extends StatefulWidget {
     this.applicationLegalese,
     this.applicationDescription,
     this.children,
+    this.values,
   }) : super(key: key);
 
   /// The name of the application.
@@ -87,6 +88,9 @@ class AboutContent extends StatefulWidget {
   /// Defaults to nothing.
   final List<Widget> children;
 
+  /// Template remplacement values
+  final Map<String, String> values;
+
   @override
   _AboutContentState createState() => _AboutContentState();
 }
@@ -95,13 +99,17 @@ class _AboutContentState extends State<AboutContent> {
   Map<String, String> _values;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
     Template.populateValues().then((Map<String, String> map) {
+      if (widget.values != null) {
+        map.addAll(widget.values);
+      }
       setState(() {
         _values = map;
       });
     });
+
+    super.didChangeDependencies();
   }
 
   @override

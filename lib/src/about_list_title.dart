@@ -36,6 +36,7 @@ class AboutPageListTile extends StatelessWidget {
   const AboutPageListTile({
     Key key,
     this.icon = const Icon(null),
+    this.title,
     this.child,
     this.applicationName,
     this.applicationVersion,
@@ -44,6 +45,7 @@ class AboutPageListTile extends StatelessWidget {
     this.applicationDescription,
     this.dialog = false,
     this.aboutBoxChildren,
+    this.values,
   }) : super(key: key);
 
   /// The icon to show for this drawer item.
@@ -108,6 +110,11 @@ class AboutPageListTile extends StatelessWidget {
   /// Defaults to nothing.
   final List<Widget> aboutBoxChildren;
 
+  /// Template remplacement values
+  final Map<String, String> values;
+
+  final Widget title;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
@@ -123,6 +130,7 @@ class AboutPageListTile extends StatelessWidget {
       onTap: () {
         showAboutPage(
           context: context,
+          title: title,
           applicationName: applicationName,
           applicationVersion: applicationVersion,
           applicationIcon: applicationIcon,
@@ -130,6 +138,7 @@ class AboutPageListTile extends StatelessWidget {
           applicationDescription: applicationDescription,
           dialog: dialog,
           children: aboutBoxChildren,
+          values: values,
         );
       },
     );

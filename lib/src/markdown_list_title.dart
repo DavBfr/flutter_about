@@ -38,6 +38,7 @@ class MarkdownPageListTile extends StatelessWidget {
     this.icon,
     @required this.title,
     this.applicationName,
+    this.applicationIcon,
     this.useMustache,
     @required this.filename,
     this.mustacheValues,
@@ -73,6 +74,8 @@ class MarkdownPageListTile extends StatelessWidget {
 
   final Map<String, String> mustacheValues;
 
+  final Widget applicationIcon;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
@@ -82,6 +85,7 @@ class MarkdownPageListTile extends StatelessWidget {
       title: title,
       onTap: () {
         showMarkdownPage(
+          applicationIcon: applicationIcon,
           context: context,
           applicationName: applicationName,
           filename: filename,

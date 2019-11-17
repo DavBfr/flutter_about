@@ -46,6 +46,7 @@ class AboutPage extends StatelessWidget {
     this.applicationDescription,
     this.dialog = false,
     this.children,
+    this.values,
   }) : super(key: key);
 
   /// The title of the page.
@@ -99,6 +100,9 @@ class AboutPage extends StatelessWidget {
   /// Defaults to nothing.
   final List<Widget> children;
 
+  /// Template remplacement values
+  final Map<String, String> values;
+
   @override
   Widget build(BuildContext context) {
     final String name = applicationName ?? _defaultApplicationName(context);
@@ -112,6 +116,7 @@ class AboutPage extends StatelessWidget {
       applicationLegalese: applicationLegalese,
       applicationDescription: applicationDescription,
       children: children,
+      values: values,
     );
 
     if (_isCupertino(context)) {
@@ -179,6 +184,7 @@ class AboutPage extends StatelessWidget {
 /// which discusses how it is used.
 void showAboutPage({
   @required BuildContext context,
+  Widget title,
   String applicationName,
   String applicationVersion,
   Widget applicationIcon,
@@ -186,6 +192,7 @@ void showAboutPage({
   Widget applicationDescription,
   bool dialog = false,
   List<Widget> children,
+  Map<String, String> values,
 }) {
   assert(context != null);
 
@@ -193,6 +200,7 @@ void showAboutPage({
     context: context,
     builder: (BuildContext context) {
       return AboutPage(
+        title: title,
         applicationName: applicationName,
         applicationVersion: applicationVersion,
         applicationIcon: applicationIcon,
@@ -200,6 +208,7 @@ void showAboutPage({
         applicationDescription: applicationDescription,
         dialog: dialog,
         children: children,
+        values: values,
       );
     },
   );

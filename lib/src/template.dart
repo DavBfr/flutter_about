@@ -18,7 +18,9 @@ part of about;
 
 @immutable
 class Template {
-  const Template(this.source) : assert(source != null);
+  const Template(
+    this.source,
+  ) : assert(source != null);
 
   final String source;
 
