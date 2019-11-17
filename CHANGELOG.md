@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5
+
+- Remove builder, moved to pubspec_export
+
 ## 1.0.4
 
 - Fix dependencies
