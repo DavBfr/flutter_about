@@ -110,7 +110,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
   }
 
   List<Widget> _licenses;
-  Map<String, String> _values;
+  Map<String, String> _values; // ignore: unused_field
 
   Future<void> _initLicenses() async {
     final Set<String> packages = <String>{};
