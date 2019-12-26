@@ -6,6 +6,10 @@
 - Add more parameters
 - Catch missing plugin exception
 - Fix tests
+- Fix license package names
+- Add Android example
+- Avoid too long subtitles
+- Avoid copyright strings containing comments
 
 ## 1.0.4
 
