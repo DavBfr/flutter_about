@@ -81,7 +81,7 @@ class LicenseListPage extends StatefulWidget {
 
   final Widget title;
 
-  /// Template remplacement values
+  /// Template replacement values
   final Map<String, String> values;
 
   @override
@@ -134,9 +134,9 @@ class _LicenseListPageState extends State<LicenseListPage> {
       for (LicenseEntry license in lisenses) {
         if (license.packages.contains(package)) {
           final String p = license.paragraphs.first.text.trim();
-          // Third paty such as `asn1lib`, the license is a link
+          // Third party such as `asn1lib`, the license is a link
           final RegExp reg = RegExp(p.startsWith('http') ? r' |,|，' : r'\.|。');
-          exerpt= p.split(reg).first.trim();
+          exerpt = p.split(reg).first.trim();
           if (exerpt.startsWith('//') || exerpt.startsWith('/*')) {
             // Ignore symbol of comment in LICENSE file
             exerpt = exerpt.substring(2).trim();
