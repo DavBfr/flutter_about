@@ -46,7 +46,7 @@ void main() {
         ),
       ),
     ));
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('test AboutPage Cupertino', (WidgetTester tester) async {
@@ -75,21 +75,21 @@ void main() {
         ),
       ),
     ));
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('test LicenseListPage Material', (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(
       home: LicenseListPage(),
     ));
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('test LicenseListPage Cupertino', (WidgetTester tester) async {
     await tester.pumpWidget(const CupertinoApp(
       home: LicenseListPage(),
     ));
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('test LicenseDetail Material', (WidgetTester tester) async {
@@ -104,7 +104,7 @@ void main() {
         ],
       ),
     ));
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('test LicenseDetail Cupertino', (WidgetTester tester) async {
@@ -117,7 +117,7 @@ void main() {
         ],
       ),
     ));
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('test AboutPageListTile Material', (WidgetTester tester) async {
@@ -126,28 +126,28 @@ void main() {
         child: AboutPageListTile(),
       ),
     ));
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('test MarkdownPage Material', (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: MarkdownPage(
-          filename: 'test',
+          filename: '../CHANGELOG.md',
         ),
       ),
     );
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('test MarkdownPage Cupertino', (WidgetTester tester) async {
     await tester.pumpWidget(
       const CupertinoApp(
         home: MarkdownPage(
-          filename: 'test',
+          filename: '../README.md',
         ),
       ),
     );
-    // tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 }

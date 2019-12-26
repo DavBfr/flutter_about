@@ -76,7 +76,7 @@ class Btn extends StatelessWidget {
 void main() {
   testWidgets('test showAboutPage', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(home: Btn()));
-    tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   });
 }''');
 
