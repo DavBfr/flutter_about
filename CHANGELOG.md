@@ -10,6 +10,7 @@
 - Add Android example
 - Avoid too long subtitles
 - Avoid copyright strings containing comments
+- Remove useless values in licenses
 
 ## 1.0.4
 

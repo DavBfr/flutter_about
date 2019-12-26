@@ -95,22 +95,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    Template.populateValues().then((Map<String, String> map) {
-      if (widget.values != null) {
-        map.addAll(widget.values);
-      }
-      setState(() {
-        _values = map;
-      });
-    });
-
-    super.didChangeDependencies();
-  }
-
   List<Widget> _licenses;
-  Map<String, String> _values; // ignore: unused_field
 
   Future<void> _initLicenses() async {
     final Set<String> packages = <String>{};
