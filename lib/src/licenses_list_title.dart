@@ -54,7 +54,7 @@ class LicensesPageListTile extends StatelessWidget {
   /// application name specified by [applicationName].
   final Widget title;
 
-  /// Template remplacement values
+  /// Template replacement values
   final Map<String, String> values;
 
   @override

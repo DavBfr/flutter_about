@@ -110,7 +110,7 @@ class AboutPageListTile extends StatelessWidget {
   /// Defaults to nothing.
   final List<Widget> aboutBoxChildren;
 
-  /// Template remplacement values
+  /// Template replacement values
   final Map<String, String> values;
 
   final Widget title;

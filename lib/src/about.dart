@@ -100,7 +100,7 @@ class AboutPage extends StatelessWidget {
   /// Defaults to nothing.
   final List<Widget> children;
 
-  /// Template remplacement values
+  /// Template replacement values
   final Map<String, String> values;
 
   @override

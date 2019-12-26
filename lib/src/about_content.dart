@@ -88,7 +88,7 @@ class AboutContent extends StatefulWidget {
   /// Defaults to nothing.
   final List<Widget> children;
 
-  /// Template remplacement values
+  /// Template replacement values
   final Map<String, String> values;
 
   @override
