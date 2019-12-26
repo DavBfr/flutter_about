@@ -4,6 +4,7 @@
 
 - Remove builder, moved to pubspec_export
 - Add more parameters
+- Catch missing plugin exception
 
 ## 1.0.4
 

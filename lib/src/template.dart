@@ -59,6 +59,8 @@ class Template {
       print('Error getting operatingSystem');
     } on PlatformException {
       print('Error getting Package Info');
+    } on MissingPluginException {
+      print('Error getting Package Info: Not implemented');
     }
 
     return map;
