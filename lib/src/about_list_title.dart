@@ -123,9 +123,10 @@ class AboutPageListTile extends StatelessWidget {
       leading: icon,
       title: child ??
           Text(
-            MaterialLocalizations.of(context).aboutListTileTitle(
-              applicationName ?? _defaultApplicationName(context),
-            ),
+            MaterialLocalizations.of(context)?.aboutListTileTitle(
+                  applicationName ?? _defaultApplicationName(context),
+                ) ??
+                _defaultApplicationName(context),
           ),
       onTap: () {
         showAboutPage(

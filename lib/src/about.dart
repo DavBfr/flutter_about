@@ -107,7 +107,8 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final String name = applicationName ?? _defaultApplicationName(context);
     final Widget _title = title ??
-        Text(MaterialLocalizations.of(context).aboutListTileTitle(name));
+        Text(MaterialLocalizations.of(context)?.aboutListTileTitle(name) ??
+            'About');
 
     Widget body = AboutContent(
       applicationName: applicationName,

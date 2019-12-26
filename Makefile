@@ -36,10 +36,10 @@ node_modules:
 	npm install lcov-summary
 
 test/readme_test.dart: test/extract_readme.dart README.md
+	flutter packages get
 	dart test/extract_readme.dart
 
 test: .coverage test/readme_test.dart node_modules
-	flutter packages get
 	flutter test --coverage --coverage-path lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary
 
