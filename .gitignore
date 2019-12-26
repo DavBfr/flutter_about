@@ -8,6 +8,7 @@
 .buildlog/
 .history
 .svn/
+.gradle/
 
 # IntelliJ related
 *.iml
@@ -24,6 +25,9 @@
 **/doc/api/
 .dart_tool/
 .flutter-plugins
+.flutter-plugins-dependencies
+.packages.generated
+**/generated
 .packages
 .pub-cache/
 .pub/
@@ -63,6 +67,7 @@ build/
 **/ios/Flutter/flutter_assets/
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/Flutter/flutter_export_environment.sh
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
@@ -71,7 +76,6 @@ build/
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
-example
 pubspec.lock
 .pana
 .dartfix
