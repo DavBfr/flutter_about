@@ -133,15 +133,24 @@ class _LicenseListPageState extends State<LicenseListPage> {
       String exerpt;
       for (LicenseEntry license in lisenses) {
         if (license.packages.contains(package)) {
-          exerpt = license.paragraphs.first.text.split('.').first;
+          final String p = license.paragraphs.first.text.trim();
+          // Third paty such as `asn1lib`, the license is a link
+          final RegExp reg = RegExp(p.startsWith('http') ? r' |,|，' : r'\.|。');
+          exerpt= p.split(reg).first.trim();
+          if (exerpt.startsWith('//') || exerpt.startsWith('/*')) {
+            // Ignore symbol of comment in LICENSE file
+            exerpt = exerpt.substring(2).trim();
+          }
+          if (exerpt.length > 70) {
+            // Avoid sub title too long
+            exerpt = exerpt.substring(0, 70) + '...';
+          }
           break;
         }
       }
 
-      String packageName = '';
-      for (String word in package.split('_')) {
-        packageName += word[0].toUpperCase() + word.substring(1) + ' ';
-      }
+      // Do not handle the package name to avoid unpredictable problems
+      final String packageName = package;
 
       licenseWidgets.add(
         ListTile(
