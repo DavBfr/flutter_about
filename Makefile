@@ -47,9 +47,11 @@ clean:
 	git clean -fdx -e .vscode
 
 publish: format clean
+	test -z "$(shell git status --porcelain)"
 	find . -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
 	pub publish -f
 	find . -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
+	git tag $(shell grep version pubspec.yaml | sed 's/version\s*:\s*/about-/g')
 
 .pana:
 	pub global activate pana
