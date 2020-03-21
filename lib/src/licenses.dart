@@ -196,18 +196,14 @@ class _LicenseListPageState extends State<LicenseListPage> {
       contents.addAll(_licenses);
     }
 
-    final Widget body = Localizations.override(
-      locale: const Locale('en', 'US'),
-      context: context,
-      child: DefaultTextStyle(
-        style: Theme.of(context).textTheme.caption,
-        child: SafeArea(
-          bottom: false,
-          child: Scrollbar(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-              children: contents,
-            ),
+    final Widget body = DefaultTextStyle(
+      style: Theme.of(context).textTheme.caption,
+      child: SafeArea(
+        bottom: false,
+        child: Scrollbar(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            children: contents,
           ),
         ),
       ),

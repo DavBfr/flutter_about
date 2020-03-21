@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7
+
+- Remove Localizations.override
+
 ## 1.0.6
 
 - Prepare for 1.0.0 version of sensors and package_info. ([dart_lsc](http://github.com/amirh/dart_lsc))

@@ -55,18 +55,14 @@ class LicenseDetail extends StatelessWidget {
       }
     }
 
-    final Widget body = Localizations.override(
-      locale: const Locale('en', 'US'),
-      context: context,
-      child: DefaultTextStyle(
-        style: Theme.of(context).textTheme.caption,
-        child: SafeArea(
-          bottom: false,
-          child: Scrollbar(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-              children: _licenses,
-            ),
+    final Widget body = DefaultTextStyle(
+      style: Theme.of(context).textTheme.caption,
+      child: SafeArea(
+        bottom: false,
+        child: Scrollbar(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            children: _licenses,
           ),
         ),
       ),
