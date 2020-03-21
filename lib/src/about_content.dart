@@ -149,12 +149,12 @@ class _AboutContentState extends State<AboutContent> {
             children: <Widget>[
               Text(
                 name,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline,
                 textAlign: TextAlign.center,
               ),
               Text(
                 version,
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.body1,
                 textAlign: TextAlign.center,
               ),
               if (widget.applicationLegalese != null)
