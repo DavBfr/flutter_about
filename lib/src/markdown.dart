@@ -157,6 +157,8 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
       }
     }
 
+    md = _stripYamlHeader(md);
+
     if (widget.useMustache) {
       final map = <String, String>{};
       map.addAll(await Template.populateValues());
@@ -179,6 +181,16 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
     } else {
       print('Could not launch $href');
     }
+  }
+
+  String _stripYamlHeader(String data) {
+    final regex = RegExp(r'^---\n(.*)---\n', dotAll: true);
+    final match = regex.firstMatch(data);
+    if (match == null) {
+      return data;
+    }
+
+    return data.substring(match.end);
   }
 
   @override

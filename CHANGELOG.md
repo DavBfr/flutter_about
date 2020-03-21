@@ -5,6 +5,7 @@
 - Remove Localizations.override
 - Update code style to Pedantic 1.9.0
 - Reorganize the library
+- Strip YAML header from Markdown files
 
 ## 1.0.6
 
