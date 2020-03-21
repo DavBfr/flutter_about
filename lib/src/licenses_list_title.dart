@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-part of about;
+import 'dart:core';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow, showLicensePage;
+
+import 'licenses.dart';
 
 /// A [ListTile] that shows an about box.
 ///
@@ -61,7 +67,7 @@ class LicensesPageListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
 
-    final Widget _title =
+    final _title =
         title ?? Text(MaterialLocalizations.of(context).licensesPageTitle);
     return ListTile(
       leading: icon,

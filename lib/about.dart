@@ -14,28 +14,10 @@
  * limitations under the License.
  */
 
-library about;
-
-import 'dart:core';
-import 'dart:io';
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide Flow;
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:package_info/package_info.dart' as package_info;
-import 'package:path/path.dart' as path;
-import 'package:url_launcher/url_launcher.dart' as url_launcher;
-
-part 'src/about.dart';
-part 'src/about_content.dart';
-part 'src/about_list_title.dart';
-part 'src/license_detail.dart';
-part 'src/licenses.dart';
-part 'src/licenses_list_title.dart';
-part 'src/markdown.dart';
-part 'src/markdown_list_title.dart';
-part 'src/template.dart';
+export 'src/about.dart';
+export 'src/about_content.dart';
+export 'src/about_list_title.dart';
+export 'src/licenses.dart';
+export 'src/licenses_list_title.dart';
+export 'src/markdown.dart';
+export 'src/markdown_list_title.dart';

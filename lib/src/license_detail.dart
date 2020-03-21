@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-part of about;
+// ignore_for_file: public_member_api_docs
+
+import 'dart:core';
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/rendering.dart';
+
+import 'utils.dart';
 
 class LicenseDetail extends StatelessWidget {
   const LicenseDetail({
@@ -68,7 +78,7 @@ class LicenseDetail extends StatelessWidget {
       ),
     );
 
-    if (_isCupertino(context)) {
+    if (isCupertino(context)) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(package),

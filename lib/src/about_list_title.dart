@@ -14,7 +14,15 @@
  * limitations under the License.
  */
 
-part of about;
+import 'dart:core';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow;
+
+import 'about.dart';
+import 'utils.dart';
 
 /// A [ListTile] that shows an about box.
 ///
@@ -113,6 +121,7 @@ class AboutPageListTile extends StatelessWidget {
   /// Template replacement values
   final Map<String, String> values;
 
+  /// The about page title
   final Widget title;
 
   @override
@@ -124,9 +133,9 @@ class AboutPageListTile extends StatelessWidget {
       title: child ??
           Text(
             MaterialLocalizations.of(context)?.aboutListTileTitle(
-                  applicationName ?? _defaultApplicationName(context),
+                  applicationName ?? defaultApplicationName(context),
                 ) ??
-                _defaultApplicationName(context),
+                defaultApplicationName(context),
           ),
       onTap: () {
         showAboutPage(

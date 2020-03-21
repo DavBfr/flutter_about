@@ -14,7 +14,15 @@
  * limitations under the License.
  */
 
-part of about;
+import 'dart:core';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow;
+
+import 'about_content.dart';
+import 'utils.dart';
 
 /// An about box. This is a dialog box with the application's icon, name,
 /// version number, and copyright, plus a button to show licenses for software
@@ -105,8 +113,8 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String name = applicationName ?? _defaultApplicationName(context);
-    final Widget _title = title ??
+    final name = applicationName ?? defaultApplicationName(context);
+    final _title = title ??
         Text(MaterialLocalizations.of(context)?.aboutListTileTitle(name) ??
             'About');
 
@@ -120,7 +128,7 @@ class AboutPage extends StatelessWidget {
       values: values,
     );
 
-    if (_isCupertino(context)) {
+    if (isCupertino(context)) {
       body = SafeArea(
         child: Material(
           child: body,
@@ -145,7 +153,7 @@ class AboutPage extends StatelessWidget {
       );
     }
 
-    if (_isCupertino(context)) {
+    if (isCupertino(context)) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: _title,
@@ -213,33 +221,4 @@ void showAboutPage({
       );
     },
   );
-}
-
-String _defaultApplicationName(BuildContext context) {
-  // This doesn't handle the case of the application's title dynamically
-  // changing. In theory, we should make Title expose the current application
-  // title using an InheritedWidget, and so forth. However, in practice, if
-  // someone really wants their application title to change dynamically, they
-  // can provide an explicit applicationName to the widgets defined in this
-  // file, instead of relying on the default.
-  final Title ancestorTitle = context.findAncestorWidgetOfExactType<Title>();
-  return ancestorTitle?.title ??
-      Platform.resolvedExecutable.split(Platform.pathSeparator).last;
-}
-
-String _defaultApplicationVersion(BuildContext context) {
-  return 'Version {{ version }}';
-}
-
-Widget _defaultApplicationIcon(BuildContext context) {
-  return null;
-}
-
-bool _isCupertino(BuildContext context) {
-  final CupertinoThemeData ct = CupertinoTheme.of(context);
-  if (ct == null) {
-    return false;
-  }
-
-  return !(ct is MaterialBasedCupertinoThemeData);
 }

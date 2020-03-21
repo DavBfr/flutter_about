@@ -14,7 +14,15 @@
  * limitations under the License.
  */
 
-part of about;
+import 'dart:core';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/rendering.dart';
+
+import 'license_detail.dart';
+import 'utils.dart';
 
 /// Displays a [LicenseListPage], which shows licenses for software used by the
 /// application.
@@ -36,7 +44,7 @@ void showLicensePage({
 }) {
   assert(context != null);
 
-  if (_isCupertino(context)) {
+  if (isCupertino(context)) {
     Navigator.push(
         context,
         CupertinoPageRoute<void>(
@@ -79,6 +87,7 @@ class LicenseListPage extends StatefulWidget {
     this.values,
   }) : super(key: key);
 
+  /// The page title
   final Widget title;
 
   /// Template replacement values
@@ -98,8 +107,8 @@ class _LicenseListPageState extends State<LicenseListPage> {
   List<Widget> _licenses;
 
   Future<void> _initLicenses() async {
-    final Set<String> packages = <String>{};
-    final List<LicenseEntry> lisenses = <LicenseEntry>[];
+    final packages = <String>{};
+    final lisenses = <LicenseEntry>[];
 
     await for (LicenseEntry license in LicenseRegistry.licenses) {
       packages.addAll(license.packages);
@@ -107,20 +116,20 @@ class _LicenseListPageState extends State<LicenseListPage> {
       lisenses.add(license);
     }
 
-    final List<Widget> licenseWidgets = <Widget>[];
+    final licenseWidgets = <Widget>[];
 
-    final List<String> sortedPackages = packages.toList()
+    final sortedPackages = packages.toList()
       ..sort(
         (String a, String b) => a.toLowerCase().compareTo(b.toLowerCase()),
       );
 
-    for (String package in sortedPackages) {
+    for (final package in sortedPackages) {
       String exerpt;
-      for (LicenseEntry license in lisenses) {
+      for (final license in lisenses) {
         if (license.packages.contains(package)) {
-          final String p = license.paragraphs.first.text.trim();
+          final p = license.paragraphs.first.text.trim();
           // Third party such as `asn1lib`, the license is a link
-          final RegExp reg = RegExp(p.startsWith('http') ? r' |,|，' : r'\.|。');
+          final reg = RegExp(p.startsWith('http') ? r' |,|，' : r'\.|。');
           exerpt = p.split(reg).first.trim();
           if (exerpt.startsWith('//') || exerpt.startsWith('/*')) {
             // Ignore symbol of comment in LICENSE file
@@ -135,18 +144,18 @@ class _LicenseListPageState extends State<LicenseListPage> {
       }
 
       // Do not handle the package name to avoid unpredictable problems
-      final String packageName = package;
+      final packageName = package;
 
       licenseWidgets.add(
         ListTile(
           title: Text(packageName),
           subtitle: Text(exerpt),
           onTap: () {
-            final LicenseDetail Function(BuildContext context) builder =
+            final Function(BuildContext context) builder =
                 (BuildContext context) {
-              final List<LicenseParagraph> paragraphs = <LicenseParagraph>[];
+              final paragraphs = <LicenseParagraph>[];
 
-              for (LicenseEntry license in lisenses) {
+              for (final license in lisenses) {
                 if (license.packages.contains(package)) {
                   paragraphs.addAll(license.paragraphs);
                 }
@@ -158,7 +167,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
               );
             };
 
-            if (_isCupertino(context)) {
+            if (isCupertino(context)) {
               return Navigator.push(
                 context,
                 CupertinoPageRoute<void>(builder: builder),
@@ -181,7 +190,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> contents = <Widget>[];
+    final contents = <Widget>[];
 
     if (_licenses == null) {
       contents.add(
@@ -209,7 +218,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
       ),
     );
 
-    if (_isCupertino(context)) {
+    if (isCupertino(context)) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: widget.title ?? const Text('Licenses'),

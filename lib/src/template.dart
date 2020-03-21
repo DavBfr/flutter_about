@@ -14,7 +14,16 @@
  * limitations under the License.
  */
 
-part of about;
+// ignore_for_file: public_member_api_docs
+
+import 'dart:core';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/services.dart';
+import 'package:package_info/package_info.dart' as package_info;
 
 @immutable
 class Template {

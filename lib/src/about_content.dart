@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-part of about;
+import 'dart:core';
+import 'dart:io';
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/rendering.dart';
+
+import 'template.dart';
+import 'utils.dart';
 
 /// An about box. This is a dialog box with the application's icon, name,
 /// version number, and copyright, plus a button to show licenses for software
@@ -114,9 +124,9 @@ class _AboutContentState extends State<AboutContent> {
 
   @override
   Widget build(BuildContext context) {
-    final name = widget.applicationName ?? _defaultApplicationName(context);
+    final name = widget.applicationName ?? defaultApplicationName(context);
 
-    final icon = widget.applicationIcon ?? _defaultApplicationIcon(context);
+    final icon = widget.applicationIcon ?? defaultApplicationIcon(context);
 
     final body = <Widget>[];
 
@@ -129,7 +139,7 @@ class _AboutContentState extends State<AboutContent> {
 
     if (_values != null) {
       final version = Template(
-        widget.applicationVersion ?? _defaultApplicationVersion(context),
+        widget.applicationVersion ?? defaultApplicationVersion(context),
       ).render(_values);
 
       body.add(

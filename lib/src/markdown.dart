@@ -14,8 +14,21 @@
  * limitations under the License.
  */
 
-part of about;
+import 'dart:core';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/rendering.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:path/path.dart' as path;
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
+
+import 'template.dart';
+import 'utils.dart';
+
+/// Show a markdown document in a screen
 void showMarkdownPage({
   @required BuildContext context,
   Widget title,
@@ -26,7 +39,7 @@ void showMarkdownPage({
   Map<String, String> mustacheValues,
 }) {
   assert(context != null);
-  if (_isCupertino(context)) {
+  if (isCupertino(context)) {
     Navigator.push(
       context,
       CupertinoPageRoute<void>(
@@ -85,17 +98,20 @@ class MarkdownTemplate extends StatefulWidget {
   /// Otherwise, defaults to [Platform.resolvedExecutable].
   final String applicationName;
 
+  /// The markdown asset file to load
   final String filename;
 
+  /// Wether to replace {{ }} strings with [mustacheValues]
   final bool useMustache;
 
+  /// Values to replace in the texts
   final Map<String, String> mustacheValues;
 
   @override
-  MarkdownTemplateState createState() => MarkdownTemplateState();
+  _MarkdownTemplateState createState() => _MarkdownTemplateState();
 }
 
-class MarkdownTemplateState extends State<MarkdownTemplate> {
+class _MarkdownTemplateState extends State<MarkdownTemplate> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -144,7 +160,7 @@ class MarkdownTemplateState extends State<MarkdownTemplate> {
     if (widget.useMustache) {
       final map = <String, String>{};
       map.addAll(await Template.populateValues());
-      final name = widget.applicationName ?? _defaultApplicationName(context);
+      final name = widget.applicationName ?? defaultApplicationName(context);
       map['title'] = name;
       if (widget.mustacheValues != null) {
         map.addAll(widget.mustacheValues);
@@ -211,12 +227,16 @@ class MarkdownPage extends StatefulWidget {
   /// Otherwise, defaults to [Platform.resolvedExecutable].
   final String applicationName;
 
+  /// The markdown asset file to load
   final String filename;
 
+  /// The screen title
   final Widget title;
 
+  /// Wether to replace {{ }} strings with [mustacheValues]
   final bool useMustache;
 
+  /// Values to replace in the texts
   final Map<String, String> mustacheValues;
 
   @override
@@ -231,7 +251,7 @@ class _MarkdownPageState extends State<MarkdownPage> {
 
   @override
   Widget build(BuildContext context) {
-    final name = widget.applicationName ?? _defaultApplicationName(context);
+    final name = widget.applicationName ?? defaultApplicationName(context);
 
     final Widget body = Scrollbar(
       child: SingleChildScrollView(
@@ -249,7 +269,7 @@ class _MarkdownPageState extends State<MarkdownPage> {
       ),
     );
 
-    if (_isCupertino(context)) {
+    if (isCupertino(context)) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(name),

@@ -4,6 +4,7 @@
 
 - Remove Localizations.override
 - Update code style to Pedantic 1.9.0
+- Reorganize the library
 
 ## 1.0.6
 

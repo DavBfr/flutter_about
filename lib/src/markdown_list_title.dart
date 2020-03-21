@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
-part of about;
+import 'dart:core';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Flow;
+
+import 'markdown.dart';
 
 /// A [ListTile] that shows an about box.
 ///
@@ -68,12 +75,16 @@ class MarkdownPageListTile extends StatelessWidget {
   /// Otherwise, defaults to [Platform.resolvedExecutable].
   final String applicationName;
 
+  /// The markdown asset file to load
   final String filename;
 
+  /// Wether to replace {{ }} strings with [mustacheValues]
   final bool useMustache;
 
+  /// Values to replace in the texts
   final Map<String, String> mustacheValues;
 
+  /// Icon of the application
   final Widget applicationIcon;
 
   @override

@@ -15,6 +15,7 @@
  */
 
 import 'package:about/about.dart';
+import 'package:about/src/license_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
