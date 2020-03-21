@@ -3,6 +3,7 @@
 ## 1.0.7
 
 - Remove Localizations.override
+- Update code style to Pedantic 1.9.0
 
 ## 1.0.6
 

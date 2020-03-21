@@ -29,9 +29,9 @@ class LicenseDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _licenses = <Widget>[];
+    final _licenses = <Widget>[];
 
-    for (LicenseParagraph paragraph in paragraphs) {
+    for (final paragraph in paragraphs) {
       if (paragraph.indent == LicenseParagraph.centeredIndent) {
         _licenses.add(
           Padding(

@@ -49,8 +49,7 @@ class Template {
     try {
       map['operatingSystem'] = Platform.operatingSystem;
 
-      final package_info.PackageInfo info =
-          await package_info.PackageInfo.fromPlatform();
+      final info = await package_info.PackageInfo.fromPlatform();
       map['version'] = info.version;
       map['buildNumber'] = info.buildNumber;
       map['packageName'] = info.packageName;

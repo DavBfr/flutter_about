@@ -114,13 +114,11 @@ class _AboutContentState extends State<AboutContent> {
 
   @override
   Widget build(BuildContext context) {
-    final String name =
-        widget.applicationName ?? _defaultApplicationName(context);
+    final name = widget.applicationName ?? _defaultApplicationName(context);
 
-    final Widget icon =
-        widget.applicationIcon ?? _defaultApplicationIcon(context);
+    final icon = widget.applicationIcon ?? _defaultApplicationIcon(context);
 
-    final List<Widget> body = <Widget>[];
+    final body = <Widget>[];
 
     if (icon != null) {
       body.add(const SizedBox(height: 10));
@@ -130,7 +128,7 @@ class _AboutContentState extends State<AboutContent> {
     }
 
     if (_values != null) {
-      final String version = Template(
+      final version = Template(
         widget.applicationVersion ?? _defaultApplicationVersion(context),
       ).render(_values);
 
@@ -141,12 +139,12 @@ class _AboutContentState extends State<AboutContent> {
             children: <Widget>[
               Text(
                 name,
-                style: Theme.of(context).textTheme.headline,
+                style: Theme.of(context).textTheme.headline5,
                 textAlign: TextAlign.center,
               ),
               Text(
                 version,
-                style: Theme.of(context).textTheme.body1,
+                style: Theme.of(context).textTheme.bodyText2,
                 textAlign: TextAlign.center,
               ),
               if (widget.applicationLegalese != null)

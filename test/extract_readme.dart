@@ -23,7 +23,7 @@ Iterable<String> getCode(List<md.Node> nodes, [bool isCode = false]) sync* {
     return;
   }
 
-  for (md.Node node in nodes) {
+  for (final node in nodes) {
     if (node is md.Element) {
       // print(node.tag);
       // print(node.attributes);
@@ -42,23 +42,23 @@ Iterable<String> getCode(List<md.Node> nodes, [bool isCode = false]) sync* {
 }
 
 void main() {
-  final md.Document document = md.Document(
+  final document = md.Document(
     extensionSet: md.ExtensionSet.commonMark,
     encodeHtml: false,
   );
 
-  final File output = File('test/readme_test.dart');
-  final IOSink st = output.openWrite();
+  final output = File('test/readme_test.dart');
+  final st = output.openWrite();
   st.writeln('''import 'package:about/about.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void readme(BuildContext context) {''');
 
-  final String data = File('README.md').readAsStringSync();
-  final List<String> lines = data.replaceAll('\r\n', '\n').split('\n');
-  final List<md.Node> parsedLines = document.parseLines(lines);
-  final Iterable<String> code = getCode(parsedLines);
+  final data = File('README.md').readAsStringSync();
+  final lines = data.replaceAll('\r\n', '\n').split('\n');
+  final parsedLines = document.parseLines(lines);
+  final code = getCode(parsedLines);
 
   st.writeln(code.join('\n'));
 

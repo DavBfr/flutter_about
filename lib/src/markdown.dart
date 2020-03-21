@@ -109,18 +109,18 @@ class MarkdownTemplateState extends State<MarkdownTemplate> {
       return;
     }
 
-    final Locale locale = Localizations.localeOf(context);
-    final AssetBundle bundle = DefaultAssetBundle.of(context);
+    final locale = Localizations.localeOf(context);
+    final bundle = DefaultAssetBundle.of(context);
 
-    String md = '';
+    var md = '';
 
-    final String base = path.join(
+    final base = path.join(
       path.dirname(widget.filename),
       path.basenameWithoutExtension(widget.filename),
     );
-    final String ext = path.extension(widget.filename);
+    final ext = path.extension(widget.filename);
 
-    for (String filename in <String>[
+    for (final filename in <String>[
       '$base-$locale$ext',
       '$base-${locale.languageCode}$ext',
       '${widget.filename}'
@@ -142,10 +142,9 @@ class MarkdownTemplateState extends State<MarkdownTemplate> {
     }
 
     if (widget.useMustache) {
-      final Map<String, String> map = <String, String>{};
+      final map = <String, String>{};
       map.addAll(await Template.populateValues());
-      final String name =
-          widget.applicationName ?? _defaultApplicationName(context);
+      final name = widget.applicationName ?? _defaultApplicationName(context);
       map['title'] = name;
       if (widget.mustacheValues != null) {
         map.addAll(widget.mustacheValues);
@@ -232,8 +231,7 @@ class _MarkdownPageState extends State<MarkdownPage> {
 
   @override
   Widget build(BuildContext context) {
-    final String name =
-        widget.applicationName ?? _defaultApplicationName(context);
+    final name = widget.applicationName ?? _defaultApplicationName(context);
 
     final Widget body = Scrollbar(
       child: SingleChildScrollView(
