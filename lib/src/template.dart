@@ -24,6 +24,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
 import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart' as package_info;
+import 'package:simple_mustache/simple_mustache.dart';
 
 @immutable
 class Template {
@@ -34,13 +35,11 @@ class Template {
   final String source;
 
   String render(Map<String, String> values) {
-    return source.replaceAllMapped(RegExp(r'{{\s*(\w+)\s*}}'), (Match match) {
-      if (values.containsKey(match.group(1))) {
-        return values[match.group(1)];
-      }
-      assert(false, 'Value "${match.group(1)}" not found');
-      return '"${match.group(1)}"';
-    });
+    try {
+      return Mustache(map: values).convert(source);
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   static Map<String, String> map;
@@ -53,6 +52,10 @@ class Template {
     map = <String, String>{};
 
     map['year'] = DateTime.now().year.toString();
+    map['version'] = '?';
+    map['buildNumber'] = '?';
+    map['packageName'] = '?';
+    map['appName'] = '?';
 
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {

@@ -3,6 +3,7 @@
 ## 1.1.0
 
 - Fix showAboutPage as full-size page
+- Use external mustache library
 
 ## 1.0.7
 

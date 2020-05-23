@@ -124,10 +124,26 @@ class _AboutContentState extends State<AboutContent> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle header;
+    TextStyle bodyText;
+    TextStyle versionStyle;
+    TextStyle copyrightStyle;
+
+    if (isCupertino(context)) {
+      final theme = CupertinoTheme.of(context).textTheme;
+      header = theme.navLargeTitleTextStyle;
+      versionStyle = theme.textStyle;
+      bodyText = theme.textStyle;
+      copyrightStyle = theme.textStyle;
+    } else {
+      final theme = Theme.of(context).textTheme;
+      header = theme.headline5;
+      bodyText = theme.bodyText2;
+      copyrightStyle = theme.caption;
+    }
+
     final name = widget.applicationName ?? defaultApplicationName(context);
-
     final icon = widget.applicationIcon ?? defaultApplicationIcon(context);
-
     final body = <Widget>[];
 
     if (icon != null) {
@@ -149,12 +165,12 @@ class _AboutContentState extends State<AboutContent> {
             children: <Widget>[
               Text(
                 name,
-                style: Theme.of(context).textTheme.headline,
+                style: header,
                 textAlign: TextAlign.center,
               ),
               Text(
                 version,
-                style: Theme.of(context).textTheme.body1,
+                style: versionStyle,
                 textAlign: TextAlign.center,
               ),
               if (widget.applicationLegalese != null)
@@ -162,23 +178,16 @@ class _AboutContentState extends State<AboutContent> {
                   padding: const EdgeInsets.only(top: 18),
                   child: Text(
                     Template(widget.applicationLegalese).render(_values),
-                    style: Theme.of(context).textTheme.caption,
+                    style: copyrightStyle,
                     textAlign: TextAlign.center,
                   ),
                 ),
+              if (widget.applicationDescription != null) Divider(),
               if (widget.applicationDescription != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 18),
-                  child: Container(
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(width: 0),
-                          bottom: BorderSide(width: 0),
-                        ),
-                      ),
-                      child: widget.applicationDescription),
-                ),
+                Container(
+                    padding: const EdgeInsets.only(top: 8, bottom: 8),
+                    child: widget.applicationDescription),
+              if (widget.applicationDescription != null) Divider(),
             ],
           ),
         ),
@@ -191,7 +200,10 @@ class _AboutContentState extends State<AboutContent> {
 
     return Scrollbar(
       child: SingleChildScrollView(
-        child: ListBody(children: body),
+        child: DefaultTextStyle(
+          style: bodyText,
+          child: ListBody(children: body),
+        ),
       ),
     );
   }
