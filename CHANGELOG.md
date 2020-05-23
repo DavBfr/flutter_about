@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+- Fix showAboutPage as full-size page
+
 ## 1.0.7
 
 - Remove Localizations.override

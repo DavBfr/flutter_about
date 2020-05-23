@@ -191,7 +191,7 @@ class AboutPage extends StatelessWidget {
 ///
 /// The `context` argument is passed to [showDialog], the documentation for
 /// which discusses how it is used.
-void showAboutPage({
+Future<void> showAboutPage({
   @required BuildContext context,
   Widget title,
   String applicationName,
@@ -202,23 +202,41 @@ void showAboutPage({
   bool dialog = false,
   List<Widget> children,
   Map<String, String> values,
-}) {
+}) async {
   assert(context != null);
 
-  showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AboutPage(
-        title: title,
-        applicationName: applicationName,
-        applicationVersion: applicationVersion,
-        applicationIcon: applicationIcon,
-        applicationLegalese: applicationLegalese,
-        applicationDescription: applicationDescription,
-        dialog: dialog,
-        children: children,
-        values: values,
-      );
-    },
+  final page = AboutPage(
+    title: title,
+    applicationName: applicationName,
+    applicationVersion: applicationVersion,
+    applicationIcon: applicationIcon,
+    applicationLegalese: applicationLegalese,
+    applicationDescription: applicationDescription,
+    dialog: dialog,
+    children: children,
+    values: values,
+  );
+
+  if (dialog) {
+    return await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return page;
+      },
+    );
+  }
+
+  if (isCupertino(context)) {
+    return await Navigator.of(context).push<void>(
+      CupertinoPageRoute(
+        builder: (context) => page,
+      ),
+    );
+  }
+
+  return await Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder: (context) => page,
+    ),
   );
 }
