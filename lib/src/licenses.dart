@@ -219,11 +219,16 @@ class _LicenseListPageState extends State<LicenseListPage> {
     );
 
     if (isCupertino(context)) {
+      final theme = CupertinoTheme.of(context);
+
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: widget.title ?? const Text('Licenses'),
         ),
-        child: Material(child: body),
+        child: Theme(
+          data: themeFromCupertino(theme),
+          child: Material(child: body),
+        ),
       );
     }
 

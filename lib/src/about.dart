@@ -128,15 +128,15 @@ class AboutPage extends StatelessWidget {
       values: values,
     );
 
-    if (isCupertino(context)) {
-      body = SafeArea(
-        child: Material(
-          child: body,
-        ),
-      );
-    }
-
     if (dialog) {
+      if (isCupertino(context)) {
+        body = SafeArea(
+          child: Material(
+            child: body,
+          ),
+        );
+      }
+
       return SimpleDialog(
         title: _title,
         children: <Widget>[
@@ -154,13 +154,18 @@ class AboutPage extends StatelessWidget {
     }
 
     if (isCupertino(context)) {
+      final theme = CupertinoTheme.of(context);
+
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: _title,
         ),
-        child: SafeArea(
-          child: Material(
-            child: body,
+        child: Theme(
+          data: themeFromCupertino(theme),
+          child: SafeArea(
+            child: Material(
+              child: body,
+            ),
           ),
         ),
       );

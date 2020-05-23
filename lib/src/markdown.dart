@@ -282,11 +282,16 @@ class _MarkdownPageState extends State<MarkdownPage> {
     );
 
     if (isCupertino(context)) {
+      final theme = CupertinoTheme.of(context);
+
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(name),
         ),
-        child: body,
+        child: Theme(
+          data: themeFromCupertino(theme),
+          child: body,
+        ),
       );
     }
 

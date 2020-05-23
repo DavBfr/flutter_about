@@ -50,3 +50,12 @@ bool isCupertino(BuildContext context) {
 
   return !(ct is MaterialBasedCupertinoThemeData);
 }
+
+ThemeData themeFromCupertino(CupertinoThemeData theme) {
+  return ThemeData(
+    brightness: theme.brightness,
+    canvasColor: theme.barBackgroundColor,
+    primaryColor: theme.primaryColor,
+    accentColor: theme.primaryContrastingColor,
+  );
+}

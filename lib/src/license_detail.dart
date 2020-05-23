@@ -37,8 +37,7 @@ class LicenseDetail extends StatelessWidget {
 
   final List<LicenseParagraph> paragraphs;
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildBody(BuildContext context) {
     final _licenses = <Widget>[];
 
     for (final paragraph in paragraphs) {
@@ -65,7 +64,7 @@ class LicenseDetail extends StatelessWidget {
       }
     }
 
-    final Widget body = DefaultTextStyle(
+    return DefaultTextStyle(
       style: Theme.of(context).textTheme.caption,
       child: SafeArea(
         bottom: false,
@@ -77,13 +76,23 @@ class LicenseDetail extends StatelessWidget {
         ),
       ),
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     if (isCupertino(context)) {
+      final theme = CupertinoTheme.of(context);
+
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(package),
         ),
-        child: body,
+        child: Theme(
+          data: themeFromCupertino(theme),
+          child: Builder(
+            builder: (context) => _buildBody(context),
+          ),
+        ),
       );
     }
 
@@ -91,7 +100,7 @@ class LicenseDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(package),
       ),
-      body: body,
+      body: _buildBody(context),
     );
   }
 }

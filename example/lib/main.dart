@@ -10,7 +10,9 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final isIos = Theme.of(context).platform == TargetPlatform.iOS;
+    final theme = Theme.of(context);
+    final isIos = theme.platform == TargetPlatform.iOS ||
+        theme.platform == TargetPlatform.macOS;
 
     const Widget aboutPage = AboutPage(
       title: Text('About'),
@@ -55,15 +57,20 @@ class MyApp extends StatelessWidget {
     );
 
     if (isIos) {
-      return const CupertinoApp(
+      return CupertinoApp(
         title: 'About Demo (Cupertino)',
         home: aboutPage,
+        theme: CupertinoThemeData(
+          brightness: theme.brightness,
+        ),
       );
     }
 
-    return const MaterialApp(
+    return MaterialApp(
       title: 'About Demo (Material)',
       home: aboutPage,
+      theme: ThemeData(),
+      darkTheme: ThemeData(brightness: Brightness.dark),
     );
   }
 }

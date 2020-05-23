@@ -4,6 +4,7 @@
 
 - Fix showAboutPage as full-size page
 - Use external mustache library
+- Fix Cupertino dark theme
 
 ## 1.0.7
 
