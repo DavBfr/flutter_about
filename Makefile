@@ -15,7 +15,11 @@
  DART_SRC=$(shell find . -name '*.dart')
  COV_PORT=9292
 
-all: format
+all: example/.metadata format
+
+example/.metadata:
+	cd example; flutter create -t app --no-overwrite --org net.nfet --project-name example .
+	rm -rf example/test
 
 format: format-dart
 
