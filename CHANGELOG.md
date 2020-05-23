@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Update markdown library
+
 ## 1.1.0
 
 - Fix showAboutPage as full-size page

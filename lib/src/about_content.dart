@@ -168,19 +168,10 @@ class _AboutContentState extends State<AboutContent> {
                 ),
               if (widget.applicationDescription != null) Divider(),
               if (widget.applicationDescription != null)
-                // Padding(
-                // padding: const EdgeInsets.only(top: 18),
-                // child:
                 Container(
-                    padding: const EdgeInsets.only(top: 8, bottom: 8),
-                    // decoration: const BoxDecoration(
-                    //   border: Border(
-                    //     top: BorderSide(width: 0.4),
-                    //     bottom: BorderSide(width: 0.4),
-                    //   ),
-                    // ),
-                    child: widget.applicationDescription),
-              // ),
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  child: widget.applicationDescription,
+                ),
               if (widget.applicationDescription != null) Divider(),
             ],
           ),
