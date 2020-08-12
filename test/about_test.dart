@@ -19,136 +19,201 @@ import 'package:about/src/license_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+const MethodChannel _channel = MethodChannel('plugins.flutter.io/package_info');
+
 void main() {
-  testWidgets('test AboutPage Material', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: AboutPage(
-        applicationVersion: '1.0',
-        applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
-        applicationDescription: const Text(
-          'Displays an About dialog, which describes the application.',
+  setUpAll(() {
+    _channel.setMockMethodCallHandler((methodCall) async {
+      switch (methodCall.method) {
+        case 'getAll':
+          return {
+            'appName': 'About Example',
+            'packageName': 'about',
+            'version': '1.0',
+            'buildNumber': '1',
+          };
+        default:
+          return null;
+      }
+    });
+  });
+
+  tearDownAll(() {
+    _channel.setMockMethodCallHandler(null);
+  });
+
+  group('AboutPage', () {
+    final widget = AboutPage(
+      applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
+      applicationDescription: const Text(
+        'Displays an About dialog, which describes the application.',
+      ),
+      children: <Widget>[
+        MarkdownPageListTile(
+          icon: Icon(Icons.list),
+          title: const Text('Changelog'),
+          filename: 'CHANGELOG.md',
         ),
-        children: <Widget>[
-          MarkdownPageListTile(
-            icon: Icon(Icons.list),
-            title: const Text('Changelog'),
-            filename: 'CHANGELOG.md',
-          ),
-          LicensesPageListTile(
-            icon: Icon(Icons.favorite),
-          ),
-        ],
-        applicationIcon: const SizedBox(
-          width: 100,
-          height: 100,
-          child: FlutterLogo(),
+        LicensesPageListTile(
+          title: const Text('Licenses'),
+          icon: Icon(Icons.favorite),
         ),
+      ],
+      applicationIcon: const SizedBox(
+        width: 100,
+        height: 100,
+        child: FlutterLogo(),
       ),
-    ));
-    await tester.pumpAndSettle();
+    );
+
+    testWidgets('Material', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: widget,
+      ));
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/about-page.material.png'),
+      );
+    });
+
+    testWidgets('Cupertino', (WidgetTester tester) async {
+      await tester.pumpWidget(CupertinoApp(
+        debugShowCheckedModeBanner: false,
+        home: widget,
+      ));
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(CupertinoApp),
+        matchesGoldenFile('goldens/about-page.cupertino.png'),
+      );
+    });
   });
 
-  testWidgets('test AboutPage Cupertino', (WidgetTester tester) async {
-    await tester.pumpWidget(CupertinoApp(
-      home: AboutPage(
-        applicationVersion: '1.0',
-        applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
-        applicationDescription: const Text(
-          'Displays an About dialog, which describes the application.',
+  group('LicenseListPage', () {
+    setUp(() {
+      LicenseRegistry.addLicense(() => Stream.fromIterable([
+            LicenseEntryWithLineBreaks(
+              ['test'],
+              'This is an example license text.',
+            ),
+          ]));
+    });
+
+    testWidgets('Material', (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: LicenseListPage(),
+      ));
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/license-list-page.material.png'),
+      );
+    });
+
+    testWidgets('Cupertino', (WidgetTester tester) async {
+      await tester.pumpWidget(const CupertinoApp(
+        debugShowCheckedModeBanner: false,
+        home: LicenseListPage(),
+      ));
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(CupertinoApp),
+        matchesGoldenFile('goldens/license-list-page.cupertino.png'),
+      );
+    });
+  });
+
+  group('LicenseDetail', () {
+    testWidgets('Material', (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: LicenseDetail(
+          package: 'About',
+          paragraphs: <LicenseParagraph>[
+            LicenseParagraph('para1', LicenseParagraph.centeredIndent),
+            LicenseParagraph('para2', 0),
+            LicenseParagraph('para2', 1),
+            LicenseParagraph('para2', 2),
+          ],
         ),
-        children: <Widget>[
-          MarkdownPageListTile(
-            icon: Icon(Icons.list),
-            title: const Text('Changelog'),
-            filename: 'CHANGELOG.md',
-          ),
-          LicensesPageListTile(
-            title: const Text('Licenses'),
-            icon: Icon(Icons.favorite),
-          ),
-        ],
-        applicationIcon: const SizedBox(
-          width: 100,
-          height: 100,
-          child: FlutterLogo(),
+      ));
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/license-detail.material.png'),
+      );
+    });
+
+    testWidgets('Cupertino', (WidgetTester tester) async {
+      await tester.pumpWidget(const CupertinoApp(
+        debugShowCheckedModeBanner: false,
+        home: LicenseDetail(
+          package: 'About',
+          paragraphs: <LicenseParagraph>[
+            LicenseParagraph('para1', LicenseParagraph.centeredIndent),
+            LicenseParagraph('para2', 0),
+          ],
         ),
-      ),
-    ));
-    await tester.pumpAndSettle();
+      ));
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(CupertinoApp),
+        matchesGoldenFile('goldens/license-detail.cupertino.png'),
+      );
+    });
   });
 
-  testWidgets('test LicenseListPage Material', (WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(
-      home: LicenseListPage(),
-    ));
-    await tester.pumpAndSettle();
+  group('AboutPageListTile', () {
+    testWidgets('Material', (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Material(
+          child: AboutPageListTile(),
+        ),
+      ));
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/about-page-list-tile.material.png'),
+      );
+    });
   });
 
-  testWidgets('test LicenseListPage Cupertino', (WidgetTester tester) async {
-    await tester.pumpWidget(const CupertinoApp(
-      home: LicenseListPage(),
-    ));
-    await tester.pumpAndSettle();
-  });
-
-  testWidgets('test LicenseDetail Material', (WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(
-      home: LicenseDetail(
-        package: 'About',
-        paragraphs: <LicenseParagraph>[
-          LicenseParagraph('para1', LicenseParagraph.centeredIndent),
-          LicenseParagraph('para2', 0),
-          LicenseParagraph('para2', 1),
-          LicenseParagraph('para2', 2),
-        ],
-      ),
-    ));
-    await tester.pumpAndSettle();
-  });
-
-  testWidgets('test LicenseDetail Cupertino', (WidgetTester tester) async {
-    await tester.pumpWidget(const CupertinoApp(
-      home: LicenseDetail(
-        package: 'About',
-        paragraphs: <LicenseParagraph>[
-          LicenseParagraph('para1', LicenseParagraph.centeredIndent),
-          LicenseParagraph('para2', 0),
-        ],
-      ),
-    ));
-    await tester.pumpAndSettle();
-  });
-
-  testWidgets('test AboutPageListTile Material', (WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(
-      home: Material(
-        child: AboutPageListTile(),
-      ),
-    ));
-    await tester.pumpAndSettle();
-  });
-
-  testWidgets('test MarkdownPage Material', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const MaterialApp(
+  /// The markdown files can not be loaded since they are no assets.
+  /// Additionally golden tests for files that change make no sense.
+  /// TODO: Add some example markdown files to test assets and use here
+  group('MarkdownPage', () {
+    testWidgets('Material', (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: MarkdownPage(
           filename: '../CHANGELOG.md',
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
-  });
+      ));
+      await tester.pumpAndSettle();
+    });
 
-  testWidgets('test MarkdownPage Cupertino', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const CupertinoApp(
+    testWidgets('Cupertino', (WidgetTester tester) async {
+      await tester.pumpWidget(const CupertinoApp(
+        debugShowCheckedModeBanner: false,
         home: MarkdownPage(
           filename: '../README.md',
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
+      ));
+      await tester.pumpAndSettle();
+    });
   });
 }
