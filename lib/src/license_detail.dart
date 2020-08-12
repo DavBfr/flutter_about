@@ -24,14 +24,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
 import 'package:flutter/rendering.dart';
 
-import 'utils.dart';
+import 'scaffold_builder.dart';
 
 class LicenseDetail extends StatelessWidget {
   const LicenseDetail({
     Key key,
     this.package,
+    this.scaffoldBuilder,
     this.paragraphs,
   }) : super(key: key);
+
+  /// The builder for the Scaffold around the content.
+  ///
+  /// Defaults to [defaultScaffoldBuilder] if not set.
+  final ScaffoldBuilder scaffoldBuilder;
 
   final String package;
 
@@ -80,27 +86,10 @@ class LicenseDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isCupertino(context)) {
-      final theme = CupertinoTheme.of(context);
-
-      return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: Text(package),
-        ),
-        child: Theme(
-          data: themeFromCupertino(theme),
-          child: Builder(
-            builder: (context) => _buildBody(context),
-          ),
-        ),
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(package),
-      ),
-      body: _buildBody(context),
+    return (scaffoldBuilder ?? defaultScaffoldBuilder)(
+      context,
+      Text(package),
+      _buildBody(context),
     );
   }
 }

@@ -46,33 +46,34 @@ void main() {
   });
 
   group('AboutPage', () {
-    final widget = AboutPage(
-      applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
-      applicationDescription: const Text(
-        'Displays an About dialog, which describes the application.',
-      ),
-      children: <Widget>[
-        MarkdownPageListTile(
-          icon: Icon(Icons.list),
-          title: const Text('Changelog'),
-          filename: 'CHANGELOG.md',
-        ),
-        LicensesPageListTile(
-          title: const Text('Licenses'),
-          icon: Icon(Icons.favorite),
-        ),
-      ],
-      applicationIcon: const SizedBox(
-        width: 100,
-        height: 100,
-        child: FlutterLogo(),
-      ),
-    );
+    final widget = (ScaffoldBuilder scaffoldBuilder) => AboutPage(
+          applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
+          applicationDescription: const Text(
+            'Displays an About dialog, which describes the application.',
+          ),
+          scaffoldBuilder: scaffoldBuilder,
+          children: <Widget>[
+            MarkdownPageListTile(
+              icon: Icon(Icons.list),
+              title: const Text('Changelog'),
+              filename: 'CHANGELOG.md',
+            ),
+            LicensesPageListTile(
+              title: const Text('Licenses'),
+              icon: Icon(Icons.favorite),
+            ),
+          ],
+          applicationIcon: const SizedBox(
+            width: 100,
+            height: 100,
+            child: FlutterLogo(),
+          ),
+        );
 
     testWidgets('Material', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: widget,
+        home: widget(null),
       ));
       await tester.pumpAndSettle();
 
@@ -85,13 +86,44 @@ void main() {
     testWidgets('Cupertino', (WidgetTester tester) async {
       await tester.pumpWidget(CupertinoApp(
         debugShowCheckedModeBanner: false,
-        home: widget,
+        home: widget(null),
       ));
       await tester.pumpAndSettle();
 
       await expectLater(
         find.byType(CupertinoApp),
         matchesGoldenFile('goldens/about-page.cupertino.png'),
+      );
+    });
+
+    testWidgets('Custom', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: widget((context, title, child) {
+          return Scaffold(
+            body: child,
+            bottomNavigationBar: BottomNavigationBar(items: [
+              BottomNavigationBarItem(
+                title: Text('Item 1'),
+                icon: Icon(Icons.edit),
+              ),
+              BottomNavigationBarItem(
+                title: Text('Item 2'),
+                icon: Icon(Icons.email),
+              ),
+              BottomNavigationBarItem(
+                title: Text('Item 3'),
+                icon: Icon(Icons.add),
+              ),
+            ]),
+          );
+        }),
+      ));
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/about-page.custom.png'),
       );
     });
   });

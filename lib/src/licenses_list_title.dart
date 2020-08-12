@@ -21,6 +21,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow, showLicensePage;
 
 import 'licenses.dart';
+import 'scaffold_builder.dart';
 
 /// A [ListTile] that shows an about box.
 ///
@@ -43,6 +44,7 @@ class LicensesPageListTile extends StatelessWidget {
     Key key,
     this.icon,
     this.title,
+    this.scaffoldBuilder,
     this.values,
   }) : super(key: key);
 
@@ -60,6 +62,11 @@ class LicensesPageListTile extends StatelessWidget {
   /// application name specified by [applicationName].
   final Widget title;
 
+  /// The builder for the Scaffold around the content.
+  ///
+  /// Defaults to [defaultScaffoldBuilder] if not set.
+  final ScaffoldBuilder scaffoldBuilder;
+
   /// Template replacement values
   final Map<String, String> values;
 
@@ -76,6 +83,7 @@ class LicensesPageListTile extends StatelessWidget {
         showLicensePage(
           context: context,
           title: _title,
+          scaffoldBuilder: scaffoldBuilder,
           values: values,
         );
       },

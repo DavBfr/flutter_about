@@ -22,6 +22,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
 
 import 'markdown.dart';
+import 'scaffold_builder.dart';
 
 /// A [ListTile] that shows an about box.
 ///
@@ -44,6 +45,7 @@ class MarkdownPageListTile extends StatelessWidget {
     Key key,
     this.icon,
     @required this.title,
+    this.scaffoldBuilder,
     this.applicationName,
     this.applicationIcon,
     this.useMustache,
@@ -65,6 +67,11 @@ class MarkdownPageListTile extends StatelessWidget {
   /// Defaults to a text widget that says "About Foo" where "Foo" is the
   /// application name specified by [applicationName].
   final Widget title;
+
+  /// The builder for the Scaffold around the content.
+  ///
+  /// Defaults to [defaultScaffoldBuilder] if not set.
+  final ScaffoldBuilder scaffoldBuilder;
 
   /// The name of the application.
   ///
@@ -101,6 +108,7 @@ class MarkdownPageListTile extends StatelessWidget {
           applicationName: applicationName,
           filename: filename,
           title: title,
+          scaffoldBuilder: scaffoldBuilder,
           useMustache: useMustache,
           mustacheValues: mustacheValues,
         );

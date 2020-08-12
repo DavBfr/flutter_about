@@ -21,3 +21,4 @@ export 'src/licenses.dart';
 export 'src/licenses_list_title.dart';
 export 'src/markdown.dart';
 export 'src/markdown_list_title.dart';
+export 'src/scaffold_builder.dart';

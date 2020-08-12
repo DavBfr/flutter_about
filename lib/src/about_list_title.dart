@@ -22,6 +22,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
 
 import 'about.dart';
+import 'scaffold_builder.dart';
 import 'utils.dart';
 
 /// A [ListTile] that shows an about box.
@@ -46,6 +47,7 @@ class AboutPageListTile extends StatelessWidget {
     this.icon = const Icon(null),
     this.title,
     this.child,
+    this.scaffoldBuilder,
     this.applicationName,
     this.applicationVersion,
     this.applicationIcon,
@@ -69,6 +71,11 @@ class AboutPageListTile extends StatelessWidget {
   /// Defaults to a text widget that says "About Foo" where "Foo" is the
   /// application name specified by [applicationName].
   final Widget child;
+
+  /// The builder for the Scaffold around the content.
+  ///
+  /// Defaults to [defaultScaffoldBuilder] if not set.
+  final ScaffoldBuilder scaffoldBuilder;
 
   /// The name of the application.
   ///
@@ -141,6 +148,7 @@ class AboutPageListTile extends StatelessWidget {
         showAboutPage(
           context: context,
           title: title,
+          scaffoldBuilder: scaffoldBuilder,
           applicationName: applicationName,
           applicationVersion: applicationVersion,
           applicationIcon: applicationIcon,
