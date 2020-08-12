@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+- Add golden tests
+
 ## 1.1.2
 
 - Flutter_Markdown library 0.4.0 is somewhat invalid
