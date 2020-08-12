@@ -22,6 +22,7 @@ import 'package:flutter/material.dart' hide Flow;
 import 'package:flutter/rendering.dart';
 
 import 'license_detail.dart';
+import 'scaffold_builder.dart';
 import 'utils.dart';
 
 /// Displays a [LicenseListPage], which shows licenses for software used by the
@@ -40,6 +41,7 @@ import 'utils.dart';
 void showLicensePage({
   @required BuildContext context,
   Widget title,
+  ScaffoldBuilder scaffoldBuilder,
   Map<String, String> values,
 }) {
   assert(context != null);
@@ -50,6 +52,7 @@ void showLicensePage({
         CupertinoPageRoute<void>(
             builder: (BuildContext context) => LicenseListPage(
                   title: title,
+                  scaffoldBuilder: scaffoldBuilder,
                   values: values,
                 )));
   } else {
@@ -58,6 +61,7 @@ void showLicensePage({
         MaterialPageRoute<void>(
             builder: (BuildContext context) => LicenseListPage(
                   title: title,
+                  scaffoldBuilder: scaffoldBuilder,
                   values: values,
                 )));
   }
@@ -84,11 +88,17 @@ class LicenseListPage extends StatefulWidget {
   const LicenseListPage({
     Key key,
     this.title,
+    this.scaffoldBuilder,
     this.values,
   }) : super(key: key);
 
   /// The page title
   final Widget title;
+
+  /// The builder for the Scaffold around the content.
+  ///
+  /// Defaults to [defaultScaffoldBuilder] if not set.
+  final ScaffoldBuilder scaffoldBuilder;
 
   /// Template replacement values
   final Map<String, String> values;
@@ -205,40 +215,21 @@ class _LicenseListPageState extends State<LicenseListPage> {
       contents.addAll(_licenses);
     }
 
-    final Widget body = DefaultTextStyle(
-      style: Theme.of(context).textTheme.caption,
-      child: SafeArea(
-        bottom: false,
-        child: Scrollbar(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-            children: contents,
+    return (widget.scaffoldBuilder ?? defaultScaffoldBuilder)(
+      context,
+      widget.title ?? const Text('Licenses'),
+      DefaultTextStyle(
+        style: Theme.of(context).textTheme.caption,
+        child: SafeArea(
+          bottom: false,
+          child: Scrollbar(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              children: contents,
+            ),
           ),
         ),
       ),
-    );
-
-    if (isCupertino(context)) {
-      final theme = CupertinoTheme.of(context);
-
-      return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: widget.title ?? const Text('Licenses'),
-        ),
-        child: Theme(
-          data: themeFromCupertino(theme),
-          child: Material(child: body),
-        ),
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.title ?? const Text('Licenses'),
-      ),
-      // All of the licenses page text is English. We don't want localized text
-      // or text direction.
-      body: body,
     );
   }
 }

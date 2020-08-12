@@ -25,6 +25,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:path/path.dart' as path;
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
+import 'scaffold_builder.dart';
 import 'template.dart';
 import 'utils.dart';
 
@@ -32,6 +33,7 @@ import 'utils.dart';
 void showMarkdownPage({
   @required BuildContext context,
   Widget title,
+  ScaffoldBuilder scaffoldBuilder,
   String applicationName,
   Widget applicationIcon,
   @required String filename,
@@ -45,6 +47,7 @@ void showMarkdownPage({
       CupertinoPageRoute<void>(
         builder: (BuildContext context) => MarkdownPage(
           title: title,
+          scaffoldBuilder: scaffoldBuilder,
           applicationName: applicationName,
           filename: filename,
           useMustache: useMustache,
@@ -58,6 +61,7 @@ void showMarkdownPage({
       MaterialPageRoute<void>(
         builder: (BuildContext context) => MarkdownPage(
           title: title,
+          scaffoldBuilder: scaffoldBuilder,
           applicationName: applicationName,
           filename: filename,
           useMustache: useMustache,
@@ -225,6 +229,7 @@ class MarkdownPage extends StatefulWidget {
   const MarkdownPage({
     Key key,
     this.title,
+    this.scaffoldBuilder,
     this.applicationName,
     bool useMustache,
     this.mustacheValues,
@@ -244,6 +249,11 @@ class MarkdownPage extends StatefulWidget {
 
   /// The screen title
   final Widget title;
+
+  /// The builder for the Scaffold around the content.
+  ///
+  /// Defaults to [defaultScaffoldBuilder] if not set.
+  final ScaffoldBuilder scaffoldBuilder;
 
   /// Wether to replace {{ }} strings with [mustacheValues]
   final bool useMustache;
@@ -265,41 +275,24 @@ class _MarkdownPageState extends State<MarkdownPage> {
   Widget build(BuildContext context) {
     final name = widget.applicationName ?? defaultApplicationName(context);
 
-    final Widget body = Scrollbar(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-          child: SafeArea(
-            child: MarkdownTemplate(
-              filename: widget.filename,
-              applicationName: name,
-              mustacheValues: widget.mustacheValues,
-              useMustache: widget.useMustache,
+    return (widget.scaffoldBuilder ?? defaultScaffoldBuilder)(
+      context,
+      widget.title ?? Text(name),
+      Scrollbar(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            child: SafeArea(
+              child: MarkdownTemplate(
+                filename: widget.filename,
+                applicationName: name,
+                mustacheValues: widget.mustacheValues,
+                useMustache: widget.useMustache,
+              ),
             ),
           ),
         ),
       ),
-    );
-
-    if (isCupertino(context)) {
-      final theme = CupertinoTheme.of(context);
-
-      return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: Text(name),
-        ),
-        child: Theme(
-          data: themeFromCupertino(theme),
-          child: body,
-        ),
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.title ?? Text(name),
-      ),
-      body: body,
     );
   }
 }

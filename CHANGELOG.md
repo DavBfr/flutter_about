@@ -2,6 +2,7 @@
 
 ## Unreleased
 - Add golden tests
+- Add optional ScaffoldBuilder that can be used to provide a custom app scaffold around all pages
 
 ## 1.1.2
 

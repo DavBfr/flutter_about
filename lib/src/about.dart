@@ -17,6 +17,7 @@
 import 'dart:core';
 import 'dart:io';
 
+import 'package:about/src/scaffold_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
@@ -47,6 +48,7 @@ class AboutPage extends StatelessWidget {
   const AboutPage({
     Key key,
     this.title,
+    this.scaffoldBuilder,
     this.applicationName,
     this.applicationVersion,
     this.applicationIcon,
@@ -63,6 +65,11 @@ class AboutPage extends StatelessWidget {
   /// if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
   final Widget title;
+
+  /// The builder for the Scaffold around the content.
+  ///
+  /// Defaults to [defaultScaffoldBuilder] if not set.
+  final ScaffoldBuilder scaffoldBuilder;
 
   /// The name of the application.
   ///
@@ -153,30 +160,7 @@ class AboutPage extends StatelessWidget {
       );
     }
 
-    if (isCupertino(context)) {
-      final theme = CupertinoTheme.of(context);
-
-      return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: _title,
-        ),
-        child: Theme(
-          data: themeFromCupertino(theme),
-          child: SafeArea(
-            child: Material(
-              child: body,
-            ),
-          ),
-        ),
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: _title,
-      ),
-      body: body,
-    );
+    return (scaffoldBuilder ?? defaultScaffoldBuilder)(context, _title, body);
   }
 }
 
@@ -199,6 +183,7 @@ class AboutPage extends StatelessWidget {
 Future<void> showAboutPage({
   @required BuildContext context,
   Widget title,
+  ScaffoldBuilder scaffoldBuilder,
   String applicationName,
   String applicationVersion,
   Widget applicationIcon,
@@ -212,6 +197,7 @@ Future<void> showAboutPage({
 
   final page = AboutPage(
     title: title,
+    scaffoldBuilder: scaffoldBuilder,
     applicationName: applicationName,
     applicationVersion: applicationVersion,
     applicationIcon: applicationIcon,
