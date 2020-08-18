@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Allow custom tap handlers for links in markdown pages
+
 ## 1.2.0
 
 - Add golden tests

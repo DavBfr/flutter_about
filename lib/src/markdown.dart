@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+import 'dart:async';
 import 'dart:core';
 import 'dart:io';
 
+import 'package:about/about.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
@@ -39,6 +41,7 @@ void showMarkdownPage({
   @required String filename,
   bool useMustache,
   Map<String, String> mustacheValues,
+  MarkdownTapHandler tapHandler,
 }) {
   assert(context != null);
   if (isCupertino(context)) {
@@ -52,6 +55,7 @@ void showMarkdownPage({
           filename: filename,
           useMustache: useMustache,
           mustacheValues: mustacheValues,
+          tapHandler: tapHandler,
         ),
       ),
     );
@@ -66,6 +70,7 @@ void showMarkdownPage({
           filename: filename,
           useMustache: useMustache,
           mustacheValues: mustacheValues,
+          tapHandler: tapHandler,
         ),
       ),
     );
@@ -92,6 +97,7 @@ class MarkdownTemplate extends StatefulWidget {
     bool useMustache,
     this.mustacheValues,
     @required this.filename,
+    this.tapHandler = const UrlMarkdownTapHandler(),
   })  : assert(filename != null),
         useMustache = useMustache ?? mustacheValues != null,
         super(key: key);
@@ -105,11 +111,15 @@ class MarkdownTemplate extends StatefulWidget {
   /// The markdown asset file to load
   final String filename;
 
-  /// Wether to replace {{ }} strings with [mustacheValues]
+  /// Whether to replace {{ }} strings with [mustacheValues]
   final bool useMustache;
 
   /// Values to replace in the texts
   final Map<String, String> mustacheValues;
+
+  /// The handler that handles taps on links in the template.
+  /// Defaults to [UrlMarkdownTapHandler].
+  final MarkdownTapHandler tapHandler;
 
   @override
   _MarkdownTemplateState createState() => _MarkdownTemplateState();
@@ -179,14 +189,6 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
     });
   }
 
-  Future<void> _launchURL(String href) async {
-    if (await url_launcher.canLaunch(href)) {
-      await url_launcher.launch(href);
-    } else {
-      print('Could not launch $href');
-    }
-  }
-
   String _stripYamlHeader(String data) {
     final regex = RegExp(r'^---\n(.*)---\n', dotAll: true);
     final match = regex.firstMatch(data);
@@ -208,7 +210,10 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
       );
     }
 
-    return MarkdownBody(data: _md, onTapLink: _launchURL);
+    return MarkdownBody(
+      data: _md,
+      onTapLink: (href) => widget.tapHandler.onTap(context, href),
+    );
   }
 }
 
@@ -234,6 +239,7 @@ class MarkdownPage extends StatefulWidget {
     bool useMustache,
     this.mustacheValues,
     @required this.filename,
+    this.tapHandler = const UrlMarkdownTapHandler(),
   })  : assert(filename != null),
         useMustache = useMustache ?? mustacheValues != null,
         super(key: key);
@@ -255,11 +261,15 @@ class MarkdownPage extends StatefulWidget {
   /// Defaults to [defaultScaffoldBuilder] if not set.
   final ScaffoldBuilder scaffoldBuilder;
 
-  /// Wether to replace {{ }} strings with [mustacheValues]
+  /// Whether to replace {{ }} strings with [mustacheValues]
   final bool useMustache;
 
   /// Values to replace in the texts
   final Map<String, String> mustacheValues;
+
+  /// The handler that handles taps on links in the template.
+  /// Defaults to [UrlMarkdownTapHandler].
+  final MarkdownTapHandler tapHandler;
 
   @override
   _MarkdownPageState createState() => _MarkdownPageState();
@@ -288,11 +298,37 @@ class _MarkdownPageState extends State<MarkdownPage> {
                 applicationName: name,
                 mustacheValues: widget.mustacheValues,
                 useMustache: widget.useMustache,
+                tapHandler: widget.tapHandler,
               ),
             ),
           ),
         ),
       ),
     );
+  }
+}
+
+/// Defines a handler that can intercept and handle taps on links
+/// in markdown templates. Implement this or extend [UrlMarkdownTapHandler].
+///
+abstract class MarkdownTapHandler {
+  /// Handles the tap on a link in the markdown page.
+  FutureOr<void> onTap(BuildContext context, String href);
+}
+
+/// The default implementation of a [MarkdownTapHandler].
+/// It simply tries to open the URL with a system handler.
+/// Does nothing if the URL scheme is not supported by the system.
+class UrlMarkdownTapHandler implements MarkdownTapHandler {
+  /// Creates a [UrlMarkdownTapHandler]
+  const UrlMarkdownTapHandler();
+
+  @override
+  Future<void> onTap(BuildContext context, String href) async {
+    if (await url_launcher.canLaunch(href)) {
+      await url_launcher.launch(href);
+    } else {
+      print('Could not launch $href');
+    }
   }
 }
