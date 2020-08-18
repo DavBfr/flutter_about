@@ -24,23 +24,11 @@ import 'package:flutter/material.dart' hide Flow;
 import 'markdown.dart';
 import 'scaffold_builder.dart';
 
-/// A [ListTile] that shows an about box.
-///
-/// This widget is often added to an app's [Drawer]. When tapped it shows
-/// an about box dialog with [showAboutPage].
-///
-/// The about box will include a button that shows changelogs for software used by
-/// the application. The changelogs shown are those returned by the
-/// [ChangelogRegistry] API, which can be used to add more changelogs to the list.
-///
-/// If your application does not have a [Drawer], you should provide an
-/// affordance to call [showAboutPage] or (at least) [showMarkdownPage].
+/// A [ListTile] that displays the provided markdown template in a new page.
 class MarkdownPageListTile extends StatelessWidget {
-  /// Creates a list tile for showing an about box.
+  /// Creates a list tile for showing a markdown page.
   ///
-  /// The arguments are all optional. The application name, if omitted, will be
-  /// derived from the nearest [Title] widget. The version, icon, and legalese
-  /// values default to the empty string.
+  /// The title and filename of the markdown template are required.
   const MarkdownPageListTile({
     Key key,
     this.icon,
@@ -51,6 +39,7 @@ class MarkdownPageListTile extends StatelessWidget {
     this.useMustache,
     @required this.filename,
     this.mustacheValues,
+    this.tapHandler,
   })  : assert(title != null),
         super(key: key);
 
@@ -85,7 +74,7 @@ class MarkdownPageListTile extends StatelessWidget {
   /// The markdown asset file to load
   final String filename;
 
-  /// Wether to replace {{ }} strings with [mustacheValues]
+  /// Whether to replace {{ }} strings with [mustacheValues]
   final bool useMustache;
 
   /// Values to replace in the texts
@@ -93,6 +82,10 @@ class MarkdownPageListTile extends StatelessWidget {
 
   /// Icon of the application
   final Widget applicationIcon;
+
+  /// The handler that handles taps on links in the template.
+  /// Defaults to [UrlMarkdownTapHandler].
+  final MarkdownTapHandler tapHandler;
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +104,7 @@ class MarkdownPageListTile extends StatelessWidget {
           scaffoldBuilder: scaffoldBuilder,
           useMustache: useMustache,
           mustacheValues: mustacheValues,
+          tapHandler: tapHandler,
         );
       },
     );
