@@ -134,20 +134,20 @@ class _LicenseListPageState extends State<LicenseListPage> {
       );
 
     for (final package in sortedPackages) {
-      String exerpt;
+      String excerpt;
       for (final license in lisenses) {
         if (license.packages.contains(package)) {
           final p = license.paragraphs.first.text.trim();
           // Third party such as `asn1lib`, the license is a link
           final reg = RegExp(p.startsWith('http') ? r' |,|，' : r'\.|。');
-          exerpt = p.split(reg).first.trim();
-          if (exerpt.startsWith('//') || exerpt.startsWith('/*')) {
+          excerpt = p.split(reg).first.trim();
+          if (excerpt.startsWith('//') || excerpt.startsWith('/*')) {
             // Ignore symbol of comment in LICENSE file
-            exerpt = exerpt.substring(2).trim();
+            excerpt = excerpt.substring(2).trim();
           }
-          if (exerpt.length > 70) {
+          if (excerpt.length > 70) {
             // Avoid sub title too long
-            exerpt = exerpt.substring(0, 70) + '...';
+            excerpt = excerpt.substring(0, 70) + '...';
           }
           break;
         }
@@ -159,10 +159,9 @@ class _LicenseListPageState extends State<LicenseListPage> {
       licenseWidgets.add(
         ListTile(
           title: Text(packageName),
-          subtitle: Text(exerpt),
+          subtitle: Text(excerpt),
           onTap: () {
-            final Function(BuildContext context) builder =
-                (BuildContext context) {
+            final Function(BuildContext context) builder = (BuildContext context) {
               final paragraphs = <LicenseParagraph>[];
 
               for (final license in lisenses) {
@@ -193,9 +192,11 @@ class _LicenseListPageState extends State<LicenseListPage> {
       );
     }
 
-    setState(() {
-      _licenses = licenseWidgets;
-    });
+    if (mounted) {
+      setState(() {
+        _licenses = licenseWidgets;
+      });
+    }
   }
 
   @override
