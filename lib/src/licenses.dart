@@ -161,7 +161,8 @@ class _LicenseListPageState extends State<LicenseListPage> {
           title: Text(packageName),
           subtitle: Text(excerpt),
           onTap: () {
-            final Function(BuildContext context) builder = (BuildContext context) {
+            final Function(BuildContext context) builder =
+                (BuildContext context) {
               final paragraphs = <LicenseParagraph>[];
 
               for (final license in lisenses) {
