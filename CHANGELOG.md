@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.1
+- Fix a bug with markdown tap handler being null introduced in 1.3.0
+
 ## 1.3.0
 
 - Allow custom tap handlers for links in markdown pages

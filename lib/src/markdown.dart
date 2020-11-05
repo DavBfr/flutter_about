@@ -97,9 +97,10 @@ class MarkdownTemplate extends StatefulWidget {
     bool useMustache,
     this.mustacheValues,
     @required this.filename,
-    this.tapHandler = const UrlMarkdownTapHandler(),
+    MarkdownTapHandler tapHandler,
   })  : assert(filename != null),
         useMustache = useMustache ?? mustacheValues != null,
+        tapHandler = tapHandler ?? const UrlMarkdownTapHandler(),
         super(key: key);
 
   /// The name of the application.
@@ -240,7 +241,7 @@ class MarkdownPage extends StatefulWidget {
     bool useMustache,
     this.mustacheValues,
     @required this.filename,
-    this.tapHandler = const UrlMarkdownTapHandler(),
+    this.tapHandler,
   })  : assert(filename != null),
         useMustache = useMustache ?? mustacheValues != null,
         super(key: key);
