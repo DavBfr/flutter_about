@@ -47,6 +47,9 @@ test: .coverage test/readme_test.dart node_modules
 	flutter test --coverage --coverage-path lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary
 
+update-golden:
+	flutter test --update-goldens
+
 clean:
 	git clean -fdx -e .vscode
 

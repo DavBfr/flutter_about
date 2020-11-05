@@ -104,15 +104,15 @@ void main() {
             body: child,
             bottomNavigationBar: BottomNavigationBar(items: [
               BottomNavigationBarItem(
-                title: Text('Item 1'),
+                label: 'Item 1',
                 icon: Icon(Icons.edit),
               ),
               BottomNavigationBarItem(
-                title: Text('Item 2'),
+                label: 'Item 2',
                 icon: Icon(Icons.email),
               ),
               BottomNavigationBarItem(
-                title: Text('Item 3'),
+                label: 'Item 3',
                 icon: Icon(Icons.add),
               ),
             ]),
