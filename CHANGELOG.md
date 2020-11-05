@@ -4,6 +4,7 @@
 
 - Allow custom tap handlers for links in markdown pages
 - Fix an error when leaving `license` page
+- Update markdown dependency
 
 ## 1.2.0
 

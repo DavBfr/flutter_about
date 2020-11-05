@@ -85,3 +85,4 @@ package-lock.json
 lcov.info
 .coverage
 test/readme_test.dart
+test/failures

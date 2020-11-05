@@ -212,7 +212,8 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
 
     return MarkdownBody(
       data: _md,
-      onTapLink: (href) => widget.tapHandler.onTap(context, href),
+      onTapLink: (text, href, title) =>
+          widget.tapHandler.onTap(context, text, href, title),
     );
   }
 }
@@ -313,7 +314,8 @@ class _MarkdownPageState extends State<MarkdownPage> {
 ///
 abstract class MarkdownTapHandler {
   /// Handles the tap on a link in the markdown page.
-  FutureOr<void> onTap(BuildContext context, String href);
+  FutureOr<void> onTap(
+      BuildContext context, String text, String href, String title);
 }
 
 /// The default implementation of a [MarkdownTapHandler].
@@ -324,7 +326,12 @@ class UrlMarkdownTapHandler implements MarkdownTapHandler {
   const UrlMarkdownTapHandler();
 
   @override
-  Future<void> onTap(BuildContext context, String href) async {
+  Future<void> onTap(
+    BuildContext context,
+    String text,
+    String href,
+    String title,
+  ) async {
     if (await url_launcher.canLaunch(href)) {
       await url_launcher.launch(href);
     } else {
