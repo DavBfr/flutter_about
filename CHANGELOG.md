@@ -1,8 +1,9 @@
 # Changelog
 
-## Unreleased
+## 1.3.0
 
 - Allow custom tap handlers for links in markdown pages
+- Fix an error when leaving `license` page
 
 ## 1.2.0
 
