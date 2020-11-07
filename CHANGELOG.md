@@ -1,7 +1,8 @@
 # Changelog
 
-## 1.3.1
+## 1.4.0
 - Fix a bug with markdown tap handler being null introduced in 1.3.0
+- Expose all Markdown properties
 
 ## 1.3.0
 

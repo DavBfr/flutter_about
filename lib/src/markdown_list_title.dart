@@ -20,6 +20,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
+import 'package:markdown/markdown.dart' as md;
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'markdown.dart';
 import 'scaffold_builder.dart';
@@ -40,7 +42,25 @@ class MarkdownPageListTile extends StatelessWidget {
     @required this.filename,
     this.mustacheValues,
     this.tapHandler,
+    this.styleSheet,
+    this.imageDirectory,
+    this.blockSyntaxes,
+    this.inlineSyntaxes,
+    this.extensionSet,
+    this.imageBuilder,
+    this.checkboxBuilder,
+    this.builders = const {},
+    this.fitContent = true,
+    this.selectable = false,
+    this.shrinkWrap = true,
+    this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
+    this.syntaxHighlighter,
   })  : assert(title != null),
+        assert(selectable != null),
+        assert(builders != null),
+        assert(shrinkWrap != null),
+        assert(fitContent != null),
+        assert(styleSheetTheme != null),
         super(key: key);
 
   /// The icon to show for this drawer item.
@@ -87,6 +107,63 @@ class MarkdownPageListTile extends StatelessWidget {
   /// Defaults to [UrlMarkdownTapHandler].
   final MarkdownTapHandler tapHandler;
 
+  /// Defines which [TextStyle] objects to use for which Markdown elements.
+  final MarkdownStyleSheet styleSheet;
+
+  /// The base directory holding images referenced by Img tags with local or network file paths.
+  final String imageDirectory;
+
+  /// Collection of custom block syntax types to be used parsing the Markdown data.
+  final List<md.BlockSyntax> blockSyntaxes;
+
+  /// Collection of custom inline syntax types to be used parsing the Markdown data.
+  final List<md.InlineSyntax> inlineSyntaxes;
+
+  /// Markdown syntax extension set
+  ///
+  /// Defaults to [md.ExtensionSet.gitHubFlavored]
+  final md.ExtensionSet extensionSet;
+
+  /// Call when build an image widget.
+  final MarkdownImageBuilder imageBuilder;
+
+  /// Call when build a checkbox widget.
+  final MarkdownCheckboxBuilder checkboxBuilder;
+
+  /// Render certain tags, usually used with [extensionSet]
+  ///
+  /// For example, we will add support for `sub` tag:
+  ///
+  /// ```dart
+  /// builders: {
+  ///   'sub': SubscriptBuilder(),
+  /// }
+  /// ```
+  ///
+  /// The `SubscriptBuilder` is a subclass of [MarkdownElementBuilder].
+  final Map<String, MarkdownElementBuilder> builders;
+
+  /// Whether to allow the widget to fit the child content.
+  final bool fitContent;
+
+  /// If true, the text is selectable.
+  ///
+  /// Defaults to false.
+  final bool selectable;
+
+  /// See [ScrollView.shrinkWrap]
+  final bool shrinkWrap;
+
+  /// Setting to specify base theme for MarkdownStyleSheet
+  ///
+  /// Default to [MarkdownStyleSheetBaseTheme.material]
+  final MarkdownStyleSheetBaseTheme styleSheetTheme;
+
+  /// The syntax highlighter used to color text in `pre` elements.
+  ///
+  /// If null, the [MarkdownStyleSheet.code] style is used for `pre` elements.
+  final SyntaxHighlighter syntaxHighlighter;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
@@ -105,6 +182,19 @@ class MarkdownPageListTile extends StatelessWidget {
           useMustache: useMustache,
           mustacheValues: mustacheValues,
           tapHandler: tapHandler,
+          styleSheet: styleSheet,
+          imageDirectory: imageDirectory,
+          blockSyntaxes: blockSyntaxes,
+          inlineSyntaxes: inlineSyntaxes,
+          extensionSet: extensionSet,
+          imageBuilder: imageBuilder,
+          checkboxBuilder: checkboxBuilder,
+          builders: builders,
+          fitContent: fitContent,
+          selectable: selectable,
+          shrinkWrap: shrinkWrap,
+          styleSheetTheme: styleSheetTheme,
+          syntaxHighlighter: syntaxHighlighter,
         );
       },
     );

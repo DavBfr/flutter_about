@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 
 import 'utils.dart';
 
+/// Scaffold used around all pages.
 typedef ScaffoldBuilder = Widget Function(
   BuildContext context,
   Widget title,

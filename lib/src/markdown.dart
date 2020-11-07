@@ -23,6 +23,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
 import 'package:flutter/rendering.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:path/path.dart' as path;
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
@@ -42,36 +43,67 @@ void showMarkdownPage({
   bool useMustache,
   Map<String, String> mustacheValues,
   MarkdownTapHandler tapHandler,
+  MarkdownStyleSheet styleSheet,
+  String imageDirectory,
+  List<md.BlockSyntax> blockSyntaxes,
+  List<md.InlineSyntax> inlineSyntaxes,
+  md.ExtensionSet extensionSet,
+  MarkdownImageBuilder imageBuilder,
+  MarkdownCheckboxBuilder checkboxBuilder,
+  Map<String, MarkdownElementBuilder> builders = const {},
+  bool fitContent = true,
+  bool selectable = false,
+  bool shrinkWrap = true,
+  MarkdownStyleSheetBaseTheme styleSheetTheme,
+  SyntaxHighlighter syntaxHighlighter,
 }) {
   assert(context != null);
-  if (isCupertino(context)) {
+  assert(selectable != null);
+  assert(builders != null);
+  assert(shrinkWrap != null);
+  assert(fitContent != null);
+
+  final cupertino = isCupertino(context);
+
+  styleSheetTheme ??= cupertino
+      ? MarkdownStyleSheetBaseTheme.cupertino
+      : MarkdownStyleSheetBaseTheme.material;
+
+  final page = MarkdownPage(
+    title: title,
+    scaffoldBuilder: scaffoldBuilder,
+    applicationName: applicationName,
+    filename: filename,
+    useMustache: useMustache,
+    mustacheValues: mustacheValues,
+    tapHandler: tapHandler,
+    styleSheet: styleSheet,
+    imageDirectory: imageDirectory,
+    blockSyntaxes: blockSyntaxes,
+    inlineSyntaxes: inlineSyntaxes,
+    extensionSet: extensionSet,
+    imageBuilder: imageBuilder,
+    checkboxBuilder: checkboxBuilder,
+    builders: builders,
+    fitContent: fitContent,
+    selectable: selectable,
+    shrinkWrap: shrinkWrap,
+    styleSheetTheme: styleSheetTheme,
+    syntaxHighlighter: syntaxHighlighter,
+  );
+
+  if (cupertino) {
     Navigator.push(
       context,
       CupertinoPageRoute<void>(
-        builder: (BuildContext context) => MarkdownPage(
-          title: title,
-          scaffoldBuilder: scaffoldBuilder,
-          applicationName: applicationName,
-          filename: filename,
-          useMustache: useMustache,
-          mustacheValues: mustacheValues,
-          tapHandler: tapHandler,
-        ),
+        builder: (BuildContext context) => page,
       ),
     );
   } else {
     Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => MarkdownPage(
-          title: title,
-          scaffoldBuilder: scaffoldBuilder,
-          applicationName: applicationName,
-          filename: filename,
-          useMustache: useMustache,
-          mustacheValues: mustacheValues,
-          tapHandler: tapHandler,
-        ),
+        builder: (BuildContext context) => page,
       ),
     );
   }
@@ -98,7 +130,25 @@ class MarkdownTemplate extends StatefulWidget {
     this.mustacheValues,
     @required this.filename,
     MarkdownTapHandler tapHandler,
+    this.styleSheet,
+    this.imageDirectory,
+    this.blockSyntaxes,
+    this.inlineSyntaxes,
+    this.extensionSet,
+    this.imageBuilder,
+    this.checkboxBuilder,
+    this.builders = const {},
+    this.fitContent = true,
+    this.selectable = false,
+    this.shrinkWrap = true,
+    this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
+    this.syntaxHighlighter,
   })  : assert(filename != null),
+        assert(selectable != null),
+        assert(builders != null),
+        assert(shrinkWrap != null),
+        assert(fitContent != null),
+        assert(styleSheetTheme != null),
         useMustache = useMustache ?? mustacheValues != null,
         tapHandler = tapHandler ?? const UrlMarkdownTapHandler(),
         super(key: key);
@@ -121,6 +171,63 @@ class MarkdownTemplate extends StatefulWidget {
   /// The handler that handles taps on links in the template.
   /// Defaults to [UrlMarkdownTapHandler].
   final MarkdownTapHandler tapHandler;
+
+  /// Defines which [TextStyle] objects to use for which Markdown elements.
+  final MarkdownStyleSheet styleSheet;
+
+  /// The base directory holding images referenced by Img tags with local or network file paths.
+  final String imageDirectory;
+
+  /// Collection of custom block syntax types to be used parsing the Markdown data.
+  final List<md.BlockSyntax> blockSyntaxes;
+
+  /// Collection of custom inline syntax types to be used parsing the Markdown data.
+  final List<md.InlineSyntax> inlineSyntaxes;
+
+  /// Markdown syntax extension set
+  ///
+  /// Defaults to [md.ExtensionSet.gitHubFlavored]
+  final md.ExtensionSet extensionSet;
+
+  /// Call when build an image widget.
+  final MarkdownImageBuilder imageBuilder;
+
+  /// Call when build a checkbox widget.
+  final MarkdownCheckboxBuilder checkboxBuilder;
+
+  /// Render certain tags, usually used with [extensionSet]
+  ///
+  /// For example, we will add support for `sub` tag:
+  ///
+  /// ```dart
+  /// builders: {
+  ///   'sub': SubscriptBuilder(),
+  /// }
+  /// ```
+  ///
+  /// The `SubscriptBuilder` is a subclass of [MarkdownElementBuilder].
+  final Map<String, MarkdownElementBuilder> builders;
+
+  /// Whether to allow the widget to fit the child content.
+  final bool fitContent;
+
+  /// If true, the text is selectable.
+  ///
+  /// Defaults to false.
+  final bool selectable;
+
+  /// See [ScrollView.shrinkWrap]
+  final bool shrinkWrap;
+
+  /// Setting to specify base theme for MarkdownStyleSheet
+  ///
+  /// Default to [MarkdownStyleSheetBaseTheme.material]
+  final MarkdownStyleSheetBaseTheme styleSheetTheme;
+
+  /// The syntax highlighter used to color text in `pre` elements.
+  ///
+  /// If null, the [MarkdownStyleSheet.code] style is used for `pre` elements.
+  final SyntaxHighlighter syntaxHighlighter;
 
   @override
   _MarkdownTemplateState createState() => _MarkdownTemplateState();
@@ -215,6 +322,19 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
       data: _md,
       onTapLink: (text, href, title) =>
           widget.tapHandler.onTap(context, text, href, title),
+      styleSheet: widget.styleSheet,
+      blockSyntaxes: widget.blockSyntaxes,
+      builders: widget.builders,
+      checkboxBuilder: widget.checkboxBuilder,
+      extensionSet: widget.extensionSet,
+      fitContent: widget.fitContent,
+      imageBuilder: widget.imageBuilder,
+      imageDirectory: widget.imageDirectory,
+      inlineSyntaxes: widget.inlineSyntaxes,
+      selectable: widget.selectable,
+      shrinkWrap: widget.shrinkWrap,
+      styleSheetTheme: widget.styleSheetTheme,
+      syntaxHighlighter: widget.syntaxHighlighter,
     );
   }
 }
@@ -242,7 +362,25 @@ class MarkdownPage extends StatefulWidget {
     this.mustacheValues,
     @required this.filename,
     this.tapHandler,
+    this.styleSheet,
+    this.imageDirectory,
+    this.blockSyntaxes,
+    this.inlineSyntaxes,
+    this.extensionSet,
+    this.imageBuilder,
+    this.checkboxBuilder,
+    this.builders = const {},
+    this.fitContent = true,
+    this.selectable = false,
+    this.shrinkWrap = true,
+    this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
+    this.syntaxHighlighter,
   })  : assert(filename != null),
+        assert(selectable != null),
+        assert(builders != null),
+        assert(shrinkWrap != null),
+        assert(fitContent != null),
+        assert(styleSheetTheme != null),
         useMustache = useMustache ?? mustacheValues != null,
         super(key: key);
 
@@ -273,6 +411,63 @@ class MarkdownPage extends StatefulWidget {
   /// Defaults to [UrlMarkdownTapHandler].
   final MarkdownTapHandler tapHandler;
 
+  /// Defines which [TextStyle] objects to use for which Markdown elements.
+  final MarkdownStyleSheet styleSheet;
+
+  /// The base directory holding images referenced by Img tags with local or network file paths.
+  final String imageDirectory;
+
+  /// Collection of custom block syntax types to be used parsing the Markdown data.
+  final List<md.BlockSyntax> blockSyntaxes;
+
+  /// Collection of custom inline syntax types to be used parsing the Markdown data.
+  final List<md.InlineSyntax> inlineSyntaxes;
+
+  /// Markdown syntax extension set
+  ///
+  /// Defaults to [md.ExtensionSet.gitHubFlavored]
+  final md.ExtensionSet extensionSet;
+
+  /// Call when build an image widget.
+  final MarkdownImageBuilder imageBuilder;
+
+  /// Call when build a checkbox widget.
+  final MarkdownCheckboxBuilder checkboxBuilder;
+
+  /// Render certain tags, usually used with [extensionSet]
+  ///
+  /// For example, we will add support for `sub` tag:
+  ///
+  /// ```dart
+  /// builders: {
+  ///   'sub': SubscriptBuilder(),
+  /// }
+  /// ```
+  ///
+  /// The `SubscriptBuilder` is a subclass of [MarkdownElementBuilder].
+  final Map<String, MarkdownElementBuilder> builders;
+
+  /// Whether to allow the widget to fit the child content.
+  final bool fitContent;
+
+  /// If true, the text is selectable.
+  ///
+  /// Defaults to false.
+  final bool selectable;
+
+  /// See [ScrollView.shrinkWrap]
+  final bool shrinkWrap;
+
+  /// Setting to specify base theme for MarkdownStyleSheet
+  ///
+  /// Default to [MarkdownStyleSheetBaseTheme.material]
+  final MarkdownStyleSheetBaseTheme styleSheetTheme;
+
+  /// The syntax highlighter used to color text in `pre` elements.
+  ///
+  /// If null, the [MarkdownStyleSheet.code] style is used for `pre` elements.
+  final SyntaxHighlighter syntaxHighlighter;
+
   @override
   _MarkdownPageState createState() => _MarkdownPageState();
 }
@@ -301,6 +496,19 @@ class _MarkdownPageState extends State<MarkdownPage> {
                 mustacheValues: widget.mustacheValues,
                 useMustache: widget.useMustache,
                 tapHandler: widget.tapHandler,
+                styleSheet: widget.styleSheet,
+                blockSyntaxes: widget.blockSyntaxes,
+                builders: widget.builders,
+                checkboxBuilder: widget.checkboxBuilder,
+                extensionSet: widget.extensionSet,
+                fitContent: widget.fitContent,
+                imageBuilder: widget.imageBuilder,
+                imageDirectory: widget.imageDirectory,
+                inlineSyntaxes: widget.inlineSyntaxes,
+                selectable: widget.selectable,
+                shrinkWrap: widget.shrinkWrap,
+                styleSheetTheme: widget.styleSheetTheme,
+                syntaxHighlighter: widget.syntaxHighlighter,
               ),
             ),
           ),
