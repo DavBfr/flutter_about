@@ -39,13 +39,11 @@ import 'utils.dart';
 /// The licenses shown on the [LicenseListPage] are those returned by the
 /// [LicenseRegistry] API, which can be used to add more licenses to the list.
 void showLicensePage({
-  @required BuildContext context,
-  Widget title,
-  ScaffoldBuilder scaffoldBuilder,
-  Map<String, String> values,
+  required BuildContext context,
+  Widget? title,
+  ScaffoldBuilder? scaffoldBuilder,
+  Map<String, String>? values,
 }) {
-  assert(context != null);
-
   if (isCupertino(context)) {
     Navigator.push(
         context,
@@ -86,22 +84,22 @@ class LicenseListPage extends StatefulWidget {
   /// The licenses shown on the [LicenseListPage] are those returned by the
   /// [LicenseRegistry] API, which can be used to add more licenses to the list.
   const LicenseListPage({
-    Key key,
+    Key? key,
     this.title,
     this.scaffoldBuilder,
     this.values,
   }) : super(key: key);
 
   /// The page title
-  final Widget title;
+  final Widget? title;
 
   /// The builder for the Scaffold around the content.
   ///
   /// Defaults to [defaultScaffoldBuilder] if not set.
-  final ScaffoldBuilder scaffoldBuilder;
+  final ScaffoldBuilder? scaffoldBuilder;
 
   /// Template replacement values
-  final Map<String, String> values;
+  final Map<String, String>? values;
 
   @override
   _LicenseListPageState createState() => _LicenseListPageState();
@@ -114,7 +112,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
     super.initState();
   }
 
-  List<Widget> _licenses;
+  List<Widget>? _licenses;
 
   Future<void> _initLicenses() async {
     final packages = <String>{};
@@ -134,7 +132,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
       );
 
     for (final package in sortedPackages) {
-      String excerpt;
+      late String excerpt;
       for (final license in lisenses) {
         if (license.packages.contains(package)) {
           final p = license.paragraphs.first.text.trim();
@@ -178,14 +176,16 @@ class _LicenseListPageState extends State<LicenseListPage> {
             };
 
             if (isCupertino(context)) {
-              return Navigator.push(
+              Navigator.push(
                 context,
-                CupertinoPageRoute<void>(builder: builder),
+                CupertinoPageRoute<void>(
+                    builder: builder as Widget Function(BuildContext)),
               );
             } else {
-              return Navigator.push(
+              Navigator.push(
                 context,
-                MaterialPageRoute<void>(builder: builder),
+                MaterialPageRoute<void>(
+                    builder: builder as Widget Function(BuildContext)),
               );
             }
           },
@@ -214,14 +214,14 @@ class _LicenseListPageState extends State<LicenseListPage> {
         ),
       );
     } else {
-      contents.addAll(_licenses);
+      contents.addAll(_licenses!);
     }
 
     return (widget.scaffoldBuilder ?? defaultScaffoldBuilder)(
       context,
       widget.title ?? const Text('Licenses'),
       DefaultTextStyle(
-        style: Theme.of(context).textTheme.caption,
+        style: Theme.of(context).textTheme.caption!,
         child: SafeArea(
           bottom: false,
           child: Scrollbar(

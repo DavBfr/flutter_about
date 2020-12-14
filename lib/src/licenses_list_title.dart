@@ -41,7 +41,7 @@ class LicensesPageListTile extends StatelessWidget {
   /// derived from the nearest [Title] widget. The version, icon, and legalese
   /// values default to the empty string.
   const LicensesPageListTile({
-    Key key,
+    Key? key,
     this.icon,
     this.title,
     this.scaffoldBuilder,
@@ -54,21 +54,21 @@ class LicensesPageListTile extends StatelessWidget {
   ///
   /// This is not necessarily the same as the image shown in the dialog box
   /// itself; which is controlled by the [applicationIcon] property.
-  final Widget icon;
+  final Widget? icon;
 
   /// The label to show on this drawer item.
   ///
   /// Defaults to a text widget that says "About Foo" where "Foo" is the
   /// application name specified by [applicationName].
-  final Widget title;
+  final Widget? title;
 
   /// The builder for the Scaffold around the content.
   ///
   /// Defaults to [defaultScaffoldBuilder] if not set.
-  final ScaffoldBuilder scaffoldBuilder;
+  final ScaffoldBuilder? scaffoldBuilder;
 
   /// Template replacement values
-  final Map<String, String> values;
+  final Map<String, String>? values;
 
   @override
   Widget build(BuildContext context) {

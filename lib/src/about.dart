@@ -46,7 +46,7 @@ class AboutPage extends StatelessWidget {
   /// derived from the nearest [Title] widget. The version, icon, and legalese
   /// values default to the empty string.
   const AboutPage({
-    Key key,
+    Key? key,
     this.title,
     this.scaffoldBuilder,
     this.applicationName,
@@ -64,25 +64,25 @@ class AboutPage extends StatelessWidget {
   /// Defaults to a Text widget with the value of [Title.title],
   /// if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
-  final Widget title;
+  final Widget? title;
 
   /// The builder for the Scaffold around the content.
   ///
   /// Defaults to [defaultScaffoldBuilder] if not set.
-  final ScaffoldBuilder scaffoldBuilder;
+  final ScaffoldBuilder? scaffoldBuilder;
 
   /// The name of the application.
   ///
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
-  final String applicationName;
+  final String? applicationName;
 
   /// The version of this build of the application.
   ///
   /// This string is shown under the application name.
   ///
   /// Defaults to the empty string.
-  final String applicationVersion;
+  final String? applicationVersion;
 
   /// The icon to show next to the application name.
   ///
@@ -90,19 +90,19 @@ class AboutPage extends StatelessWidget {
   ///
   /// Typically this will be an [ImageIcon] widget. It should honor the
   /// [IconTheme]'s [IconThemeData.size].
-  final Widget applicationIcon;
+  final Widget? applicationIcon;
 
   /// A string to show in small print.
   ///
   /// Typically this is a copyright notice.
   ///
   /// Defaults to the empty string.
-  final String applicationLegalese;
+  final String? applicationLegalese;
 
   /// A widget to show the app description.
   ///
   /// Defaults null.
-  final Widget applicationDescription;
+  final Widget? applicationDescription;
 
   /// Show a dialog instead of a fullscreen page
   final bool dialog;
@@ -113,17 +113,16 @@ class AboutPage extends StatelessWidget {
   /// or other information to show in the about box.
   ///
   /// Defaults to nothing.
-  final List<Widget> children;
+  final List<Widget>? children;
 
   /// Template replacement values
-  final Map<String, String> values;
+  final Map<String, String>? values;
 
   @override
   Widget build(BuildContext context) {
     final name = applicationName ?? defaultApplicationName(context);
     final _title = title ??
-        Text(MaterialLocalizations.of(context)?.aboutListTileTitle(name) ??
-            'About');
+        Text(MaterialLocalizations.of(context).aboutListTileTitle(name));
 
     Widget body = AboutContent(
       applicationName: applicationName,
@@ -181,20 +180,18 @@ class AboutPage extends StatelessWidget {
 /// The `context` argument is passed to [showDialog], the documentation for
 /// which discusses how it is used.
 Future<void> showAboutPage({
-  @required BuildContext context,
-  Widget title,
-  ScaffoldBuilder scaffoldBuilder,
-  String applicationName,
-  String applicationVersion,
-  Widget applicationIcon,
-  String applicationLegalese,
-  Widget applicationDescription,
+  required BuildContext context,
+  Widget? title,
+  ScaffoldBuilder? scaffoldBuilder,
+  String? applicationName,
+  String? applicationVersion,
+  Widget? applicationIcon,
+  String? applicationLegalese,
+  Widget? applicationDescription,
   bool dialog = false,
-  List<Widget> children,
-  Map<String, String> values,
+  List<Widget>? children,
+  Map<String, String>? values,
 }) async {
-  assert(context != null);
-
   final page = AboutPage(
     title: title,
     scaffoldBuilder: scaffoldBuilder,

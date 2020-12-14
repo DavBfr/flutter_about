@@ -43,7 +43,7 @@ class AboutPageListTile extends StatelessWidget {
   /// derived from the nearest [Title] widget. The version, icon, and legalese
   /// values default to the empty string.
   const AboutPageListTile({
-    Key key,
+    Key? key,
     this.icon = const Icon(null),
     this.title,
     this.child,
@@ -70,12 +70,12 @@ class AboutPageListTile extends StatelessWidget {
   ///
   /// Defaults to a text widget that says "About Foo" where "Foo" is the
   /// application name specified by [applicationName].
-  final Widget child;
+  final Widget? child;
 
   /// The builder for the Scaffold around the content.
   ///
   /// Defaults to [defaultScaffoldBuilder] if not set.
-  final ScaffoldBuilder scaffoldBuilder;
+  final ScaffoldBuilder? scaffoldBuilder;
 
   /// The name of the application.
   ///
@@ -84,17 +84,17 @@ class AboutPageListTile extends StatelessWidget {
   ///
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
-  final String applicationName;
+  final String? applicationName;
 
   /// Small description of the application
-  final Widget applicationDescription;
+  final Widget? applicationDescription;
 
   /// The version of this build of the application.
   ///
   /// This string is shown under the application name in the [AboutContent].
   ///
   /// Defaults to the empty string.
-  final String applicationVersion;
+  final String? applicationVersion;
 
   /// The icon to show next to the application name in the [AboutContent].
   ///
@@ -105,14 +105,14 @@ class AboutPageListTile extends StatelessWidget {
   ///
   /// This is not necessarily the same as the icon shown on the drawer item
   /// itself, which is controlled by the [icon] property.
-  final Widget applicationIcon;
+  final Widget? applicationIcon;
 
   /// A string to show in small print in the [AboutContent].
   ///
   /// Typically this is a copyright notice.
   ///
   /// Defaults to the empty string.
-  final String applicationLegalese;
+  final String? applicationLegalese;
 
   /// Show a dialog instead of a fullscreen page
   final bool dialog;
@@ -123,13 +123,13 @@ class AboutPageListTile extends StatelessWidget {
   /// or other information to show in the about box.
   ///
   /// Defaults to nothing.
-  final List<Widget> aboutBoxChildren;
+  final List<Widget>? aboutBoxChildren;
 
   /// Template replacement values
-  final Map<String, String> values;
+  final Map<String, String>? values;
 
   /// The about page title
-  final Widget title;
+  final Widget? title;
 
   @override
   Widget build(BuildContext context) {
@@ -139,10 +139,9 @@ class AboutPageListTile extends StatelessWidget {
       leading: icon,
       title: child ??
           Text(
-            MaterialLocalizations.of(context)?.aboutListTileTitle(
-                  applicationName ?? defaultApplicationName(context),
-                ) ??
-                defaultApplicationName(context),
+            MaterialLocalizations.of(context).aboutListTileTitle(
+              applicationName ?? defaultApplicationName(context),
+            ),
           ),
       onTap: () {
         showAboutPage(

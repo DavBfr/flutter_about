@@ -47,7 +47,7 @@ class AboutContent extends StatefulWidget {
   /// derived from the nearest [Title] widget. The version, icon, and legalese
   /// values default to the empty string.
   const AboutContent({
-    Key key,
+    Key? key,
     this.applicationName,
     this.applicationVersion,
     this.applicationIcon,
@@ -61,14 +61,14 @@ class AboutContent extends StatefulWidget {
   ///
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
-  final String applicationName;
+  final String? applicationName;
 
   /// The version of this build of the application.
   ///
   /// This string is shown under the application name.
   ///
   /// Defaults to the empty string.
-  final String applicationVersion;
+  final String? applicationVersion;
 
   /// The icon to show next to the application name.
   ///
@@ -76,19 +76,19 @@ class AboutContent extends StatefulWidget {
   ///
   /// Typically this will be an [ImageIcon] widget. It should honor the
   /// [IconTheme]'s [IconThemeData.size].
-  final Widget applicationIcon;
+  final Widget? applicationIcon;
 
   /// A string to show in small print.
   ///
   /// Typically this is a copyright notice.
   ///
   /// Defaults to the empty string.
-  final String applicationLegalese;
+  final String? applicationLegalese;
 
   /// A widget to show the app description.
   ///
   /// Defaults null.
-  final Widget applicationDescription;
+  final Widget? applicationDescription;
 
   /// Widgets to add to the dialog box after the name, version, and legalese.
   ///
@@ -96,23 +96,23 @@ class AboutContent extends StatefulWidget {
   /// or other information to show in the about box.
   ///
   /// Defaults to nothing.
-  final List<Widget> children;
+  final List<Widget>? children;
 
   /// Template replacement values
-  final Map<String, String> values;
+  final Map<String, String>? values;
 
   @override
   _AboutContentState createState() => _AboutContentState();
 }
 
 class _AboutContentState extends State<AboutContent> {
-  Map<String, String> _values;
+  Map<String, String>? _values;
 
   @override
   void didChangeDependencies() {
-    Template.populateValues().then((Map<String, String> map) {
+    Template.populateValues().then((Map<String, String>? map) {
       if (widget.values != null) {
-        map.addAll(widget.values);
+        map!.addAll(widget.values!);
       }
       setState(() {
         _values = map;
@@ -140,7 +140,7 @@ class _AboutContentState extends State<AboutContent> {
     if (_values != null) {
       final version = Template(
         widget.applicationVersion ?? defaultApplicationVersion(context),
-      ).render(_values);
+      ).render(_values!);
 
       body.add(
         Padding(
@@ -161,7 +161,7 @@ class _AboutContentState extends State<AboutContent> {
                 Padding(
                   padding: const EdgeInsets.only(top: 18),
                   child: Text(
-                    Template(widget.applicationLegalese).render(_values),
+                    Template(widget.applicationLegalese!).render(_values!),
                     style: Theme.of(context).textTheme.caption,
                     textAlign: TextAlign.center,
                   ),
@@ -179,7 +179,7 @@ class _AboutContentState extends State<AboutContent> {
       );
 
       if (widget.children != null) {
-        body.addAll(widget.children);
+        body.addAll(widget.children!);
       }
     }
 

@@ -38,15 +38,12 @@ String defaultApplicationVersion(BuildContext context) {
   return 'Version {{ version }}';
 }
 
-Widget defaultApplicationIcon(BuildContext context) {
+Widget? defaultApplicationIcon(BuildContext context) {
   return null;
 }
 
 bool isCupertino(BuildContext context) {
   final ct = CupertinoTheme.of(context);
-  if (ct == null) {
-    return false;
-  }
 
   return !(ct is MaterialBasedCupertinoThemeData);
 }

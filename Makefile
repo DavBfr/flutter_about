@@ -19,7 +19,7 @@ all: example/.metadata format
 
 example/.metadata:
 	cd example; flutter create -t app --no-overwrite --org net.nfet --project-name example .
-	rm -rf example/test
+	rm -rf example/test example/integration_test
 
 format: format-dart
 

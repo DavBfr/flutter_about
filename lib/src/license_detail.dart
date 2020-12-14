@@ -28,7 +28,7 @@ import 'scaffold_builder.dart';
 
 class LicenseDetail extends StatelessWidget {
   const LicenseDetail({
-    Key key,
+    Key? key,
     this.package,
     this.scaffoldBuilder,
     this.paragraphs,
@@ -37,16 +37,16 @@ class LicenseDetail extends StatelessWidget {
   /// The builder for the Scaffold around the content.
   ///
   /// Defaults to [defaultScaffoldBuilder] if not set.
-  final ScaffoldBuilder scaffoldBuilder;
+  final ScaffoldBuilder? scaffoldBuilder;
 
-  final String package;
+  final String? package;
 
-  final List<LicenseParagraph> paragraphs;
+  final List<LicenseParagraph>? paragraphs;
 
   Widget _buildBody(BuildContext context) {
     final _licenses = <Widget>[];
 
-    for (final paragraph in paragraphs) {
+    for (final paragraph in paragraphs!) {
       if (paragraph.indent == LicenseParagraph.centeredIndent) {
         _licenses.add(
           Padding(
@@ -71,7 +71,7 @@ class LicenseDetail extends StatelessWidget {
     }
 
     return DefaultTextStyle(
-      style: Theme.of(context).textTheme.caption,
+      style: Theme.of(context).textTheme.caption!,
       child: SafeArea(
         bottom: false,
         child: Scrollbar(
@@ -88,7 +88,7 @@ class LicenseDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return (scaffoldBuilder ?? defaultScaffoldBuilder)(
       context,
-      Text(package),
+      Text(package!),
       _buildBody(context),
     );
   }

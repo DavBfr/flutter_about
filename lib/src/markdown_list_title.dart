@@ -32,14 +32,14 @@ class MarkdownPageListTile extends StatelessWidget {
   ///
   /// The title and filename of the markdown template are required.
   const MarkdownPageListTile({
-    Key key,
+    Key? key,
     this.icon,
-    @required this.title,
+    required this.title,
     this.scaffoldBuilder,
     this.applicationName,
     this.applicationIcon,
     this.useMustache,
-    @required this.filename,
+    required this.filename,
     this.mustacheValues,
     this.tapHandler,
     this.styleSheet,
@@ -55,13 +55,7 @@ class MarkdownPageListTile extends StatelessWidget {
     this.shrinkWrap = true,
     this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
     this.syntaxHighlighter,
-  })  : assert(title != null),
-        assert(selectable != null),
-        assert(builders != null),
-        assert(shrinkWrap != null),
-        assert(fitContent != null),
-        assert(styleSheetTheme != null),
-        super(key: key);
+  }) : super(key: key);
 
   /// The icon to show for this drawer item.
   ///
@@ -69,7 +63,7 @@ class MarkdownPageListTile extends StatelessWidget {
   ///
   /// This is not necessarily the same as the image shown in the dialog box
   /// itself; which is controlled by the [applicationIcon] property.
-  final Widget icon;
+  final Widget? icon;
 
   /// The label to show on this drawer item.
   ///
@@ -80,7 +74,7 @@ class MarkdownPageListTile extends StatelessWidget {
   /// The builder for the Scaffold around the content.
   ///
   /// Defaults to [defaultScaffoldBuilder] if not set.
-  final ScaffoldBuilder scaffoldBuilder;
+  final ScaffoldBuilder? scaffoldBuilder;
 
   /// The name of the application.
   ///
@@ -89,46 +83,46 @@ class MarkdownPageListTile extends StatelessWidget {
   ///
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
-  final String applicationName;
+  final String? applicationName;
 
   /// The markdown asset file to load
   final String filename;
 
   /// Whether to replace {{ }} strings with [mustacheValues]
-  final bool useMustache;
+  final bool? useMustache;
 
   /// Values to replace in the texts
-  final Map<String, String> mustacheValues;
+  final Map<String, String>? mustacheValues;
 
   /// Icon of the application
-  final Widget applicationIcon;
+  final Widget? applicationIcon;
 
   /// The handler that handles taps on links in the template.
   /// Defaults to [UrlMarkdownTapHandler].
-  final MarkdownTapHandler tapHandler;
+  final MarkdownTapHandler? tapHandler;
 
   /// Defines which [TextStyle] objects to use for which Markdown elements.
-  final MarkdownStyleSheet styleSheet;
+  final MarkdownStyleSheet? styleSheet;
 
   /// The base directory holding images referenced by Img tags with local or network file paths.
-  final String imageDirectory;
+  final String? imageDirectory;
 
   /// Collection of custom block syntax types to be used parsing the Markdown data.
-  final List<md.BlockSyntax> blockSyntaxes;
+  final List<md.BlockSyntax>? blockSyntaxes;
 
   /// Collection of custom inline syntax types to be used parsing the Markdown data.
-  final List<md.InlineSyntax> inlineSyntaxes;
+  final List<md.InlineSyntax>? inlineSyntaxes;
 
   /// Markdown syntax extension set
   ///
   /// Defaults to [md.ExtensionSet.gitHubFlavored]
-  final md.ExtensionSet extensionSet;
+  final md.ExtensionSet? extensionSet;
 
   /// Call when build an image widget.
-  final MarkdownImageBuilder imageBuilder;
+  final MarkdownImageBuilder? imageBuilder;
 
   /// Call when build a checkbox widget.
-  final MarkdownCheckboxBuilder checkboxBuilder;
+  final MarkdownCheckboxBuilder? checkboxBuilder;
 
   /// Render certain tags, usually used with [extensionSet]
   ///
@@ -162,7 +156,7 @@ class MarkdownPageListTile extends StatelessWidget {
   /// The syntax highlighter used to color text in `pre` elements.
   ///
   /// If null, the [MarkdownStyleSheet.code] style is used for `pre` elements.
-  final SyntaxHighlighter syntaxHighlighter;
+  final SyntaxHighlighter? syntaxHighlighter;
 
   @override
   Widget build(BuildContext context) {

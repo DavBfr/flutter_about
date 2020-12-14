@@ -34,35 +34,29 @@ import 'utils.dart';
 
 /// Show a markdown document in a screen
 void showMarkdownPage({
-  @required BuildContext context,
-  Widget title,
-  ScaffoldBuilder scaffoldBuilder,
-  String applicationName,
-  Widget applicationIcon,
-  @required String filename,
-  bool useMustache,
-  Map<String, String> mustacheValues,
-  MarkdownTapHandler tapHandler,
-  MarkdownStyleSheet styleSheet,
-  String imageDirectory,
-  List<md.BlockSyntax> blockSyntaxes,
-  List<md.InlineSyntax> inlineSyntaxes,
-  md.ExtensionSet extensionSet,
-  MarkdownImageBuilder imageBuilder,
-  MarkdownCheckboxBuilder checkboxBuilder,
+  required BuildContext context,
+  Widget? title,
+  ScaffoldBuilder? scaffoldBuilder,
+  String? applicationName,
+  Widget? applicationIcon,
+  required String filename,
+  bool? useMustache,
+  Map<String, String>? mustacheValues,
+  MarkdownTapHandler? tapHandler,
+  MarkdownStyleSheet? styleSheet,
+  String? imageDirectory,
+  List<md.BlockSyntax>? blockSyntaxes,
+  List<md.InlineSyntax>? inlineSyntaxes,
+  md.ExtensionSet? extensionSet,
+  MarkdownImageBuilder? imageBuilder,
+  MarkdownCheckboxBuilder? checkboxBuilder,
   Map<String, MarkdownElementBuilder> builders = const {},
   bool fitContent = true,
   bool selectable = false,
   bool shrinkWrap = true,
-  MarkdownStyleSheetBaseTheme styleSheetTheme,
-  SyntaxHighlighter syntaxHighlighter,
+  MarkdownStyleSheetBaseTheme? styleSheetTheme,
+  SyntaxHighlighter? syntaxHighlighter,
 }) {
-  assert(context != null);
-  assert(selectable != null);
-  assert(builders != null);
-  assert(shrinkWrap != null);
-  assert(fitContent != null);
-
   final cupertino = isCupertino(context);
 
   styleSheetTheme ??= cupertino
@@ -124,12 +118,12 @@ class MarkdownTemplate extends StatefulWidget {
   /// derived from the nearest [Title] widget. The version and legalese values
   /// default to the empty string.
   const MarkdownTemplate({
-    Key key,
+    Key? key,
     this.applicationName,
-    bool useMustache,
+    bool? useMustache,
     this.mustacheValues,
-    @required this.filename,
-    MarkdownTapHandler tapHandler,
+    required this.filename,
+    MarkdownTapHandler? tapHandler,
     this.styleSheet,
     this.imageDirectory,
     this.blockSyntaxes,
@@ -143,13 +137,7 @@ class MarkdownTemplate extends StatefulWidget {
     this.shrinkWrap = true,
     this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
     this.syntaxHighlighter,
-  })  : assert(filename != null),
-        assert(selectable != null),
-        assert(builders != null),
-        assert(shrinkWrap != null),
-        assert(fitContent != null),
-        assert(styleSheetTheme != null),
-        useMustache = useMustache ?? mustacheValues != null,
+  })  : useMustache = useMustache ?? mustacheValues != null,
         tapHandler = tapHandler ?? const UrlMarkdownTapHandler(),
         super(key: key);
 
@@ -157,7 +145,7 @@ class MarkdownTemplate extends StatefulWidget {
   ///
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
-  final String applicationName;
+  final String? applicationName;
 
   /// The markdown asset file to load
   final String filename;
@@ -166,34 +154,34 @@ class MarkdownTemplate extends StatefulWidget {
   final bool useMustache;
 
   /// Values to replace in the texts
-  final Map<String, String> mustacheValues;
+  final Map<String, String>? mustacheValues;
 
   /// The handler that handles taps on links in the template.
   /// Defaults to [UrlMarkdownTapHandler].
   final MarkdownTapHandler tapHandler;
 
   /// Defines which [TextStyle] objects to use for which Markdown elements.
-  final MarkdownStyleSheet styleSheet;
+  final MarkdownStyleSheet? styleSheet;
 
   /// The base directory holding images referenced by Img tags with local or network file paths.
-  final String imageDirectory;
+  final String? imageDirectory;
 
   /// Collection of custom block syntax types to be used parsing the Markdown data.
-  final List<md.BlockSyntax> blockSyntaxes;
+  final List<md.BlockSyntax>? blockSyntaxes;
 
   /// Collection of custom inline syntax types to be used parsing the Markdown data.
-  final List<md.InlineSyntax> inlineSyntaxes;
+  final List<md.InlineSyntax>? inlineSyntaxes;
 
   /// Markdown syntax extension set
   ///
   /// Defaults to [md.ExtensionSet.gitHubFlavored]
-  final md.ExtensionSet extensionSet;
+  final md.ExtensionSet? extensionSet;
 
   /// Call when build an image widget.
-  final MarkdownImageBuilder imageBuilder;
+  final MarkdownImageBuilder? imageBuilder;
 
   /// Call when build a checkbox widget.
-  final MarkdownCheckboxBuilder checkboxBuilder;
+  final MarkdownCheckboxBuilder? checkboxBuilder;
 
   /// Render certain tags, usually used with [extensionSet]
   ///
@@ -227,7 +215,7 @@ class MarkdownTemplate extends StatefulWidget {
   /// The syntax highlighter used to color text in `pre` elements.
   ///
   /// If null, the [MarkdownStyleSheet.code] style is used for `pre` elements.
-  final SyntaxHighlighter syntaxHighlighter;
+  final SyntaxHighlighter? syntaxHighlighter;
 
   @override
   _MarkdownTemplateState createState() => _MarkdownTemplateState();
@@ -240,14 +228,14 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
     _initMarkdown(context);
   }
 
-  String _md;
+  String? _md;
 
   Future<void> _initMarkdown(BuildContext context) async {
     if (_md != null) {
       return;
     }
 
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context)!;
     final bundle = DefaultAssetBundle.of(context);
 
     var md = '';
@@ -283,11 +271,12 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
 
     if (widget.useMustache) {
       final map = <String, String>{};
-      map.addAll(await Template.populateValues());
+      map.addAll(
+          await (Template.populateValues() as FutureOr<Map<String, String>>));
       final name = widget.applicationName ?? defaultApplicationName(context);
       map['title'] = name;
       if (widget.mustacheValues != null) {
-        map.addAll(widget.mustacheValues);
+        map.addAll(widget.mustacheValues!);
       }
       md = Template(md).render(map);
     }
@@ -319,7 +308,7 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
     }
 
     return MarkdownBody(
-      data: _md,
+      data: _md!,
       onTapLink: (text, href, title) =>
           widget.tapHandler.onTap(context, text, href, title),
       styleSheet: widget.styleSheet,
@@ -354,13 +343,13 @@ class MarkdownPage extends StatefulWidget {
   /// derived from the nearest [Title] widget. The version and legalese values
   /// default to the empty string.
   const MarkdownPage({
-    Key key,
+    Key? key,
     this.title,
     this.scaffoldBuilder,
     this.applicationName,
-    bool useMustache,
+    bool? useMustache,
     this.mustacheValues,
-    @required this.filename,
+    required this.filename,
     this.tapHandler,
     this.styleSheet,
     this.imageDirectory,
@@ -375,64 +364,58 @@ class MarkdownPage extends StatefulWidget {
     this.shrinkWrap = true,
     this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
     this.syntaxHighlighter,
-  })  : assert(filename != null),
-        assert(selectable != null),
-        assert(builders != null),
-        assert(shrinkWrap != null),
-        assert(fitContent != null),
-        assert(styleSheetTheme != null),
-        useMustache = useMustache ?? mustacheValues != null,
+  })  : useMustache = useMustache ?? mustacheValues != null,
         super(key: key);
 
   /// The name of the application.
   ///
   /// Defaults to the value of [Title.title], if a [Title] widget can be found.
   /// Otherwise, defaults to [Platform.resolvedExecutable].
-  final String applicationName;
+  final String? applicationName;
 
   /// The markdown asset file to load
   final String filename;
 
   /// The screen title
-  final Widget title;
+  final Widget? title;
 
   /// The builder for the Scaffold around the content.
   ///
   /// Defaults to [defaultScaffoldBuilder] if not set.
-  final ScaffoldBuilder scaffoldBuilder;
+  final ScaffoldBuilder? scaffoldBuilder;
 
   /// Whether to replace {{ }} strings with [mustacheValues]
   final bool useMustache;
 
   /// Values to replace in the texts
-  final Map<String, String> mustacheValues;
+  final Map<String, String>? mustacheValues;
 
   /// The handler that handles taps on links in the template.
   /// Defaults to [UrlMarkdownTapHandler].
-  final MarkdownTapHandler tapHandler;
+  final MarkdownTapHandler? tapHandler;
 
   /// Defines which [TextStyle] objects to use for which Markdown elements.
-  final MarkdownStyleSheet styleSheet;
+  final MarkdownStyleSheet? styleSheet;
 
   /// The base directory holding images referenced by Img tags with local or network file paths.
-  final String imageDirectory;
+  final String? imageDirectory;
 
   /// Collection of custom block syntax types to be used parsing the Markdown data.
-  final List<md.BlockSyntax> blockSyntaxes;
+  final List<md.BlockSyntax>? blockSyntaxes;
 
   /// Collection of custom inline syntax types to be used parsing the Markdown data.
-  final List<md.InlineSyntax> inlineSyntaxes;
+  final List<md.InlineSyntax>? inlineSyntaxes;
 
   /// Markdown syntax extension set
   ///
   /// Defaults to [md.ExtensionSet.gitHubFlavored]
-  final md.ExtensionSet extensionSet;
+  final md.ExtensionSet? extensionSet;
 
   /// Call when build an image widget.
-  final MarkdownImageBuilder imageBuilder;
+  final MarkdownImageBuilder? imageBuilder;
 
   /// Call when build a checkbox widget.
-  final MarkdownCheckboxBuilder checkboxBuilder;
+  final MarkdownCheckboxBuilder? checkboxBuilder;
 
   /// Render certain tags, usually used with [extensionSet]
   ///
@@ -466,7 +449,7 @@ class MarkdownPage extends StatefulWidget {
   /// The syntax highlighter used to color text in `pre` elements.
   ///
   /// If null, the [MarkdownStyleSheet.code] style is used for `pre` elements.
-  final SyntaxHighlighter syntaxHighlighter;
+  final SyntaxHighlighter? syntaxHighlighter;
 
   @override
   _MarkdownPageState createState() => _MarkdownPageState();

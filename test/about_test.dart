@@ -46,7 +46,7 @@ void main() {
   });
 
   group('AboutPage', () {
-    final widget = (ScaffoldBuilder scaffoldBuilder) => AboutPage(
+    final widget = (ScaffoldBuilder? scaffoldBuilder) => AboutPage(
           applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
           applicationDescription: const Text(
             'Displays an About dialog, which describes the application.',

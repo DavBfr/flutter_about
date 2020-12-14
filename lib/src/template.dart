@@ -30,7 +30,7 @@ import 'package:simple_mustache/simple_mustache.dart';
 class Template {
   const Template(
     this.source,
-  ) : assert(source != null);
+  );
 
   final String source;
 
@@ -42,30 +42,30 @@ class Template {
     }
   }
 
-  static Map<String, String> map;
+  static Map<String, String>? map;
 
-  static Future<Map<String, String>> populateValues() async {
+  static Future<Map<String, String>?> populateValues() async {
     if (map != null) {
       return map;
     }
 
     map = <String, String>{};
 
-    map['year'] = DateTime.now().year.toString();
-    map['version'] = '?';
-    map['buildNumber'] = '?';
-    map['packageName'] = '?';
-    map['appName'] = '?';
+    map!['year'] = DateTime.now().year.toString();
+    map!['version'] = '?';
+    map!['buildNumber'] = '?';
+    map!['packageName'] = '?';
+    map!['appName'] = '?';
 
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      map['operatingSystem'] = Platform.operatingSystem;
+      map!['operatingSystem'] = Platform.operatingSystem;
 
       final info = await package_info.PackageInfo.fromPlatform();
-      map['version'] = info.version;
-      map['buildNumber'] = info.buildNumber;
-      map['packageName'] = info.packageName;
-      map['appName'] = info.appName;
+      map!['version'] = info.version;
+      map!['buildNumber'] = info.buildNumber;
+      map!['packageName'] = info.packageName;
+      map!['appName'] = info.appName;
     } on UnsupportedError {
       print('Error getting operatingSystem');
     } on PlatformException {

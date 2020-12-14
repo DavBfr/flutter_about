@@ -19,10 +19,6 @@ import 'dart:io';
 import 'package:markdown/markdown.dart' as md;
 
 Iterable<String> getCode(List<md.Node> nodes, [bool isCode = false]) sync* {
-  if (nodes == null) {
-    return;
-  }
-
   for (final node in nodes) {
     if (node is md.Element) {
       // print(node.tag);
