@@ -23,8 +23,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
 import 'package:flutter/rendering.dart';
-import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:path/path.dart' as path;
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
@@ -271,8 +271,6 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
 
     if (widget.useMustache) {
       final map = <String, String>{};
-      map.addAll(
-          await (Template.populateValues() as FutureOr<Map<String, String>>));
       final name = widget.applicationName ?? defaultApplicationName(context);
       map['title'] = name;
       if (widget.mustacheValues != null) {

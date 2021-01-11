@@ -54,7 +54,7 @@ class AboutContent extends StatefulWidget {
     this.applicationLegalese,
     this.applicationDescription,
     this.children,
-    this.values,
+    this.values = const {},
   }) : super(key: key);
 
   /// The name of the application.
@@ -99,29 +99,13 @@ class AboutContent extends StatefulWidget {
   final List<Widget>? children;
 
   /// Template replacement values
-  final Map<String, String>? values;
+  final Map<String, String> values;
 
   @override
   _AboutContentState createState() => _AboutContentState();
 }
 
 class _AboutContentState extends State<AboutContent> {
-  Map<String, String>? _values;
-
-  @override
-  void didChangeDependencies() {
-    Template.populateValues().then((Map<String, String>? map) {
-      if (widget.values != null) {
-        map!.addAll(widget.values!);
-      }
-      setState(() {
-        _values = map;
-      });
-    });
-
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     final name = widget.applicationName ?? defaultApplicationName(context);
@@ -137,50 +121,48 @@ class _AboutContentState extends State<AboutContent> {
       );
     }
 
-    if (_values != null) {
-      final version = Template(
-        widget.applicationVersion ?? defaultApplicationVersion(context),
-      ).render(_values!);
+    final version = Template(
+      widget.applicationVersion ?? defaultApplicationVersion(context),
+    ).render(widget.values);
 
-      body.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-          child: ListBody(
-            children: <Widget>[
-              Text(
-                name,
-                style: Theme.of(context).textTheme.headline5,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                version,
-                style: Theme.of(context).textTheme.bodyText2,
-                textAlign: TextAlign.center,
-              ),
-              if (widget.applicationLegalese != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 18),
-                  child: Text(
-                    Template(widget.applicationLegalese!).render(_values!),
-                    style: Theme.of(context).textTheme.caption,
-                    textAlign: TextAlign.center,
-                  ),
+    body.add(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+        child: ListBody(
+          children: <Widget>[
+            Text(
+              name,
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              version,
+              style: Theme.of(context).textTheme.bodyText2,
+              textAlign: TextAlign.center,
+            ),
+            if (widget.applicationLegalese != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: Text(
+                  Template(widget.applicationLegalese!).render(widget.values),
+                  style: Theme.of(context).textTheme.caption,
+                  textAlign: TextAlign.center,
                 ),
-              if (widget.applicationDescription != null) Divider(),
-              if (widget.applicationDescription != null)
-                Container(
-                  padding: const EdgeInsets.only(top: 8, bottom: 8),
-                  child: widget.applicationDescription,
-                ),
-              if (widget.applicationDescription != null) Divider(),
-            ],
-          ),
+              ),
+            if (widget.applicationDescription != null) Divider(),
+            if (widget.applicationDescription != null)
+              Container(
+                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                child: widget.applicationDescription,
+              ),
+            if (widget.applicationDescription != null) Divider(),
+          ],
         ),
-      );
+      ),
+    );
 
-      if (widget.children != null) {
-        body.addAll(widget.children!);
-      }
+    if (widget.children != null) {
+      body.addAll(widget.children!);
     }
 
     return Scrollbar(

@@ -15,6 +15,10 @@ To use this plugin, add `about` as a [dependency in your pubspec.yaml file](#-in
 ```dart
   showAboutPage(
     context: context,
+    values: {
+      'version': '1.0',
+      'year': DateTime.now().year.toString(),
+    },
     applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
     applicationDescription: const Text(
         'Displays an About dialog, which describes the application.'),

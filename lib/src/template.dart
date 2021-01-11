@@ -17,13 +17,10 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:core';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
-import 'package:flutter/services.dart';
-import 'package:package_info/package_info.dart' as package_info;
 import 'package:simple_mustache/simple_mustache.dart';
 
 @immutable
@@ -40,40 +37,5 @@ class Template {
     } catch (e) {
       return e.toString();
     }
-  }
-
-  static Map<String, String>? map;
-
-  static Future<Map<String, String>?> populateValues() async {
-    if (map != null) {
-      return map;
-    }
-
-    map = <String, String>{};
-
-    map!['year'] = DateTime.now().year.toString();
-    map!['version'] = '?';
-    map!['buildNumber'] = '?';
-    map!['packageName'] = '?';
-    map!['appName'] = '?';
-
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      map!['operatingSystem'] = Platform.operatingSystem;
-
-      final info = await package_info.PackageInfo.fromPlatform();
-      map!['version'] = info.version;
-      map!['buildNumber'] = info.buildNumber;
-      map!['packageName'] = info.packageName;
-      map!['appName'] = info.appName;
-    } on UnsupportedError {
-      print('Error getting operatingSystem');
-    } on PlatformException {
-      print('Error getting Package Info');
-    } on MissingPluginException {
-      print('Error getting Package Info: Not implemented');
-    }
-
-    return map;
   }
 }

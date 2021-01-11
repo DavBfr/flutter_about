@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'pubspec.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -14,15 +16,21 @@ class MyApp extends StatelessWidget {
     final isIos = theme.platform == TargetPlatform.iOS ||
         theme.platform == TargetPlatform.macOS;
 
-    const Widget aboutPage = AboutPage(
+    Widget aboutPage = AboutPage(
+      values: {
+        'version': Pubspec.version,
+        'buildNumber': Pubspec.versionBuild.toString(),
+        'year': DateTime.now().year.toString(),
+        'author': Pubspec.authorsName.join(', '),
+      },
       title: Text('About'),
       applicationVersion: 'Version {{ version }}, build #{{ buildNumber }}',
       applicationDescription: Text(
-        'Displays an About dialog, which describes the application.',
+        Pubspec.description,
         textAlign: TextAlign.justify,
       ),
       applicationIcon: FlutterLogo(size: 100),
-      applicationLegalese: '© David PHAM-VAN, {{ year }}',
+      applicationLegalese: 'Copyright © {{ author }}, {{ year }}',
       children: <Widget>[
         MarkdownPageListTile(
           filename: 'README.md',

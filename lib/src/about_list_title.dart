@@ -55,7 +55,7 @@ class AboutPageListTile extends StatelessWidget {
     this.applicationDescription,
     this.dialog = false,
     this.aboutBoxChildren,
-    this.values,
+    this.values = const {},
   }) : super(key: key);
 
   /// The icon to show for this drawer item.
@@ -126,7 +126,7 @@ class AboutPageListTile extends StatelessWidget {
   final List<Widget>? aboutBoxChildren;
 
   /// Template replacement values
-  final Map<String, String>? values;
+  final Map<String, String> values;
 
   /// The about page title
   final Widget? title;

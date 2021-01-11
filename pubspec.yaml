@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  package_info: ^0.4.3
   markdown: ^3.0.0
   flutter_markdown: ^0.5.1
   url_launcher: ^6.0.0-nullsafety

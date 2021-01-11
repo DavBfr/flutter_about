@@ -56,7 +56,7 @@ class AboutPage extends StatelessWidget {
     this.applicationDescription,
     this.dialog = false,
     this.children,
-    this.values,
+    this.values = const {},
   }) : super(key: key);
 
   /// The title of the page.
@@ -116,7 +116,7 @@ class AboutPage extends StatelessWidget {
   final List<Widget>? children;
 
   /// Template replacement values
-  final Map<String, String>? values;
+  final Map<String, String> values;
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +190,7 @@ Future<void> showAboutPage({
   Widget? applicationDescription,
   bool dialog = false,
   List<Widget>? children,
-  Map<String, String>? values,
+  Map<String, String> values = const {},
 }) async {
   final page = AboutPage(
     title: title,
