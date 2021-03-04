@@ -21,10 +21,10 @@ import 'package:markdown/markdown.dart' as md;
 Iterable<String> getCode(List<md.Node> nodes, [bool isCode = false]) sync* {
   for (final node in nodes) {
     if (node is md.Element) {
-      // print(node.tag);
-      // print(node.attributes);
-      yield* getCode(node.children,
-          node.tag == 'code' && node.attributes['class'] == 'language-dart');
+      if (node.children != null) {
+        yield* getCode(node.children!,
+            node.tag == 'code' && node.attributes['class'] == 'language-dart');
+      }
     } else if (node is md.Text) {
       if (isCode) {
         yield '// ------------';

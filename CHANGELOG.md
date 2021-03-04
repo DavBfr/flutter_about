@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0-nullsafety
+## 2.0.0
 
 - Opt-in null-safety
 - Remove dependency on package_info

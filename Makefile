@@ -12,8 +12,11 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
- DART_SRC=$(shell find . -name '*.dart')
- COV_PORT=9292
+FLUTTER?=$(realpath $(dir $(realpath $(dir $(shell which flutter)))))
+FLUTTER_BIN=$(FLUTTER)/bin/flutter
+DART_BIN=$(FLUTTER)/bin/dart
+DART_SRC=$(shell find . -name '*.dart')
+COV_PORT=9292
 
 all: example/.metadata format
 
@@ -21,60 +24,49 @@ example/.metadata:
 	cd example; flutter create -t app --no-overwrite --org net.nfet --project-name example .
 	rm -rf example/test example/integration_test
 
-format: format-dart
-
-format-dart: $(DART_SRC)
-	dartfmt -w --fix $^
-
-format-clang: $(CLNG_SRC)
-	clang-format -style=Chromium -i $^
-
-format-swift: $(SWFT_SRC)
-	swiftformat --swiftversion 4.2 $^
+format: $(DART_SRC)
+	$(DART_BIN) format --fix $^
 
 .coverage:
-	pub global activate coverage
+	$(DART_BIN) pub global activate coverage
 	touch $@
 
 node_modules:
 	npm install lcov-summary
 
-test/readme_test.dart: test/extract_readme.dart README.md
-	flutter packages get
-	dart test/extract_readme.dart
+test/readme_test.dart: test/extract_readme.dart README.md pubspec.lock
+	$(DART_BIN) test/extract_readme.dart
 
 test: .coverage test/readme_test.dart node_modules
-	flutter test --coverage --coverage-path lcov.info
+	$(FLUTTER_BIN) test --coverage --coverage-path lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary
 
 update-golden:
-	flutter test --update-goldens
+	$(FLUTTER_BIN) test --update-goldens
 
 clean:
 	git clean -fdx -e .vscode
 
-publish: format clean
+publish: format analyze clean
 	test -z "$(shell git status --porcelain)"
 	find . -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
-	pub publish -f
+	$(DART_BIN) pub publish -f
 	find . -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 	git tag $(shell grep version pubspec.yaml | sed 's/version\s*:\s*/about-/g')
 
 .pana:
-	pub global activate pana
+	$(DART_BIN) pub global activate pana
 	touch $@
 
 analyze: .pana
 	@find . -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
-	@pub global run pana --no-warning --source path . 2> /dev/null | python pana_report.py
+	$(DART_BIN) pub global run pana --no-warning --source path .
 	@find . -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 
-.dartfix:
-	pub global activate dartfix
-	touch $@
+pubspec.lock: pubspec.yaml
+	$(FLUTTER_BIN) pub get
 
-fix: .dartfix
-	flutter packages get
-	pub global run dartfix:fix --overwrite .
+fix: pubspec.lock
+	$(DART_BIN) pub global run dartfix:fix --overwrite .
 
-.PHONY: test format format-dart format-clang clean publish analyze
+.PHONY: test format clean publish analyze fix

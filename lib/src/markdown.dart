@@ -235,7 +235,7 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
       return;
     }
 
-    final locale = Localizations.localeOf(context)!;
+    final locale = Localizations.localeOf(context);
     final bundle = DefaultAssetBundle.of(context);
 
     var md = '';
@@ -505,7 +505,7 @@ class _MarkdownPageState extends State<MarkdownPage> {
 abstract class MarkdownTapHandler {
   /// Handles the tap on a link in the markdown page.
   FutureOr<void> onTap(
-      BuildContext context, String text, String href, String title);
+      BuildContext context, String text, String? href, String title);
 }
 
 /// The default implementation of a [MarkdownTapHandler].
@@ -519,10 +519,10 @@ class UrlMarkdownTapHandler implements MarkdownTapHandler {
   Future<void> onTap(
     BuildContext context,
     String text,
-    String href,
+    String? href,
     String title,
   ) async {
-    if (await url_launcher.canLaunch(href)) {
+    if (href != null && await url_launcher.canLaunch(href)) {
       await url_launcher.launch(href);
     } else {
       print('Could not launch $href');

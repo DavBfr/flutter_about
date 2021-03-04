@@ -2,7 +2,7 @@ name: about
 description: Displays an About dialog, which describes the application, can show licenses, changelog, and other information.
 author: David PHAM-VAN <dev.nfet.net@gmail.com>
 homepage: https://github.com/DavBfr/flutter_about
-version: 2.0.0-nullsafety
+version: 2.0.0
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
@@ -10,15 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  markdown: ^3.0.0
-  flutter_markdown: ^0.5.1
-  url_launcher: ^6.0.0-nullsafety
-  path: ^1.8.0-nullsafety
+  markdown: ^4.0.0
+  flutter_markdown: ^0.6.0
+  url_launcher: ^6.0.0
+  path: ^1.8.0
   simple_mustache: ^2.0.0-nullsafety
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.10.0-nullsafety
+  pedantic: ^1.11.0
 
 flutter:

@@ -130,8 +130,8 @@ class AboutPage extends StatelessWidget {
       applicationIcon: applicationIcon,
       applicationLegalese: applicationLegalese,
       applicationDescription: applicationDescription,
-      children: children,
       values: values,
+      children: children,
     );
 
     if (dialog) {
@@ -149,9 +149,9 @@ class AboutPage extends StatelessWidget {
           body,
           ButtonBar(
             children: <Widget>[
-              FlatButton(
-                child: Text(MaterialLocalizations.of(context).closeButtonLabel),
+              TextButton(
                 onPressed: () => Navigator.pop(context),
+                child: Text(MaterialLocalizations.of(context).closeButtonLabel),
               ),
             ],
           ),
@@ -201,8 +201,8 @@ Future<void> showAboutPage({
     applicationLegalese: applicationLegalese,
     applicationDescription: applicationDescription,
     dialog: dialog,
-    children: children,
     values: values,
+    children: children,
   );
 
   if (dialog) {

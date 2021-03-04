@@ -52,6 +52,11 @@ void main() {
             'Displays an About dialog, which describes the application.',
           ),
           scaffoldBuilder: scaffoldBuilder,
+          applicationIcon: const SizedBox(
+            width: 100,
+            height: 100,
+            child: FlutterLogo(),
+          ),
           children: <Widget>[
             MarkdownPageListTile(
               icon: Icon(Icons.list),
@@ -63,11 +68,6 @@ void main() {
               icon: Icon(Icons.favorite),
             ),
           ],
-          applicationIcon: const SizedBox(
-            width: 100,
-            height: 100,
-            child: FlutterLogo(),
-          ),
         );
 
     testWidgets('Material', (WidgetTester tester) async {
