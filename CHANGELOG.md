@@ -3,6 +3,7 @@
 ## 2.0.1
 
 - Fix Flutter-web support
+- Improve Cupertino compatibility
 
 ## 2.0.0
 
@@ -10,6 +11,7 @@
 - Remove dependency on package_info
 
 ## 1.4.0
+
 - Fix a bug with markdown tap handler being null introduced in 1.3.0
 - Expose all Markdown properties
 
@@ -68,7 +70,7 @@
 ## 1.0.3
 
 - Fix template issues with Flutter-web
-- Add some space above of the icon
+- Add some space above the icon
 - Add an option to create a dialog
 
 ## 1.0.2

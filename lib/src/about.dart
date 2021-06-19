@@ -121,7 +121,11 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = applicationName ?? defaultApplicationName(context);
     final _title = title ??
-        Text(MaterialLocalizations.of(context).aboutListTileTitle(name));
+        Text(
+          isCupertino(context)
+              ? name
+              : MaterialLocalizations.of(context).aboutListTileTitle(name),
+        );
 
     Widget body = AboutContent(
       applicationName: applicationName,
@@ -150,7 +154,11 @@ class AboutPage extends StatelessWidget {
             children: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text(MaterialLocalizations.of(context).closeButtonLabel),
+                child: Text(
+                  isCupertino(context)
+                      ? 'Close'
+                      : MaterialLocalizations.of(context).closeButtonLabel,
+                ),
               ),
             ],
           ),

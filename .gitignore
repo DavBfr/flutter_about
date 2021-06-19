@@ -86,3 +86,4 @@ lcov.info
 .coverage
 test/readme_test.dart
 test/failures
+package.json

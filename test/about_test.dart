@@ -71,10 +71,12 @@ void main() {
         );
 
     testWidgets('Material', (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: widget(null),
-      ));
+      await tester.pumpWidget(
+        MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: widget(null),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await expectLater(
@@ -84,10 +86,12 @@ void main() {
     });
 
     testWidgets('Cupertino', (WidgetTester tester) async {
-      await tester.pumpWidget(CupertinoApp(
-        debugShowCheckedModeBanner: false,
-        home: widget(null),
-      ));
+      await tester.pumpWidget(
+        CupertinoApp(
+          debugShowCheckedModeBanner: false,
+          home: widget(null),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await expectLater(
@@ -97,28 +101,30 @@ void main() {
     });
 
     testWidgets('Custom', (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: widget((context, title, child) {
-          return Scaffold(
-            body: child,
-            bottomNavigationBar: BottomNavigationBar(items: [
-              BottomNavigationBarItem(
-                label: 'Item 1',
-                icon: Icon(Icons.edit),
-              ),
-              BottomNavigationBarItem(
-                label: 'Item 2',
-                icon: Icon(Icons.email),
-              ),
-              BottomNavigationBarItem(
-                label: 'Item 3',
-                icon: Icon(Icons.add),
-              ),
-            ]),
-          );
-        }),
-      ));
+      await tester.pumpWidget(
+        MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: widget((context, title, child) {
+            return Scaffold(
+              body: child,
+              bottomNavigationBar: BottomNavigationBar(items: [
+                BottomNavigationBarItem(
+                  label: 'Item 1',
+                  icon: Icon(Icons.edit),
+                ),
+                BottomNavigationBarItem(
+                  label: 'Item 2',
+                  icon: Icon(Icons.email),
+                ),
+                BottomNavigationBarItem(
+                  label: 'Item 3',
+                  icon: Icon(Icons.add),
+                ),
+              ]),
+            );
+          }),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await expectLater(
@@ -130,19 +136,23 @@ void main() {
 
   group('LicenseListPage', () {
     setUp(() {
-      LicenseRegistry.addLicense(() => Stream.fromIterable([
-            LicenseEntryWithLineBreaks(
-              ['test'],
-              'This is an example license text.',
-            ),
-          ]));
+      LicenseRegistry.addLicense(
+        () => Stream.fromIterable([
+          LicenseEntryWithLineBreaks(
+            ['test'],
+            'This is an example license text.',
+          ),
+        ]),
+      );
     });
 
     testWidgets('Material', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: LicenseListPage(),
-      ));
+      await tester.pumpWidget(
+        const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: LicenseListPage(),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await expectLater(
@@ -152,10 +162,12 @@ void main() {
     });
 
     testWidgets('Cupertino', (WidgetTester tester) async {
-      await tester.pumpWidget(const CupertinoApp(
-        debugShowCheckedModeBanner: false,
-        home: LicenseListPage(),
-      ));
+      await tester.pumpWidget(
+        const CupertinoApp(
+          debugShowCheckedModeBanner: false,
+          home: LicenseListPage(),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await expectLater(
@@ -167,18 +179,20 @@ void main() {
 
   group('LicenseDetail', () {
     testWidgets('Material', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: LicenseDetail(
-          package: 'About',
-          paragraphs: <LicenseParagraph>[
-            LicenseParagraph('para1', LicenseParagraph.centeredIndent),
-            LicenseParagraph('para2', 0),
-            LicenseParagraph('para2', 1),
-            LicenseParagraph('para2', 2),
-          ],
+      await tester.pumpWidget(
+        const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: LicenseDetail(
+            package: 'About',
+            paragraphs: <LicenseParagraph>[
+              LicenseParagraph('para1', LicenseParagraph.centeredIndent),
+              LicenseParagraph('para2', 0),
+              LicenseParagraph('para2', 1),
+              LicenseParagraph('para2', 2),
+            ],
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
 
       await expectLater(
@@ -188,16 +202,18 @@ void main() {
     });
 
     testWidgets('Cupertino', (WidgetTester tester) async {
-      await tester.pumpWidget(const CupertinoApp(
-        debugShowCheckedModeBanner: false,
-        home: LicenseDetail(
-          package: 'About',
-          paragraphs: <LicenseParagraph>[
-            LicenseParagraph('para1', LicenseParagraph.centeredIndent),
-            LicenseParagraph('para2', 0),
-          ],
+      await tester.pumpWidget(
+        const CupertinoApp(
+          debugShowCheckedModeBanner: false,
+          home: LicenseDetail(
+            package: 'About',
+            paragraphs: <LicenseParagraph>[
+              LicenseParagraph('para1', LicenseParagraph.centeredIndent),
+              LicenseParagraph('para2', 0),
+            ],
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
 
       await expectLater(
@@ -209,12 +225,14 @@ void main() {
 
   group('AboutPageListTile', () {
     testWidgets('Material', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Material(
-          child: AboutPageListTile(),
+      await tester.pumpWidget(
+        const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Material(
+            child: AboutPageListTile(),
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
 
       await expectLater(
@@ -229,22 +247,26 @@ void main() {
   /// TODO: Add some example markdown files to test assets and use here
   group('MarkdownPage', () {
     testWidgets('Material', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: MarkdownPage(
-          filename: '../CHANGELOG.md',
+      await tester.pumpWidget(
+        const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: MarkdownPage(
+            filename: '../CHANGELOG.md',
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
     });
 
     testWidgets('Cupertino', (WidgetTester tester) async {
-      await tester.pumpWidget(const CupertinoApp(
-        debugShowCheckedModeBanner: false,
-        home: MarkdownPage(
-          filename: '../README.md',
+      await tester.pumpWidget(
+        const CupertinoApp(
+          debugShowCheckedModeBanner: false,
+          home: MarkdownPage(
+            filename: '../README.md',
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
     });
   });

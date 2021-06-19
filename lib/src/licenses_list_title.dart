@@ -16,6 +16,7 @@
 
 import 'dart:core';
 
+import 'package:about/src/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide showLicensePage;
@@ -74,8 +75,10 @@ class LicensesPageListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
 
-    final _title =
-        title ?? Text(MaterialLocalizations.of(context).licensesPageTitle);
+    final _title = title ??
+        Text(isCupertino(context)
+            ? 'Licenses'
+            : MaterialLocalizations.of(context).licensesPageTitle);
     return ListTile(
       leading: icon,
       title: _title,
