@@ -18,24 +18,9 @@
 
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:simple_mustache/simple_mustache.dart';
+import 'package:flutter/widgets.dart';
 
-@immutable
-class Template {
-  const Template(
-    this.source,
-  );
-
-  final String source;
-
-  String render(Map<String, String> values) {
-    try {
-      return Mustache(map: values).convert(source);
-    } catch (e) {
-      return e.toString();
-    }
-  }
+String defaultApplicationName(BuildContext context) {
+  final ancestorTitle = context.findAncestorWidgetOfExactType<Title>();
+  return ancestorTitle?.title ?? '';
 }

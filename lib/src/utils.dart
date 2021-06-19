@@ -17,22 +17,11 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:core';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 
-String defaultApplicationName(BuildContext context) {
-  // This doesn't handle the case of the application's title dynamically
-  // changing. In theory, we should make Title expose the current application
-  // title using an InheritedWidget, and so forth. However, in practice, if
-  // someone really wants their application title to change dynamically, they
-  // can provide an explicit applicationName to the widgets defined in this
-  // file, instead of relying on the default.
-  final ancestorTitle = context.findAncestorWidgetOfExactType<Title>();
-  return ancestorTitle?.title ??
-      Platform.resolvedExecutable.split(Platform.pathSeparator).last;
-}
+export 'utils_vm.dart' if (dart.library.js) 'utils_js.dart';
 
 String defaultApplicationVersion(BuildContext context) {
   return 'Version {{ version }}';

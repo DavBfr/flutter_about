@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1
+
+- Fix Flutter-web support
+
 ## 2.0.0
 
 - Opt-in null-safety

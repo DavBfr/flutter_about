@@ -15,13 +15,12 @@
  */
 
 import 'dart:core';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide Flow;
-import 'package:markdown/markdown.dart' as md;
+import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 
 import 'markdown.dart';
 import 'scaffold_builder.dart';
