@@ -202,21 +202,6 @@ class _LicenseListPageState extends State<LicenseListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final contents = <Widget>[];
-
-    if (_licenses == null) {
-      contents.add(
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 24),
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
-    } else {
-      contents.addAll(_licenses!);
-    }
-
     return (widget.scaffoldBuilder ?? defaultScaffoldBuilder)(
       context,
       widget.title ?? const Text('Licenses'),
@@ -225,10 +210,18 @@ class _LicenseListPageState extends State<LicenseListPage> {
         child: SafeArea(
           bottom: false,
           child: Scrollbar(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-              children: contents,
-            ),
+            child: _licenses == null
+                ? Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : ListView(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                    children: _licenses!,
+                  ),
           ),
         ),
       ),
