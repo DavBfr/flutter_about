@@ -3,6 +3,7 @@
 ## 2.0.2
 
 - Use flutter_lints
+- Fix activity indicator not centered vertically on licenses page
 
 ## 2.0.1
 
