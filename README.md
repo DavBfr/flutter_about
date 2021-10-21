@@ -22,10 +22,10 @@ To use this plugin, add `about` as a [dependency in your pubspec.yaml file](#-in
     applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
     applicationDescription: const Text(
         'Displays an About dialog, which describes the application.'),
-    children: <Widget>[
+    children: const <Widget>[
       MarkdownPageListTile(
         icon: Icon(Icons.list),
-        title: const Text('Changelog'),
+        title: Text('Changelog'),
         filename: 'CHANGELOG.md',
       ),
       LicensesPageListTile(

@@ -1,6 +1,6 @@
 // This file is generated automatically, do not modify
 
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, constant_identifier_names
 
 class Pubspec {
   static const String name = 'example';
@@ -22,7 +22,7 @@ class Pubspec {
 
   static const int versionBuild = 3;
 
-  static const String versionPreRelease = null;
+  static const String versionPreRelease = '';
 
   static const bool versionIsPreRelease = false;
 

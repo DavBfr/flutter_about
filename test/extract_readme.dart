@@ -61,17 +61,20 @@ void readme(BuildContext context) {''');
   st.writeln('''}
 
 class Btn extends StatelessWidget {
+  const Btn({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () => readme(context),
+      child: const Text('Click-Me'),
     );
   }
 }
 
 void main() {
   testWidgets('test showAboutPage', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Btn()));
+    await tester.pumpWidget(const MaterialApp(home: Btn()));
     await tester.pumpAndSettle();
   });
 }''');

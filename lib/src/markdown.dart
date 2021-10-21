@@ -248,7 +248,7 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
     for (final filename in <String>[
       '$base-$locale$ext',
       '$base-${locale.languageCode}$ext',
-      '${widget.filename}'
+      widget.filename,
     ]) {
       try {
         assert(() {

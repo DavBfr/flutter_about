@@ -159,8 +159,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
           title: Text(packageName),
           subtitle: Text(excerpt),
           onTap: () {
-            final Function(BuildContext context) builder =
-                (BuildContext context) {
+            Widget builder(BuildContext context) {
               final paragraphs = <LicenseParagraph>[];
 
               for (final license in lisenses) {
@@ -173,19 +172,17 @@ class _LicenseListPageState extends State<LicenseListPage> {
                 package: packageName,
                 paragraphs: paragraphs,
               );
-            };
+            }
 
             if (isCupertino(context)) {
               Navigator.push(
                 context,
-                CupertinoPageRoute<void>(
-                    builder: builder as Widget Function(BuildContext)),
+                CupertinoPageRoute<void>(builder: builder),
               );
             } else {
               Navigator.push(
                 context,
-                MaterialPageRoute<void>(
-                    builder: builder as Widget Function(BuildContext)),
+                MaterialPageRoute<void>(builder: builder),
               );
             }
           },

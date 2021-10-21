@@ -33,8 +33,7 @@ Widget? defaultApplicationIcon(BuildContext context) {
 
 bool isCupertino(BuildContext context) {
   final ct = CupertinoTheme.of(context);
-
-  return !(ct is MaterialBasedCupertinoThemeData);
+  return ct is! MaterialBasedCupertinoThemeData;
 }
 
 ThemeData themeFromCupertino(CupertinoThemeData theme) {
@@ -42,6 +41,7 @@ ThemeData themeFromCupertino(CupertinoThemeData theme) {
     brightness: theme.brightness,
     canvasColor: theme.barBackgroundColor,
     primaryColor: theme.primaryColor,
+    // ignore: deprecated_member_use
     accentColor: theme.primaryContrastingColor,
   );
 }

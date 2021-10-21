@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+
+- Use flutter_lints
+
 ## 2.0.1
 
 - Fix Flutter-web support

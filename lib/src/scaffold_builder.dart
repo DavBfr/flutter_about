@@ -28,8 +28,8 @@ typedef ScaffoldBuilder = Widget Function(
 
 /// This is the default builder for the Scaffold
 /// that is used around all pages.
-final ScaffoldBuilder defaultScaffoldBuilder =
-    (BuildContext context, Widget title, Widget child) {
+Widget defaultScaffoldBuilder(
+    BuildContext context, Widget title, Widget child) {
   if (isCupertino(context)) {
     final theme = CupertinoTheme.of(context);
 
@@ -54,4 +54,4 @@ final ScaffoldBuilder defaultScaffoldBuilder =
     ),
     body: child,
   );
-};
+}

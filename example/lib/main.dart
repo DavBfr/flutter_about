@@ -7,31 +7,33 @@ import 'package:flutter/material.dart';
 
 import 'pubspec.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isIos = theme.platform == TargetPlatform.iOS ||
         theme.platform == TargetPlatform.macOS;
 
-    Widget aboutPage = AboutPage(
+    final aboutPage = AboutPage(
       values: {
         'version': Pubspec.version,
         'buildNumber': Pubspec.versionBuild.toString(),
         'year': DateTime.now().year.toString(),
         'author': Pubspec.authorsName.join(', '),
       },
-      title: Text('About'),
+      title: const Text('About'),
       applicationVersion: 'Version {{ version }}, build #{{ buildNumber }}',
-      applicationDescription: Text(
+      applicationDescription: const Text(
         Pubspec.description,
         textAlign: TextAlign.justify,
       ),
-      applicationIcon: FlutterLogo(size: 100),
+      applicationIcon: const FlutterLogo(size: 100),
       applicationLegalese: 'Copyright © {{ author }}, {{ year }}',
-      children: <Widget>[
+      children: const <Widget>[
         MarkdownPageListTile(
           filename: 'README.md',
           title: Text('View Readme'),

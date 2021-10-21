@@ -1,21 +1,22 @@
 name: example
 description: >
   Displays an About dialog, which describes the application,
-  can show licenses, changelog, and other infomation.
+  can show licenses, changelog, and other information.
 version: 1.0.0+3
-author: David PHAM-VAN <dev.nfet.net@gmail.com>
+_author: David PHAM-VAN <dev.nfet.net@gmail.com>
 homepage: https://github.com/DavBfr/flutter_about
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   about:
   cupertino_icons:
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
+  flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
   pubspec_extract:

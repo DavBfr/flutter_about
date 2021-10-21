@@ -46,7 +46,7 @@ void main() {
   });
 
   group('AboutPage', () {
-    final widget = (ScaffoldBuilder? scaffoldBuilder) => AboutPage(
+    Widget widget(ScaffoldBuilder? scaffoldBuilder) => AboutPage(
           applicationLegalese: 'Copyright © David PHAM-VAN, {{ year }}',
           applicationDescription: const Text(
             'Displays an About dialog, which describes the application.',
@@ -57,14 +57,14 @@ void main() {
             height: 100,
             child: FlutterLogo(),
           ),
-          children: <Widget>[
+          children: const <Widget>[
             MarkdownPageListTile(
               icon: Icon(Icons.list),
-              title: const Text('Changelog'),
+              title: Text('Changelog'),
               filename: 'CHANGELOG.md',
             ),
             LicensesPageListTile(
-              title: const Text('Licenses'),
+              title: Text('Licenses'),
               icon: Icon(Icons.favorite),
             ),
           ],
@@ -107,7 +107,7 @@ void main() {
           home: widget((context, title, child) {
             return Scaffold(
               body: child,
-              bottomNavigationBar: BottomNavigationBar(items: [
+              bottomNavigationBar: BottomNavigationBar(items: const [
                 BottomNavigationBarItem(
                   label: 'Item 1',
                   icon: Icon(Icons.edit),
@@ -138,7 +138,7 @@ void main() {
     setUp(() {
       LicenseRegistry.addLicense(
         () => Stream.fromIterable([
-          LicenseEntryWithLineBreaks(
+          const LicenseEntryWithLineBreaks(
             ['test'],
             'This is an example license text.',
           ),
@@ -244,7 +244,6 @@ void main() {
 
   /// The markdown files can not be loaded since they are no assets.
   /// Additionally golden tests for files that change make no sense.
-  /// TODO: Add some example markdown files to test assets and use here
   group('MarkdownPage', () {
     testWidgets('Material', (WidgetTester tester) async {
       await tester.pumpWidget(

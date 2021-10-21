@@ -148,13 +148,13 @@ class _AboutContentState extends State<AboutContent> {
                   textAlign: TextAlign.center,
                 ),
               ),
-            if (widget.applicationDescription != null) Divider(),
+            if (widget.applicationDescription != null) const Divider(),
             if (widget.applicationDescription != null)
               Container(
                 padding: const EdgeInsets.only(top: 8, bottom: 8),
                 child: widget.applicationDescription,
               ),
-            if (widget.applicationDescription != null) Divider(),
+            if (widget.applicationDescription != null) const Divider(),
           ],
         ),
       ),

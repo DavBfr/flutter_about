@@ -16,12 +16,12 @@
 
 import 'dart:core';
 
-import 'package:about/src/scaffold_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'about_content.dart';
+import 'scaffold_builder.dart';
 import 'utils.dart';
 
 /// An about box. This is a dialog box with the application's icon, name,
