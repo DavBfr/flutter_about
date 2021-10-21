@@ -465,31 +465,29 @@ class _MarkdownPageState extends State<MarkdownPage> {
     return (widget.scaffoldBuilder ?? defaultScaffoldBuilder)(
       context,
       widget.title ?? Text(name),
-      Scrollbar(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-            child: SafeArea(
-              child: MarkdownTemplate(
-                filename: widget.filename,
-                applicationName: name,
-                mustacheValues: widget.mustacheValues,
-                useMustache: widget.useMustache,
-                tapHandler: widget.tapHandler,
-                styleSheet: widget.styleSheet,
-                blockSyntaxes: widget.blockSyntaxes,
-                builders: widget.builders,
-                checkboxBuilder: widget.checkboxBuilder,
-                extensionSet: widget.extensionSet,
-                fitContent: widget.fitContent,
-                imageBuilder: widget.imageBuilder,
-                imageDirectory: widget.imageDirectory,
-                inlineSyntaxes: widget.inlineSyntaxes,
-                selectable: widget.selectable,
-                shrinkWrap: widget.shrinkWrap,
-                styleSheetTheme: widget.styleSheetTheme,
-                syntaxHighlighter: widget.syntaxHighlighter,
-              ),
+      SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          child: SafeArea(
+            child: MarkdownTemplate(
+              filename: widget.filename,
+              applicationName: name,
+              mustacheValues: widget.mustacheValues,
+              useMustache: widget.useMustache,
+              tapHandler: widget.tapHandler,
+              styleSheet: widget.styleSheet,
+              blockSyntaxes: widget.blockSyntaxes,
+              builders: widget.builders,
+              checkboxBuilder: widget.checkboxBuilder,
+              extensionSet: widget.extensionSet,
+              fitContent: widget.fitContent,
+              imageBuilder: widget.imageBuilder,
+              imageDirectory: widget.imageDirectory,
+              inlineSyntaxes: widget.inlineSyntaxes,
+              selectable: widget.selectable,
+              shrinkWrap: widget.shrinkWrap,
+              styleSheetTheme: widget.styleSheetTheme,
+              syntaxHighlighter: widget.syntaxHighlighter,
             ),
           ),
         ),

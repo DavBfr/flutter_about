@@ -74,11 +74,9 @@ class LicenseDetail extends StatelessWidget {
       style: Theme.of(context).textTheme.caption!,
       child: SafeArea(
         bottom: false,
-        child: Scrollbar(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-            children: _licenses,
-          ),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          children: _licenses,
         ),
       ),
     );

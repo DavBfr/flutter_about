@@ -1,7 +1,7 @@
 name: about
 description: Displays an About dialog, which describes the application, can show licenses, changelog, and other information.
 homepage: https://github.com/DavBfr/flutter_about
-version: 2.0.2
+version: 2.1.0
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"

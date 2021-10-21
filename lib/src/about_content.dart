@@ -164,10 +164,8 @@ class _AboutContentState extends State<AboutContent> {
       body.addAll(widget.children!);
     }
 
-    return Scrollbar(
-      child: SingleChildScrollView(
-        child: ListBody(children: body),
-      ),
+    return SingleChildScrollView(
+      child: ListBody(children: body),
     );
   }
 }

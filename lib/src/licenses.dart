@@ -206,20 +206,18 @@ class _LicenseListPageState extends State<LicenseListPage> {
         style: Theme.of(context).textTheme.caption!,
         child: SafeArea(
           bottom: false,
-          child: Scrollbar(
-            child: _licenses == null
-                ? const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : ListView(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                    children: _licenses!,
+          child: _licenses == null
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
-          ),
+                )
+              : ListView(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  children: _licenses!,
+                ),
         ),
       ),
     );

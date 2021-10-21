@@ -1,9 +1,10 @@
 # Changelog
 
-## 2.0.2
+## 2.1.0
 
 - Use flutter_lints
 - Fix activity indicator not centered vertically on licenses page
+- Remove scrollbars
 
 ## 2.0.1
 
