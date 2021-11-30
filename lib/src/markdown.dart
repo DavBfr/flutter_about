@@ -224,7 +224,9 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _initMarkdown(context);
+    if (mounted) {
+      _initMarkdown(context);
+    }
   }
 
   String? _md;
