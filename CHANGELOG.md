@@ -3,6 +3,7 @@
 ## 2.1.1
 
 - Fix prerelease dependency
+- Custom ScaffoldBuilder passed to LicenseDetail
 
 ## 2.1.0
 
