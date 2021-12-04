@@ -171,6 +171,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
               return LicenseDetail(
                 package: packageName,
                 paragraphs: paragraphs,
+                scaffoldBuilder: widget.scaffoldBuilder
               );
             }
 
