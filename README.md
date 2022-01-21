@@ -10,6 +10,13 @@ Displays an About dialog, which describes the application.
 
 To use this plugin, add `about` as a [dependency in your pubspec.yaml file](#-installing-tab-).
 
+To generate pubspec.dart once use package pubspec_extract
+flutter pub run pubspec_extract
+
+To rebuild pubspec.dart on each build add the following to pubspec.yaml
+builders:
+  pubspec_extract
+
 ## Example
 
 ```dart
