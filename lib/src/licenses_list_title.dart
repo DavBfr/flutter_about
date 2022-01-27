@@ -17,7 +17,6 @@
 import 'dart:core';
 
 import 'package:about/src/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide showLicensePage;
 

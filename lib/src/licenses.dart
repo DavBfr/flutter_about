@@ -19,7 +19,6 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'license_detail.dart';
 import 'scaffold_builder.dart';
@@ -169,10 +168,9 @@ class _LicenseListPageState extends State<LicenseListPage> {
               }
 
               return LicenseDetail(
-                package: packageName,
-                paragraphs: paragraphs,
-                scaffoldBuilder: widget.scaffoldBuilder
-              );
+                  package: packageName,
+                  paragraphs: paragraphs,
+                  scaffoldBuilder: widget.scaffoldBuilder);
             }
 
             if (isCupertino(context)) {

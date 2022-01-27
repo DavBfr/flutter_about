@@ -19,15 +19,12 @@ import 'dart:core';
 
 import 'package:about/about.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:path/path.dart' as path;
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
-import 'scaffold_builder.dart';
 import 'template.dart';
 import 'utils.dart';
 
