@@ -4,6 +4,7 @@
 
 - Fix prerelease dependency
 - Custom ScaffoldBuilder passed to LicenseDetail
+- Improve licenses display
 
 ## 2.1.0
 

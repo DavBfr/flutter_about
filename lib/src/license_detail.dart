@@ -23,12 +23,22 @@ import 'package:flutter/material.dart';
 
 import 'scaffold_builder.dart';
 
+class LicenseParagraphSeparator implements LicenseParagraph {
+  LicenseParagraphSeparator();
+
+  @override
+  int get indent => 0;
+
+  @override
+  String get text => 'SEP';
+}
+
 class LicenseDetail extends StatelessWidget {
   const LicenseDetail({
     Key? key,
     this.package,
     this.scaffoldBuilder,
-    this.paragraphs,
+    required this.paragraphs,
   }) : super(key: key);
 
   /// The builder for the Scaffold around the content.
@@ -38,13 +48,18 @@ class LicenseDetail extends StatelessWidget {
 
   final String? package;
 
-  final List<LicenseParagraph>? paragraphs;
+  final List<LicenseParagraph> paragraphs;
 
   Widget _buildBody(BuildContext context) {
     final _licenses = <Widget>[];
 
-    for (final paragraph in paragraphs!) {
-      if (paragraph.indent == LicenseParagraph.centeredIndent) {
+    for (final paragraph in paragraphs) {
+      if (paragraph is LicenseParagraphSeparator) {
+        _licenses.add(const Padding(
+          padding: EdgeInsets.only(top: 16, bottom: 8),
+          child: Divider(),
+        ));
+      } else if (paragraph.indent == LicenseParagraph.centeredIndent) {
         _licenses.add(
           Padding(
             padding: const EdgeInsets.only(top: 16),
@@ -61,7 +76,10 @@ class LicenseDetail extends StatelessWidget {
           Padding(
             padding: EdgeInsetsDirectional.only(
                 top: 8, start: 16.0 * paragraph.indent),
-            child: Text(paragraph.text),
+            child: Text(
+              paragraph.text,
+              textAlign: TextAlign.justify,
+            ),
           ),
         );
       }

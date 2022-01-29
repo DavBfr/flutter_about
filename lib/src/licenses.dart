@@ -130,14 +130,16 @@ class _LicenseListPageState extends State<LicenseListPage> {
         (String a, String b) => a.toLowerCase().compareTo(b.toLowerCase()),
       );
 
+    final _isCupertino = isCupertino(context);
+
     for (final package in sortedPackages) {
-      late String excerpt;
+      final excerpts = <String>[];
       for (final license in lisenses) {
         if (license.packages.contains(package)) {
           final p = license.paragraphs.first.text.trim();
           // Third party such as `asn1lib`, the license is a link
           final reg = RegExp(p.startsWith('http') ? r' |,|，' : r'\.|。');
-          excerpt = p.split(reg).first.trim();
+          var excerpt = p.split(reg).first.trim();
           if (excerpt.startsWith('//') || excerpt.startsWith('/*')) {
             // Ignore symbol of comment in LICENSE file
             excerpt = excerpt.substring(2).trim();
@@ -146,8 +148,21 @@ class _LicenseListPageState extends State<LicenseListPage> {
             // Avoid sub title too long
             excerpt = excerpt.substring(0, 70) + '...';
           }
-          break;
+          excerpts.add(excerpt);
         }
+      }
+
+      final String excerpt;
+
+      if (_isCupertino) {
+        excerpt = excerpts.length > 1
+            ? '${excerpts.length} licenses.'
+            : excerpts.join('\n');
+      } else {
+        excerpt = excerpts.length > 1
+            ? MaterialLocalizations.of(context)
+                .licensesPackageDetailText(excerpts.length)
+            : excerpts.join('\n');
       }
 
       // Do not handle the package name to avoid unpredictable problems
@@ -164,7 +179,12 @@ class _LicenseListPageState extends State<LicenseListPage> {
               for (final license in lisenses) {
                 if (license.packages.contains(package)) {
                   paragraphs.addAll(license.paragraphs);
+                  paragraphs.add(LicenseParagraphSeparator());
                 }
+              }
+
+              if (paragraphs.isNotEmpty) {
+                paragraphs.removeLast();
               }
 
               return LicenseDetail(
