@@ -214,10 +214,10 @@ class MarkdownTemplate extends StatefulWidget {
   final SyntaxHighlighter? syntaxHighlighter;
 
   @override
-  _MarkdownTemplateState createState() => _MarkdownTemplateState();
+  MarkdownTemplateState createState() => MarkdownTemplateState();
 }
 
-class _MarkdownTemplateState extends State<MarkdownTemplate> {
+class MarkdownTemplateState extends State<MarkdownTemplate> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -235,6 +235,7 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
 
     final locale = Localizations.localeOf(context);
     final bundle = DefaultAssetBundle.of(context);
+    final defaultName = defaultApplicationName(context);
 
     var md = '';
 
@@ -269,7 +270,7 @@ class _MarkdownTemplateState extends State<MarkdownTemplate> {
 
     if (widget.useMustache) {
       final map = <String, String>{};
-      final name = widget.applicationName ?? defaultApplicationName(context);
+      final name = widget.applicationName ?? defaultName;
       map['title'] = name;
       if (widget.mustacheValues != null) {
         map.addAll(widget.mustacheValues!);
@@ -448,10 +449,10 @@ class MarkdownPage extends StatefulWidget {
   final SyntaxHighlighter? syntaxHighlighter;
 
   @override
-  _MarkdownPageState createState() => _MarkdownPageState();
+  MarkdownPageState createState() => MarkdownPageState();
 }
 
-class _MarkdownPageState extends State<MarkdownPage> {
+class MarkdownPageState extends State<MarkdownPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -518,10 +519,11 @@ class UrlMarkdownTapHandler implements MarkdownTapHandler {
     String? href,
     String title,
   ) async {
-    if (href != null && await url_launcher.canLaunch(href)) {
-      await url_launcher.launch(href);
+    final localUri = href != null ? Uri.parse(href) : null;
+    if (localUri != null && await url_launcher.canLaunchUrl(localUri)) {
+      await url_launcher.launchUrl(localUri);
     } else {
-      print('Could not launch $href');
+      print('Could not launch $localUri');
     }
   }
 }

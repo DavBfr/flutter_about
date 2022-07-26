@@ -98,10 +98,10 @@ class AboutContent extends StatefulWidget {
   final Map<String, String> values;
 
   @override
-  _AboutContentState createState() => _AboutContentState();
+  AboutContentState createState() => AboutContentState();
 }
 
-class _AboutContentState extends State<AboutContent> {
+class AboutContentState extends State<AboutContent> {
   @override
   Widget build(BuildContext context) {
     final name = widget.applicationName ?? defaultApplicationName(context);

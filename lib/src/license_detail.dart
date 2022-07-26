@@ -51,16 +51,16 @@ class LicenseDetail extends StatelessWidget {
   final List<LicenseParagraph> paragraphs;
 
   Widget _buildBody(BuildContext context) {
-    final _licenses = <Widget>[];
+    final localLicenses = <Widget>[];
 
     for (final paragraph in paragraphs) {
       if (paragraph is LicenseParagraphSeparator) {
-        _licenses.add(const Padding(
+        localLicenses.add(const Padding(
           padding: EdgeInsets.only(top: 16, bottom: 8),
           child: Divider(),
         ));
       } else if (paragraph.indent == LicenseParagraph.centeredIndent) {
-        _licenses.add(
+        localLicenses.add(
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child: Text(
@@ -72,7 +72,7 @@ class LicenseDetail extends StatelessWidget {
         );
       } else {
         assert(paragraph.indent >= 0);
-        _licenses.add(
+        localLicenses.add(
           Padding(
             padding: EdgeInsetsDirectional.only(
                 top: 8, start: 16.0 * paragraph.indent),
@@ -91,7 +91,7 @@ class LicenseDetail extends StatelessWidget {
         bottom: false,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-          children: _licenses,
+          children: localLicenses,
         ),
       ),
     );

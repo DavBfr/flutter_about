@@ -74,17 +74,17 @@ class LicensesPageListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
 
-    final _title = title ??
+    final localTitle = title ??
         Text(isCupertino(context)
             ? 'Licenses'
             : MaterialLocalizations.of(context).licensesPageTitle);
     return ListTile(
       leading: icon,
-      title: _title,
+      title: localTitle,
       onTap: () {
         showLicensePage(
           context: context,
-          title: _title,
+          title: localTitle,
           scaffoldBuilder: scaffoldBuilder,
           values: values,
         );

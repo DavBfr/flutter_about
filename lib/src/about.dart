@@ -120,7 +120,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = applicationName ?? defaultApplicationName(context);
-    final _title = title ??
+    final localTitle = title ??
         Text(
           isCupertino(context)
               ? name
@@ -147,7 +147,7 @@ class AboutPage extends StatelessWidget {
       }
 
       return SimpleDialog(
-        title: _title,
+        title: localTitle,
         children: <Widget>[
           body,
           ButtonBar(
@@ -166,7 +166,8 @@ class AboutPage extends StatelessWidget {
       );
     }
 
-    return (scaffoldBuilder ?? defaultScaffoldBuilder)(context, _title, body);
+    return (scaffoldBuilder ?? defaultScaffoldBuilder)(
+        context, localTitle, body);
   }
 }
 

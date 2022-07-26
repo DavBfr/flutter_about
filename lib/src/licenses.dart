@@ -101,10 +101,10 @@ class LicenseListPage extends StatefulWidget {
   final Map<String, String>? values;
 
   @override
-  _LicenseListPageState createState() => _LicenseListPageState();
+  LicenseListPageState createState() => LicenseListPageState();
 }
 
-class _LicenseListPageState extends State<LicenseListPage> {
+class LicenseListPageState extends State<LicenseListPage> {
   @override
   void initState() {
     _initLicenses();
@@ -115,12 +115,12 @@ class _LicenseListPageState extends State<LicenseListPage> {
 
   Future<void> _initLicenses() async {
     final packages = <String>{};
-    final lisenses = <LicenseEntry>[];
+    final licenses = <LicenseEntry>[];
 
     await for (LicenseEntry license in LicenseRegistry.licenses) {
       packages.addAll(license.packages);
 
-      lisenses.add(license);
+      licenses.add(license);
     }
 
     final licenseWidgets = <Widget>[];
@@ -130,11 +130,11 @@ class _LicenseListPageState extends State<LicenseListPage> {
         (String a, String b) => a.toLowerCase().compareTo(b.toLowerCase()),
       );
 
-    final _isCupertino = isCupertino(context);
+    final localIsCupertino = isCupertino(context);
 
     for (final package in sortedPackages) {
       final excerpts = <String>[];
-      for (final license in lisenses) {
+      for (final license in licenses) {
         if (license.packages.contains(package)) {
           final p = license.paragraphs.first.text.trim();
           // Third party such as `asn1lib`, the license is a link
@@ -146,7 +146,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
           }
           if (excerpt.length > 70) {
             // Avoid sub title too long
-            excerpt = excerpt.substring(0, 70) + '...';
+            excerpt = '${excerpt.substring(0, 70)}...';
           }
           excerpts.add(excerpt);
         }
@@ -154,7 +154,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
 
       final String excerpt;
 
-      if (_isCupertino) {
+      if (localIsCupertino) {
         excerpt = excerpts.length > 1
             ? '${excerpts.length} licenses.'
             : excerpts.join('\n');
@@ -176,7 +176,7 @@ class _LicenseListPageState extends State<LicenseListPage> {
             Widget builder(BuildContext context) {
               final paragraphs = <LicenseParagraph>[];
 
-              for (final license in lisenses) {
+              for (final license in licenses) {
                 if (license.packages.contains(package)) {
                   paragraphs.addAll(license.paragraphs);
                   paragraphs.add(LicenseParagraphSeparator());
