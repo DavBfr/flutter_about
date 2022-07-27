@@ -54,6 +54,7 @@ class AboutPageListTile extends StatelessWidget {
     this.dialog = false,
     this.aboutBoxChildren,
     this.values = const {},
+    this.trailing,
   }) : super(key: key);
 
   /// The icon to show for this drawer item.
@@ -129,12 +130,15 @@ class AboutPageListTile extends StatelessWidget {
   /// The about page title
   final Widget? title;
 
+  final Widget? trailing;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
 
     return ListTile(
       leading: icon,
+      trailing: trailing,
       title: child ??
           Text(
             isCupertino(context)

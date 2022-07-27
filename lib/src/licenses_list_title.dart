@@ -44,6 +44,7 @@ class LicensesPageListTile extends StatelessWidget {
     Key? key,
     this.icon,
     this.title,
+    this.trailing,
     this.scaffoldBuilder,
     this.values,
   }) : super(key: key);
@@ -61,6 +62,8 @@ class LicensesPageListTile extends StatelessWidget {
   /// Defaults to a text widget that says "About Foo" where "Foo" is the
   /// application name specified by [applicationName].
   final Widget? title;
+
+  final Widget? trailing;
 
   /// The builder for the Scaffold around the content.
   ///
@@ -81,6 +84,12 @@ class LicensesPageListTile extends StatelessWidget {
     return ListTile(
       leading: icon,
       title: localTitle,
+      trailing: trailing ??
+          Icon(
+            Directionality.of(context) == TextDirection.ltr
+                ? Icons.chevron_right
+                : Icons.chevron_left,
+          ),
       onTap: () {
         showLicensePage(
           context: context,

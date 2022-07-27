@@ -3,6 +3,7 @@
 ## 2.1.2
 
 - Update dependencies
+- Add trailing chevrons
 
 ## 2.1.1
 

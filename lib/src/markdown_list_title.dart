@@ -42,6 +42,7 @@ class MarkdownPageListTile extends StatelessWidget {
     this.styleSheet,
     this.imageDirectory,
     this.blockSyntaxes,
+    this.trailing,
     this.inlineSyntaxes,
     this.extensionSet,
     this.imageBuilder,
@@ -93,6 +94,8 @@ class MarkdownPageListTile extends StatelessWidget {
 
   /// Icon of the application
   final Widget? applicationIcon;
+
+  final Widget? trailing;
 
   /// The handler that handles taps on links in the template.
   /// Defaults to [UrlMarkdownTapHandler].
@@ -162,6 +165,12 @@ class MarkdownPageListTile extends StatelessWidget {
     return ListTile(
       leading: icon,
       title: title,
+      trailing: trailing ??
+          Icon(
+            Directionality.of(context) == TextDirection.ltr
+                ? Icons.chevron_right
+                : Icons.chevron_left,
+          ),
       onTap: () {
         showMarkdownPage(
           applicationIcon: applicationIcon,

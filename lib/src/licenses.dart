@@ -172,6 +172,11 @@ class LicenseListPageState extends State<LicenseListPage> {
         ListTile(
           title: Text(packageName),
           subtitle: Text(excerpt),
+          trailing: Icon(
+            Directionality.of(context) == TextDirection.ltr
+                ? Icons.chevron_right
+                : Icons.chevron_left,
+          ),
           onTap: () {
             Widget builder(BuildContext context) {
               final paragraphs = <LicenseParagraph>[];
