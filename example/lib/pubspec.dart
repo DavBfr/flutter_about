@@ -2,8 +2,8 @@
 
 // ignore_for_file: public_member_api_docs, constant_identifier_names, avoid_classes_with_only_static_members
 
-class Pubspec {
-  static final buildDate = DateTime.utc(2021, 10, 21, 18, 2, 50);
+mixin Pubspec {
+  static final buildDate = DateTime.utc(2023, 3, 30, 9, 32, 42);
 
   static const name = 'example';
 
@@ -24,14 +24,14 @@ class Pubspec {
 
   static const versionBuild = 3;
 
-  static const String? versionPreRelease = '';
+  static const versionPreRelease = '';
 
   static const versionIsPreRelease = false;
 
   static const homepage = 'https://github.com/DavBfr/flutter_about';
 
   static const environment = <dynamic, dynamic>{
-    'sdk': '>=2.1.0 <3.0.0',
+    'sdk': '>=2.12.0 <3.0.0',
   };
 
   static const dependencies = <dynamic, dynamic>{
@@ -43,7 +43,8 @@ class Pubspec {
   };
 
   static const dev_dependencies = <dynamic, dynamic>{
-    'flutter_lints': '^1.0.0',
+    'build_runner': null,
+    'flutter_lints': null,
     'flutter_test': <dynamic, dynamic>{
       'sdk': 'flutter',
     },

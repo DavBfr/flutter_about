@@ -4,6 +4,7 @@
 
 - Update dependencies
 - Add compatibility with Flutter 3.9
+- Update example project
 
 ## 2.1.2
 
