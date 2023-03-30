@@ -86,7 +86,7 @@ class LicenseDetail extends StatelessWidget {
     }
 
     return DefaultTextStyle(
-      style: Theme.of(context).textTheme.caption!,
+      style: Theme.of(context).textTheme.bodySmall!,
       child: SafeArea(
         bottom: false,
         child: ListView(

@@ -227,7 +227,7 @@ class LicenseListPageState extends State<LicenseListPage> {
       context,
       widget.title ?? const Text('Licenses'),
       DefaultTextStyle(
-        style: Theme.of(context).textTheme.caption!,
+        style: Theme.of(context).textTheme.bodySmall!,
         child: SafeArea(
           bottom: false,
           child: _licenses == null

@@ -128,12 +128,12 @@ class AboutContentState extends State<AboutContent> {
           children: <Widget>[
             Text(
               name,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             Text(
               version,
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
             if (widget.applicationLegalese != null)
@@ -141,7 +141,7 @@ class AboutContentState extends State<AboutContent> {
                 padding: const EdgeInsets.only(top: 18),
                 child: Text(
                   Template(widget.applicationLegalese!).render(widget.values),
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                   textAlign: TextAlign.center,
                 ),
               ),
