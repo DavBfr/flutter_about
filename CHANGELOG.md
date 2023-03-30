@@ -3,6 +3,7 @@
 ## 2.1.3
 
 - Update dependencies
+- Add compatibility with Flutter 3.9
 
 ## 2.1.2
 
