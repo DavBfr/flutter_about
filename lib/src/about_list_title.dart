@@ -55,6 +55,7 @@ class AboutPageListTile extends StatelessWidget {
     this.aboutBoxChildren,
     this.values = const {},
     this.trailing,
+    this.orientation = Axis.vertical,
   }) : super(key: key);
 
   /// The icon to show for this drawer item.
@@ -132,6 +133,8 @@ class AboutPageListTile extends StatelessWidget {
 
   final Widget? trailing;
 
+  final Axis orientation;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
@@ -160,6 +163,7 @@ class AboutPageListTile extends StatelessWidget {
           dialog: dialog,
           children: aboutBoxChildren,
           values: values,
+          orientation: orientation,
         );
       },
     );

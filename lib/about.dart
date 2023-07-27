@@ -17,7 +17,9 @@
 export 'src/about.dart';
 export 'src/about_content.dart';
 export 'src/about_list_title.dart';
+export 'src/license_dialog.dart';
 export 'src/licenses.dart';
+export 'src/licenses_extractor.dart';
 export 'src/licenses_list_title.dart';
 export 'src/markdown.dart';
 export 'src/markdown_list_title.dart';

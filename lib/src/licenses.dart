@@ -21,6 +21,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'license_detail.dart';
+import 'licenses_extractor.dart';
 import 'scaffold_builder.dart';
 import 'utils.dart';
 
@@ -114,64 +115,13 @@ class LicenseListPageState extends State<LicenseListPage> {
   List<Widget>? _licenses;
 
   Future<void> _initLicenses() async {
-    final packages = <String>{};
-    final licenses = <LicenseEntry>[];
-
-    await for (LicenseEntry license in LicenseRegistry.licenses) {
-      packages.addAll(license.packages);
-
-      licenses.add(license);
-    }
-
     final licenseWidgets = <Widget>[];
 
-    final sortedPackages = packages.toList()
-      ..sort(
-        (String a, String b) => a.toLowerCase().compareTo(b.toLowerCase()),
-      );
-
-    final localIsCupertino = isCupertino(context);
-
-    for (final package in sortedPackages) {
-      final excerpts = <String>[];
-      for (final license in licenses) {
-        if (license.packages.contains(package)) {
-          final p = license.paragraphs.first.text.trim();
-          // Third party such as `asn1lib`, the license is a link
-          final reg = RegExp(p.startsWith('http') ? r' |,|，' : r'\.|。');
-          var excerpt = p.split(reg).first.trim();
-          if (excerpt.startsWith('//') || excerpt.startsWith('/*')) {
-            // Ignore symbol of comment in LICENSE file
-            excerpt = excerpt.substring(2).trim();
-          }
-          if (excerpt.length > 70) {
-            // Avoid sub title too long
-            excerpt = '${excerpt.substring(0, 70)}...';
-          }
-          excerpts.add(excerpt);
-        }
-      }
-
-      final String excerpt;
-
-      if (localIsCupertino) {
-        excerpt = excerpts.length > 1
-            ? '${excerpts.length} licenses.'
-            : excerpts.join('\n');
-      } else {
-        excerpt = excerpts.length > 1
-            ? MaterialLocalizations.of(context)
-                .licensesPackageDetailText(excerpts.length)
-            : excerpts.join('\n');
-      }
-
-      // Do not handle the package name to avoid unpredictable problems
-      final packageName = package;
-
+    await for (final package in extractPackages(context)) {
       licenseWidgets.add(
         ListTile(
-          title: Text(packageName),
-          subtitle: Text(excerpt),
+          title: Text(package.name),
+          subtitle: Text(package.excerpt),
           trailing: Icon(
             Directionality.of(context) == TextDirection.ltr
                 ? Icons.chevron_right
@@ -179,22 +129,9 @@ class LicenseListPageState extends State<LicenseListPage> {
           ),
           onTap: () {
             Widget builder(BuildContext context) {
-              final paragraphs = <LicenseParagraph>[];
-
-              for (final license in licenses) {
-                if (license.packages.contains(package)) {
-                  paragraphs.addAll(license.paragraphs);
-                  paragraphs.add(LicenseParagraphSeparator());
-                }
-              }
-
-              if (paragraphs.isNotEmpty) {
-                paragraphs.removeLast();
-              }
-
               return LicenseDetail(
-                  package: packageName,
-                  paragraphs: paragraphs,
+                  package: package.name,
+                  paragraphs: package.paragraphs,
                   scaffoldBuilder: widget.scaffoldBuilder);
             }
 

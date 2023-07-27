@@ -56,6 +56,7 @@ class AboutPage extends StatelessWidget {
     this.dialog = false,
     this.children,
     this.values = const {},
+    this.orientation = Axis.vertical,
   }) : super(key: key);
 
   /// The title of the page.
@@ -106,6 +107,8 @@ class AboutPage extends StatelessWidget {
   /// Show a dialog instead of a fullscreen page
   final bool dialog;
 
+  final Axis orientation;
+
   /// Widgets to add to the dialog box after the name, version, and legalese.
   ///
   /// This could include a link to a Web site, some descriptive text, credits,
@@ -134,6 +137,7 @@ class AboutPage extends StatelessWidget {
       applicationLegalese: applicationLegalese,
       applicationDescription: applicationDescription,
       values: values,
+      orientation: orientation,
       children: children,
     );
 
@@ -146,21 +150,17 @@ class AboutPage extends StatelessWidget {
         );
       }
 
-      return SimpleDialog(
-        title: localTitle,
-        children: <Widget>[
-          body,
-          ButtonBar(
-            children: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  isCupertino(context)
-                      ? 'Close'
-                      : MaterialLocalizations.of(context).closeButtonLabel,
-                ),
-              ),
-            ],
+      return AlertDialog(
+        // title: localTitle,
+        content: body,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              isCupertino(context)
+                  ? 'Close'
+                  : MaterialLocalizations.of(context).closeButtonLabel,
+            ),
           ),
         ],
       );
@@ -199,6 +199,7 @@ Future<void> showAboutPage({
   bool dialog = false,
   List<Widget>? children,
   Map<String, String> values = const {},
+  Axis orientation = Axis.vertical,
 }) async {
   final page = AboutPage(
     title: title,
@@ -210,6 +211,7 @@ Future<void> showAboutPage({
     applicationDescription: applicationDescription,
     dialog: dialog,
     values: values,
+    orientation: orientation,
     children: children,
   );
 

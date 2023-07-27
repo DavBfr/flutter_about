@@ -51,6 +51,7 @@ class AboutContent extends StatefulWidget {
     this.applicationDescription,
     this.children,
     this.values = const {},
+    this.orientation = Axis.vertical,
   }) : super(key: key);
 
   /// The name of the application.
@@ -97,6 +98,8 @@ class AboutContent extends StatefulWidget {
   /// Template replacement values
   final Map<String, String> values;
 
+  final Axis orientation;
+
   @override
   AboutContentState createState() => AboutContentState();
 }
@@ -108,61 +111,79 @@ class AboutContentState extends State<AboutContent> {
 
     final icon = widget.applicationIcon ?? defaultApplicationIcon(context);
 
-    final body = <Widget>[];
-
-    if (icon != null) {
-      body.add(const SizedBox(height: 10));
-      body.add(
-        IconTheme(data: const IconThemeData(size: 48), child: icon),
-      );
-    }
-
     final version = Template(
       widget.applicationVersion ?? defaultApplicationVersion(context),
     ).render(widget.values);
 
-    body.add(
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-        child: ListBody(
-          children: <Widget>[
-            Text(
-              name,
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              version,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            if (widget.applicationLegalese != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 18),
-                child: Text(
-                  Template(widget.applicationLegalese!).render(widget.values),
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.center,
-                ),
+    final textAlign =
+        widget.orientation == Axis.vertical ? TextAlign.center : null;
+
+    final body = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+      child: ListBody(
+        children: <Widget>[
+          Text(
+            name,
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: textAlign,
+          ),
+          Text(
+            version,
+            style: Theme.of(context).textTheme.bodyMedium,
+            textAlign: textAlign,
+          ),
+          if (widget.applicationLegalese != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 18),
+              child: Text(
+                Template(widget.applicationLegalese!).render(widget.values),
+                style: Theme.of(context).textTheme.bodySmall,
+                textAlign: textAlign,
               ),
-            if (widget.applicationDescription != null) const Divider(),
-            if (widget.applicationDescription != null)
-              Container(
-                padding: const EdgeInsets.only(top: 8, bottom: 8),
-                child: widget.applicationDescription,
-              ),
-            if (widget.applicationDescription != null) const Divider(),
+            ),
+          if (widget.applicationDescription != null) ...[
+            const Divider(),
+            Container(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: widget.applicationDescription,
+            ),
+            const Divider(),
           ],
-        ),
+        ],
       ),
     );
 
-    if (widget.children != null) {
-      body.addAll(widget.children!);
+    if (widget.orientation == Axis.vertical) {
+      return SingleChildScrollView(
+        child: ListBody(
+          children: [
+            if (icon != null) ...[
+              const SizedBox(height: 10),
+              IconTheme(data: const IconThemeData(size: 48), child: icon),
+            ],
+            body,
+            if (widget.children != null) ...widget.children!,
+          ],
+        ),
+      );
     }
 
+    final themeData = Theme.of(context);
+
     return SingleChildScrollView(
-      child: ListBody(children: body),
+      child: ListBody(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              if (icon != null)
+                IconTheme(data: themeData.iconTheme, child: icon),
+              Expanded(child: body),
+            ],
+          ),
+          if (widget.children != null) ...widget.children!,
+        ],
+      ),
     );
   }
 }

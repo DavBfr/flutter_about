@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+- Implement about dialog orientation
+- Add license extractor
+- Add license dialog
+
 ## 2.1.3
 
 - Update dependencies
