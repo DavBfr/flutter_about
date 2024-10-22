@@ -114,7 +114,7 @@ class MarkdownTemplate extends StatefulWidget {
   /// derived from the nearest [Title] widget. The version and legalese values
   /// default to the empty string.
   const MarkdownTemplate({
-    Key? key,
+    super.key,
     this.applicationName,
     bool? useMustache,
     this.mustacheValues,
@@ -134,8 +134,7 @@ class MarkdownTemplate extends StatefulWidget {
     this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
     this.syntaxHighlighter,
   })  : useMustache = useMustache ?? mustacheValues != null,
-        tapHandler = tapHandler ?? const UrlMarkdownTapHandler(),
-        super(key: key);
+        tapHandler = tapHandler ?? const UrlMarkdownTapHandler();
 
   /// The name of the application.
   ///
@@ -340,7 +339,7 @@ class MarkdownPage extends StatefulWidget {
   /// derived from the nearest [Title] widget. The version and legalese values
   /// default to the empty string.
   const MarkdownPage({
-    Key? key,
+    super.key,
     this.title,
     this.scaffoldBuilder,
     this.applicationName,
@@ -361,8 +360,7 @@ class MarkdownPage extends StatefulWidget {
     this.shrinkWrap = true,
     this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
     this.syntaxHighlighter,
-  })  : useMustache = useMustache ?? mustacheValues != null,
-        super(key: key);
+  }) : useMustache = useMustache ?? mustacheValues != null;
 
   /// The name of the application.
   ///

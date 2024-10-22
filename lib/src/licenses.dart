@@ -84,11 +84,11 @@ class LicenseListPage extends StatefulWidget {
   /// The licenses shown on the [LicenseListPage] are those returned by the
   /// [LicenseRegistry] API, which can be used to add more licenses to the list.
   const LicenseListPage({
-    Key? key,
+    super.key,
     this.title,
     this.scaffoldBuilder,
     this.values,
-  }) : super(key: key);
+  });
 
   /// The page title
   final Widget? title;

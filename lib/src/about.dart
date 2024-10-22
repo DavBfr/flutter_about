@@ -45,7 +45,7 @@ class AboutPage extends StatelessWidget {
   /// derived from the nearest [Title] widget. The version, icon, and legalese
   /// values default to the empty string.
   const AboutPage({
-    Key? key,
+    super.key,
     this.title,
     this.scaffoldBuilder,
     this.applicationName,
@@ -57,7 +57,7 @@ class AboutPage extends StatelessWidget {
     this.children,
     this.values = const {},
     this.orientation = Axis.vertical,
-  }) : super(key: key);
+  });
 
   /// The title of the page.
   ///

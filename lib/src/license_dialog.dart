@@ -21,9 +21,9 @@ import 'markdown.dart';
 
 class LicenseDialog extends StatelessWidget {
   const LicenseDialog({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

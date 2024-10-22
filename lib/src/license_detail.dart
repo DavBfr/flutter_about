@@ -35,11 +35,11 @@ class LicenseParagraphSeparator implements LicenseParagraph {
 
 class LicenseDetail extends StatelessWidget {
   const LicenseDetail({
-    Key? key,
+    super.key,
     this.package,
     this.scaffoldBuilder,
     required this.paragraphs,
-  }) : super(key: key);
+  });
 
   /// The builder for the Scaffold around the content.
   ///

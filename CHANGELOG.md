@@ -5,6 +5,7 @@
 - Implement about dialog orientation
 - Add license extractor
 - Add license dialog
+- Update to flutter 3.24
 
 ## 2.1.3
 

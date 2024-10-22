@@ -29,7 +29,7 @@ class MarkdownPageListTile extends StatelessWidget {
   ///
   /// The title and filename of the markdown template are required.
   const MarkdownPageListTile({
-    Key? key,
+    super.key,
     this.icon,
     required this.title,
     this.scaffoldBuilder,
@@ -53,7 +53,7 @@ class MarkdownPageListTile extends StatelessWidget {
     this.shrinkWrap = true,
     this.styleSheetTheme = MarkdownStyleSheetBaseTheme.material,
     this.syntaxHighlighter,
-  }) : super(key: key);
+  });
 
   /// The icon to show for this drawer item.
   ///

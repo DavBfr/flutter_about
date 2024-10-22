@@ -26,7 +26,8 @@ const MethodChannel _channel = MethodChannel('plugins.flutter.io/package_info');
 
 void main() {
   setUpAll(() {
-    _channel.setMockMethodCallHandler((methodCall) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(_channel, (methodCall) async {
       switch (methodCall.method) {
         case 'getAll':
           return {
@@ -42,7 +43,8 @@ void main() {
   });
 
   tearDownAll(() {
-    _channel.setMockMethodCallHandler(null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(_channel, null);
   });
 
   group('AboutPage', () {

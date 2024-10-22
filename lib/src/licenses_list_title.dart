@@ -41,13 +41,13 @@ class LicensesPageListTile extends StatelessWidget {
   /// derived from the nearest [Title] widget. The version, icon, and legalese
   /// values default to the empty string.
   const LicensesPageListTile({
-    Key? key,
+    super.key,
     this.icon,
     this.title,
     this.trailing,
     this.scaffoldBuilder,
     this.values,
-  }) : super(key: key);
+  });
 
   /// The icon to show for this drawer item.
   ///

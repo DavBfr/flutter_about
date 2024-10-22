@@ -43,7 +43,7 @@ class AboutContent extends StatefulWidget {
   /// derived from the nearest [Title] widget. The version, icon, and legalese
   /// values default to the empty string.
   const AboutContent({
-    Key? key,
+    super.key,
     this.applicationName,
     this.applicationVersion,
     this.applicationIcon,
@@ -52,7 +52,7 @@ class AboutContent extends StatefulWidget {
     this.children,
     this.values = const {},
     this.orientation = Axis.vertical,
-  }) : super(key: key);
+  });
 
   /// The name of the application.
   ///

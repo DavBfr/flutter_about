@@ -41,7 +41,7 @@ class AboutPageListTile extends StatelessWidget {
   /// derived from the nearest [Title] widget. The version, icon, and legalese
   /// values default to the empty string.
   const AboutPageListTile({
-    Key? key,
+    super.key,
     this.icon = const Icon(null),
     this.title,
     this.child,
@@ -56,7 +56,7 @@ class AboutPageListTile extends StatelessWidget {
     this.values = const {},
     this.trailing,
     this.orientation = Axis.vertical,
-  }) : super(key: key);
+  });
 
   /// The icon to show for this drawer item.
   ///
